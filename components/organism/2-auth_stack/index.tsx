@@ -18,7 +18,7 @@ function AuthStack({navigation}) {
       <Stack.Screen name="SignIn">
         {props => <AuthSignin {...props} />}
       </Stack.Screen>
-      <Stack.Screen name="Signup">
+      <Stack.Screen name="SignUp">
         {props => <AuthSignup {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
