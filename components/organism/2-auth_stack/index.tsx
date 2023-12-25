@@ -2,24 +2,24 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
-import AuthSignin from '../../molecules/auth-signin';
-import AuthSignup from '../../molecules/auth-signup';
+import AuthSignUp from '../../molecules/auth-signup';
+import AuthSignIn from '../../molecules/auth-signin';
 
 // @ts-ignore
-function AuthStack({navigation}) {
+function AuthStack() {
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
+      initialRouteName="SignUp"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="SignIn">
-        {props => <AuthSignin {...props} />}
-      </Stack.Screen>
       <Stack.Screen name="SignUp">
-        {props => <AuthSignup {...props} />}
+        {props => <AuthSignUp {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="SignIn">
+        {props => <AuthSignIn {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
