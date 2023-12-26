@@ -46,7 +46,7 @@ function AuthSignin({navigation}) {
       style={{
         justifyContent: 'space-between',
         backgroundColor: '#f3f3f3',
-        marginTop: 25,
+        marginTop: 50,
         marginBottom: 25,
       }}>
       <StyledCol>
@@ -64,6 +64,7 @@ function AuthSignin({navigation}) {
             style={{
               backgroundColor: asUser ? '#042F40' : '#f3f3f3',
             }}
+            disabled={asUser}
             onPress={handleChangeUser}>
             <StyledText16
               style={[sans.regular, {color: asUser ? '#f3f3f3' : '#042F40'}]}>
@@ -74,6 +75,7 @@ function AuthSignin({navigation}) {
             style={{
               backgroundColor: !asUser ? '#042F40' : '#f3f3f3',
             }}
+            disabled={!asUser}
             onPress={handleChangeUser}>
             <StyledText16
               style={[sans.regular, {color: !asUser ? '#f3f3f3' : '#042F40'}]}>

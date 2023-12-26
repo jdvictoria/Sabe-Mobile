@@ -8,7 +8,7 @@ export const FormTextInput = styled.TextInput`
   height: 50px;
   width: 100%;
 
-  padding-left: 25px;
+  padding-left: 20px;
 
   font-size: 16px;
   color: #042f40;
