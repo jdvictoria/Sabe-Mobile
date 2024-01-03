@@ -9,7 +9,7 @@ function AuthEmail({email, setEmail}) {
   const sans = styledText();
 
   // Regular expression for email validation
-  const emailRegex = /\S+@\S+\.\S+/;
+  const emailRegex = /^[a-zA-Z0-9._-]+@dhvsu\.edu\.ph$/;
 
   const [isValidEmail, setIsValidEmail] = useState(false);
 
