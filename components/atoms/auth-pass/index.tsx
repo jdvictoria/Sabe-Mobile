@@ -11,7 +11,7 @@ import ShowLogo from '../../../assets/icons/show.svg';
 import HideLogo from '../../../assets/icons/hide.svg';
 
 // @ts-ignore
-function AuthPassword({password, setPassword}) {
+function AuthPassword({password, setPassword, setValidity}) {
   const sans = styledText();
 
   // Regular expression for password validation
@@ -20,11 +20,9 @@ function AuthPassword({password, setPassword}) {
   const hasNumber = /\d/.test(password);
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-  const [isValidPassword, setIsValidPassword] = useState(true);
-
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-    setIsValidPassword(passwordRegex.test(text));
+    setValidity(passwordRegex.test(text));
   };
 
   const [isMasked, setIsMasked] = useState(true);

@@ -1,20 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {StyledCol} from '../../../styles/container';
 import {styledText, StyledText12, StyledText16} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
 // @ts-ignore
-function AuthFirstName({phone, setPhone}) {
+function AuthFirstName({phone, setPhone, validity, setValidity}) {
   const sans = styledText();
 
-  const phoneRegex = /^09\d{2}-\d{3}-\d{4}$/; // Adjust the regex according to your specific requirements
-
-  const [isValidPhone, setIsValidPhone] = useState(true);
+  const phoneRegex = /^09\d{9}$/; // Adjust the regex according to your specific requirements
 
   const handlePhoneChange = (text: string) => {
     setPhone(text);
-    setIsValidPhone(phoneRegex.test(text));
+    setValidity(phoneRegex.test(text));
   };
 
   return (
@@ -24,7 +22,7 @@ function AuthFirstName({phone, setPhone}) {
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
           Phone
         </StyledText16>
-        {!isValidPhone && (
+        {!validity && (
           <StyledText12
             style={[
               sans.regular,

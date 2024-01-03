@@ -5,17 +5,15 @@ import {styledText, StyledText12, StyledText16} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
 // @ts-ignore
-function AuthEmail({email, setEmail}) {
+function AuthEmail({email, setEmail, validity, setValidity}) {
   const sans = styledText();
 
   // Regular expression for email validation
   const emailRegex = /^[a-zA-Z0-9._-]+@dhvsu\.edu\.ph$/;
 
-  const [isValidEmail, setIsValidEmail] = useState(false);
-
   const handleEmailChange = (text: string) => {
     setEmail(text);
-    setIsValidEmail(emailRegex.test(text));
+    setValidity(emailRegex.test(text));
   };
 
   return (
@@ -25,7 +23,7 @@ function AuthEmail({email, setEmail}) {
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
           Email
         </StyledText16>
-        {!isValidEmail && email.length >= 1 && (
+        {!validity && email.length >= 1 && (
           <StyledText12
             style={[
               {position: 'absolute', right: 0, color: '#FF5656'},

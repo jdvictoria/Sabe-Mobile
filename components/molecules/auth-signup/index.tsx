@@ -51,6 +51,10 @@ function AuthSignin({navigation}) {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+
   return (
     <StyledSafeAreaView
       style={{
@@ -96,9 +100,23 @@ function AuthSignin({navigation}) {
         {(asUser || !asUser) && step === 1 && (
           <StyledCol style={{width: '90%'}}>
             <AuthName name={name} setName={setName} />
-            <AuthEmail email={email} setEmail={setEmail} />
-            <AuthPhone phone={phone} setPhone={setPhone} />
-            <AuthPassword password={password} setPassword={setPassword} />
+            <AuthEmail
+              email={email}
+              setEmail={setEmail}
+              validity={isValidEmail}
+              setValidity={setIsValidEmail}
+            />
+            <AuthPhone
+              phone={phone}
+              setPhone={setPhone}
+              validity={isValidPhone}
+              setValidity={setIsValidPhone}
+            />
+            <AuthPassword
+              password={password}
+              setPassword={setPassword}
+              setValidity={setIsValidPassword}
+            />
           </StyledCol>
         )}
         {!asUser && step === 2 && (
@@ -110,7 +128,10 @@ function AuthSignin({navigation}) {
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
         {asUser ? (
-          <FormButton>
+          <FormButton
+            disabled={
+              name === '' || !isValidEmail || !isValidPhone || !isValidPassword
+            }>
             <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
               Sign Up
             </StyledText16>
@@ -118,7 +139,14 @@ function AuthSignin({navigation}) {
         ) : (
           <>
             {step === 1 && (
-              <FormButton onPress={handleStep}>
+              <FormButton
+                onPress={handleStep}
+                disabled={
+                  name === '' ||
+                  !isValidEmail ||
+                  !isValidPhone ||
+                  !isValidPassword
+                }>
                 <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
                   Next
                 </StyledText16>
