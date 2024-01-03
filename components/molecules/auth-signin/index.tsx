@@ -8,7 +8,7 @@ import {
 } from '../../../styles/container';
 import {
   styledText,
-  StyledText12,
+  StyledText14,
   StyledText16,
   StyledText30,
 } from '../../../styles/text';
@@ -59,13 +59,13 @@ function AuthSignin({navigation}) {
           </StyledText16>
         </FormButton>
         <StyledRow style={{marginTop: 5}}>
-          <StyledText12 style={[sans.regular, {color: '#042F40'}]}>
+          <StyledText14 style={[sans.regular, {color: '#042F40'}]}>
             Don't have an account yet?{' '}
-          </StyledText12>
+          </StyledText14>
           <TouchableOpacity onPress={handleChangeMode}>
-            <StyledText12 style={[sans.bold, {color: '#042F40'}]}>
+            <StyledText14 style={[sans.bold, {color: '#042F40'}]}>
               Sign Up
-            </StyledText12>
+            </StyledText14>
           </TouchableOpacity>
         </StyledRow>
       </StyledCol>
