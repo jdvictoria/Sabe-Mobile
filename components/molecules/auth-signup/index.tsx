@@ -21,14 +21,24 @@ import AuthName from '../../atoms/auth-name';
 import AuthEmail from '../../atoms/auth-email';
 import AuthPassword from '../../atoms/auth-pass';
 import AuthPhone from '../../atoms/auth-phone';
+import AuthOrcr from '../../atoms/auth-orcr';
+import AuthLicense from '../../atoms/auth-license';
 
 // @ts-ignore
 function AuthSignin({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
+  const [step, setStep] = useState(1);
+
+  const handleStep = () => {
+    setStep(step + 1);
+  };
 
   const handleChangeUser = () => {
+    if (!asUser) {
+      setStep(1);
+    }
     setAsUser(prevState => !prevState);
   };
 
@@ -59,7 +69,7 @@ function AuthSignin({navigation}) {
         <StyledText14 style={[sans.regular, {color: '#042F40'}]}>
           Sign up as
         </StyledText14>
-        <StyledRow style={{marginTop: 5}}>
+        <StyledRow style={{marginTop: 5, marginBottom: 10}}>
           <FormButtonHalf
             style={{
               backgroundColor: asUser ? '#042F40' : '#f3f3f3',
@@ -83,19 +93,46 @@ function AuthSignin({navigation}) {
             </StyledText16>
           </FormButtonHalf>
         </StyledRow>
-        <StyledCol style={{width: '90%', marginTop: 10}}>
-          <AuthName name={name} setName={setName} />
-          <AuthEmail email={email} setEmail={setEmail} />
-          <AuthPhone phone={phone} setPhone={setPhone} />
-          <AuthPassword password={password} setPassword={setPassword} />
-        </StyledCol>
+        {(asUser || !asUser) && step === 1 && (
+          <StyledCol style={{width: '90%'}}>
+            <AuthName name={name} setName={setName} />
+            <AuthEmail email={email} setEmail={setEmail} />
+            <AuthPhone phone={phone} setPhone={setPhone} />
+            <AuthPassword password={password} setPassword={setPassword} />
+          </StyledCol>
+        )}
+        {!asUser && step === 2 && (
+          <StyledCol style={{width: '90%'}}>
+            <AuthLicense />
+            <AuthOrcr />
+          </StyledCol>
+        )}
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
-        <FormButton>
-          <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-            Sign Up
-          </StyledText16>
-        </FormButton>
+        {asUser ? (
+          <FormButton>
+            <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+              Sign Up
+            </StyledText16>
+          </FormButton>
+        ) : (
+          <>
+            {step === 1 && (
+              <FormButton onPress={handleStep}>
+                <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                  Next
+                </StyledText16>
+              </FormButton>
+            )}
+            {step === 2 && (
+              <FormButton>
+                <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                  Sign Up
+                </StyledText16>
+              </FormButton>
+            )}
+          </>
+        )}
         <StyledRow style={{marginTop: 5}}>
           <StyledText14 style={[sans.regular, {color: '#042F40'}]}>
             Already have an account?{' '}

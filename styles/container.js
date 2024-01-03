@@ -39,3 +39,10 @@ export const StyledCol = styled.View`
   align-items: center;
   flex-direction: column;
 `;
+
+export const StyledTouchableCol = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
