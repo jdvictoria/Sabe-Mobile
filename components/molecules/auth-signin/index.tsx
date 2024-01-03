@@ -21,6 +21,8 @@ import AuthEmail from '../../atoms/auth-email';
 import AuthPassword from '../../atoms/auth-pass';
 import AuthPhone from '../../atoms/auth-phone';
 
+import * as Progress from 'react-native-progress';
+
 // @ts-ignore
 function AuthSignin({navigation}) {
   const sans = styledText();
@@ -42,6 +44,17 @@ function AuthSignin({navigation}) {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      // navigation.navigate('HomeStack');
+      setIsLoading(false);
+    }, 2000);
+  };
 
   return (
     <StyledSafeAreaView
@@ -113,10 +126,21 @@ function AuthSignin({navigation}) {
         />
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
-        <FormButton>
-          <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-            Sign In
-          </StyledText16>
+        <FormButton
+          onPress={handleButtonClick}
+          disabled={!isValidEmail || !isValidPhone || !isValidPassword}>
+          {!isLoading ? (
+            <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+              Sign In
+            </StyledText16>
+          ) : (
+            <Progress.Circle
+              size={20}
+              indeterminate={true}
+              borderWidth={3}
+              borderColor={'#f3f3f3'}
+            />
+          )}
         </FormButton>
         <StyledRow style={{marginTop: 5}}>
           <StyledText14 style={[sans.regular, {color: '#042F40'}]}>

@@ -24,6 +24,8 @@ import AuthPhone from '../../atoms/auth-phone';
 import AuthOrcr from '../../atoms/auth-orcr';
 import AuthLicense from '../../atoms/auth-license';
 
+import * as Progress from 'react-native-progress';
+
 // @ts-ignore
 function AuthSignin({navigation}) {
   const sans = styledText();
@@ -54,6 +56,17 @@ function AuthSignin({navigation}) {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      // navigation.navigate('HomeStack');
+      setIsLoading(false);
+    }, 2000);
+  };
 
   return (
     <StyledSafeAreaView
@@ -129,12 +142,22 @@ function AuthSignin({navigation}) {
       <StyledCol style={{width: '100%'}}>
         {asUser ? (
           <FormButton
+            onPress={handleButtonClick}
             disabled={
               name === '' || !isValidEmail || !isValidPhone || !isValidPassword
             }>
-            <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-              Sign Up
-            </StyledText16>
+            {!isLoading ? (
+              <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                Sign Up
+              </StyledText16>
+            ) : (
+              <Progress.Circle
+                size={20}
+                indeterminate={true}
+                borderWidth={3}
+                borderColor={'#f3f3f3'}
+              />
+            )}
           </FormButton>
         ) : (
           <>
@@ -153,9 +176,18 @@ function AuthSignin({navigation}) {
               </FormButton>
             ) : (
               <FormButton>
-                <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-                  Sign Up
-                </StyledText16>
+                {!isLoading ? (
+                  <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                    Sign Up
+                  </StyledText16>
+                ) : (
+                  <Progress.Circle
+                    size={20}
+                    indeterminate={true}
+                    borderWidth={3}
+                    borderColor={'#f3f3f3'}
+                  />
+                )}
               </FormButton>
             )}
           </>
