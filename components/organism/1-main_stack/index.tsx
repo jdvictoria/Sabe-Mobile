@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
 import AuthStack from '../2-auth_stack';
+import HomeStack from '../3-home_stack';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -21,6 +22,9 @@ function MainStack() {
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
           {props => <AuthStack {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="HomeStack">
+          {props => <HomeStack {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

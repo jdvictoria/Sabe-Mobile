@@ -12,7 +12,7 @@ function Loading({navigation}) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('AuthStack');
+      navigation.navigate('HomeStack');
     }, 2000);
 
     // Clear the timeout on component unmount
