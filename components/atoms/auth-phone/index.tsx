@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {StyledCol} from '../../../styles/container';
 import {styledText, StyledText12, StyledText16} from '../../../styles/text';
@@ -8,11 +8,13 @@ import {FormTextInput} from '../../../styles/input';
 function AuthFirstName({phone, setPhone}) {
   const sans = styledText();
 
-  // Regular expression for password validation
-  const isLengthValid = phone.length >= 11;
+  const phoneRegex = /^09\d{2}-\d{3}-\d{4}$/; // Adjust the regex according to your specific requirements
+
+  const [isValidPhone, setIsValidPhone] = useState(true);
 
   const handlePhoneChange = (text: string) => {
     setPhone(text);
+    setIsValidPhone(phoneRegex.test(text));
   };
 
   return (
@@ -22,7 +24,7 @@ function AuthFirstName({phone, setPhone}) {
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
           Phone
         </StyledText16>
-        {!isLengthValid && (
+        {!isValidPhone && (
           <StyledText12
             style={[
               sans.regular,

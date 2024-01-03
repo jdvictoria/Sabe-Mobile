@@ -18,9 +18,13 @@ function AuthPassword({password, setPassword}) {
   const isLengthValid = password.length >= 8;
   const hasCapitalLetter = /[A-Z]/.test(password);
   const hasNumber = /\d/.test(password);
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+  const [isValidPassword, setIsValidPassword] = useState(true);
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
+    setIsValidPassword(passwordRegex.test(text));
   };
 
   const [isMasked, setIsMasked] = useState(true);
