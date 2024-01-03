@@ -12,7 +12,7 @@ import {
   StyledText16,
   StyledText30,
 } from '../../../styles/text';
-import {FormButton} from '../../../styles/button';
+import {FormButton, FormButtonHalf} from '../../../styles/button';
 
 // @ts-ignore
 import HomeLogo from '../../../assets/icons/home-dark.svg';
@@ -29,9 +29,19 @@ function AuthSignin({navigation}) {
     navigation.navigate('SignUp');
   };
 
+  const [withEmail, setWithEmail] = useState(true);
+
+  const handleWithEmail = () => {
+    setWithEmail(prevState => !prevState);
+  };
+
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
 
   return (
     <StyledSafeAreaView
@@ -46,11 +56,61 @@ function AuthSignin({navigation}) {
         <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
           Sabe
         </StyledText30>
+        <StyledText14 style={[sans.regular, {color: '#042F40', marginTop: 20}]}>
+          Sign up with
+        </StyledText14>
+        <StyledRow style={{marginTop: 5, marginBottom: 10}}>
+          <FormButtonHalf
+            style={{
+              backgroundColor: withEmail ? '#042F40' : '#f3f3f3',
+            }}
+            disabled={withEmail}
+            onPress={handleWithEmail}>
+            <StyledText16
+              style={[
+                sans.regular,
+                {color: withEmail ? '#f3f3f3' : '#042F40'},
+              ]}>
+              Email
+            </StyledText16>
+          </FormButtonHalf>
+          <FormButtonHalf
+            style={{
+              backgroundColor: !withEmail ? '#042F40' : '#f3f3f3',
+            }}
+            disabled={!withEmail}
+            onPress={handleWithEmail}>
+            <StyledText16
+              style={[
+                sans.regular,
+                {color: !withEmail ? '#f3f3f3' : '#042F40'},
+              ]}>
+              Phone
+            </StyledText16>
+          </FormButtonHalf>
+        </StyledRow>
       </StyledCol>
       <StyledCol style={{width: '90%'}}>
-        <AuthEmail email={email} setEmail={setEmail} />
-        <AuthPhone phone={phone} setPhone={setPhone} />
-        <AuthPassword password={password} setPassword={setPassword} />
+        {withEmail ? (
+          <AuthEmail
+            email={email}
+            setEmail={setEmail}
+            validity={isValidEmail}
+            setValidity={setIsValidEmail}
+          />
+        ) : (
+          <AuthPhone
+            phone={phone}
+            setPhone={setPhone}
+            validity={isValidPhone}
+            setValidity={setIsValidPhone}
+          />
+        )}
+        <AuthPassword
+          password={password}
+          setPassword={setPassword}
+          setValidity={setIsValidPassword}
+        />
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
         <FormButton>

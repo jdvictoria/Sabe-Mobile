@@ -138,7 +138,7 @@ function AuthSignin({navigation}) {
           </FormButton>
         ) : (
           <>
-            {step === 1 && (
+            {step === 1 ? (
               <FormButton
                 onPress={handleStep}
                 disabled={
@@ -151,8 +151,7 @@ function AuthSignin({navigation}) {
                   Next
                 </StyledText16>
               </FormButton>
-            )}
-            {step === 2 && (
+            ) : (
               <FormButton>
                 <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
                   Sign Up
