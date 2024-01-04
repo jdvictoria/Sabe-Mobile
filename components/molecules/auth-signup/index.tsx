@@ -37,13 +37,6 @@ function AuthSignin({navigation}) {
     setStep(step + 1);
   };
 
-  const handleChangeUser = () => {
-    if (!asUser) {
-      setStep(1);
-    }
-    setAsUser(prevState => !prevState);
-  };
-
   const handleChangeMode = () => {
     navigation.navigate('SignIn');
   };
@@ -58,6 +51,17 @@ function AuthSignin({navigation}) {
   const [isValidPassword, setIsValidPassword] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleChangeUser = () => {
+    if (!asUser) {
+      setStep(1);
+    }
+    setAsUser(prevState => !prevState);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+  };
 
   const handleButtonClick = () => {
     setIsLoading(true);
@@ -118,6 +122,7 @@ function AuthSignin({navigation}) {
               setEmail={setEmail}
               validity={isValidEmail}
               setValidity={setIsValidEmail}
+              asUser={asUser}
             />
             <AuthPhone
               phone={phone}
