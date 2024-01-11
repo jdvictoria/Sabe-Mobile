@@ -5,19 +5,33 @@ import {styledText, StyledText16} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
 // @ts-ignore
-function AuthFirstName({name, setName}) {
+function AuthFirstName({name, setName, mode}) {
   const sans = styledText();
 
   const handleNameChange = (text: string) => {
     setName(text);
   };
 
+  let placeholder;
+
+  if (mode === 'Name') {
+    placeholder = 'Juan Dela Cruz';
+  } else if (mode === 'Plate Number') {
+    placeholder = '123 ABCD';
+  } else if (mode === 'Color') {
+    placeholder = 'Red';
+  } else if (mode === 'Make') {
+    placeholder = 'Toyota';
+  } else if (mode === 'Series') {
+    placeholder = 'Corolla';
+  }
+
   return (
     <>
       <StyledCol style={{width: '100%'}}>
         <StyledText16
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
-          Name
+          {mode}
         </StyledText16>
       </StyledCol>
       <StyledCol
@@ -31,7 +45,7 @@ function AuthFirstName({name, setName}) {
         <FormTextInput
           value={name}
           onChangeText={handleNameChange}
-          placeholder="Juan Dela Cruz"
+          placeholder={placeholder}
           placeholderTextColor="#042F40"
         />
       </StyledCol>

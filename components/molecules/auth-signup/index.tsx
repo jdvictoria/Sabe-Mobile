@@ -47,6 +47,11 @@ function AuthSignin({navigation}) {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
+  const [plate, setPlate] = useState('');
+  const [color, setColor] = useState('');
+  const [make, setMake] = useState('');
+  const [series, setSeries] = useState('');
+
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
@@ -59,7 +64,13 @@ function AuthSignin({navigation}) {
     setEmail('');
     setPhone('');
     setPassword('');
-    // setStep(1);
+
+    setPlate('');
+    setColor('');
+    setMake('');
+    setSeries('');
+
+    setStep(1);
   };
 
   const handleButtonClick = () => {
@@ -115,7 +126,7 @@ function AuthSignin({navigation}) {
         </StyledRow>
         {(asUser || !asUser) && step === 1 && (
           <StyledCol style={{width: '90%'}}>
-            <AuthName name={name} setName={setName} />
+            <AuthName name={name} setName={setName} mode={'Name'} />
             <AuthEmail
               email={email}
               setEmail={setEmail}
@@ -142,6 +153,14 @@ function AuthSignin({navigation}) {
           </StyledCol>
         )}
         {!asUser && step === 2 && (
+          <StyledCol style={{width: '90%'}}>
+            <AuthName name={plate} setName={setPlate} mode={'Plate Number'} />
+            <AuthName name={color} setName={setColor} mode={'Color'} />
+            <AuthName name={make} setName={setMake} mode={'Make'} />
+            <AuthName name={series} setName={setSeries} mode={'Series'} />
+          </StyledCol>
+        )}
+        {!asUser && step === 3 && (
           <StyledCol style={{width: '90%'}}>
             <AuthLicense />
             <AuthOrcr />
@@ -170,7 +189,7 @@ function AuthSignin({navigation}) {
           </FormButton>
         ) : (
           <>
-            {step === 1 ? (
+            {step === 1 && (
               <FormButton
                 onPress={handleStep}
                 disabled={
@@ -183,7 +202,19 @@ function AuthSignin({navigation}) {
                   Next
                 </StyledText16>
               </FormButton>
-            ) : (
+            )}
+            {step === 2 && (
+              <FormButton
+                onPress={handleStep}
+                disabled={
+                  plate === '' || color === '' || make === '' || series === ''
+                }>
+                <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                  Next
+                </StyledText16>
+              </FormButton>
+            )}
+            {step === 3 && (
               <FormButton>
                 {!isLoading ? (
                   <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
