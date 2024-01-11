@@ -9,7 +9,7 @@ import {
 } from 'react-native-animated-nav-tab-bar';
 
 import HomeMain from '../../molecules/home-main';
-import HomeJourney from '../../molecules/home-journey';
+import HomeBookings from '../../molecules/home-bookings';
 import HomeProfile from '../../molecules/home-profile';
 
 // @ts-ignore
@@ -34,15 +34,15 @@ function HomeStack() {
       appearance={{
         floating: true,
         shadow: true,
-        whenActiveShow: TabElementDisplayOptions.BOTH,
+        whenActiveShow: TabElementDisplayOptions.ICON_ONLY,
         whenInactiveShow: TabElementDisplayOptions.ICON_ONLY,
         dotSize: DotSize.SMALL,
         tabBarBackground: '#042F40',
         activeTabBackgrounds: '#f3f3f3',
       }}
-      initialRouteName={'Home'}>
+      initialRouteName={'Bookings'}>
       <Tabs.Screen
-        name={'Journey'}
+        name={'Bookings'}
         options={{
           tabBarIcon: ({focused}) =>
             focused ? (
@@ -51,7 +51,7 @@ function HomeStack() {
               <HomeJourneyAlt width={27.5} height={27.5} />
             ),
         }}>
-        {props => <HomeJourney {...props} />}
+        {props => <HomeBookings {...props} />}
       </Tabs.Screen>
       <Tabs.Screen
         name={'Home'}

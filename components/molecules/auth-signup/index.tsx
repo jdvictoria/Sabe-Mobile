@@ -23,9 +23,9 @@ import AuthPassword from '../../atoms/auth-pass';
 import AuthPhone from '../../atoms/auth-phone';
 import AuthOrcr from '../../atoms/auth-orcr';
 import AuthLicense from '../../atoms/auth-license';
+import AuthId from '../../atoms/auth-id';
 
 import * as Progress from 'react-native-progress';
-import AuthId from '../../atoms/auth-id';
 
 // @ts-ignore
 function AuthSignin({navigation}) {
