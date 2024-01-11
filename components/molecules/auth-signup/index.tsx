@@ -32,7 +32,7 @@ function AuthSignin({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
   const handleStep = () => {
     setStep(step + 1);
@@ -128,6 +128,7 @@ function AuthSignin({navigation}) {
           <StyledCol style={{width: '90%'}}>
             <AuthName name={name} setName={setName} mode={'Name'} />
             <AuthEmail
+              signIn={false}
               email={email}
               setEmail={setEmail}
               validity={isValidEmail}
@@ -135,12 +136,14 @@ function AuthSignin({navigation}) {
               asUser={asUser}
             />
             <AuthPhone
+              signIn={false}
               phone={phone}
               setPhone={setPhone}
               validity={isValidPhone}
               setValidity={setIsValidPhone}
             />
             <AuthPassword
+              signIn={false}
               password={password}
               setPassword={setPassword}
               setValidity={setIsValidPassword}

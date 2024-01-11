@@ -11,7 +11,7 @@ import ShowLogo from '../../../assets/icons/show.svg';
 import HideLogo from '../../../assets/icons/hide.svg';
 
 // @ts-ignore
-function AuthPassword({password, setPassword, setValidity}) {
+function AuthPassword({signIn, password, setPassword, setValidity}) {
   const sans = styledText();
 
   // Regular expression for password validation
@@ -38,7 +38,7 @@ function AuthPassword({password, setPassword, setValidity}) {
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
           Password
         </StyledText16>
-        {!isLengthValid && (
+        {!signIn && !isLengthValid && (
           <StyledText12
             style={[
               sans.regular,
@@ -47,7 +47,7 @@ function AuthPassword({password, setPassword, setValidity}) {
             Must be at least 8 characters
           </StyledText12>
         )}
-        {isLengthValid && !hasCapitalLetter && (
+        {!signIn && isLengthValid && !hasCapitalLetter && (
           <StyledText12
             style={[
               sans.regular,
@@ -56,7 +56,7 @@ function AuthPassword({password, setPassword, setValidity}) {
             Must have 1 Capital letter
           </StyledText12>
         )}
-        {isLengthValid && hasCapitalLetter && !hasNumber && (
+        {!signIn && isLengthValid && hasCapitalLetter && !hasNumber && (
           <StyledText12
             style={[
               sans.regular,

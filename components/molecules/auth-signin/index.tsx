@@ -106,13 +106,16 @@ function AuthSignin({navigation}) {
       <StyledCol style={{width: '90%'}}>
         {withEmail ? (
           <AuthEmail
+            signIn={true}
             email={email}
             setEmail={setEmail}
             validity={isValidEmail}
             setValidity={setIsValidEmail}
+            asUser={false}
           />
         ) : (
           <AuthPhone
+            signIn={true}
             phone={phone}
             setPhone={setPhone}
             validity={isValidPhone}
@@ -120,6 +123,7 @@ function AuthSignin({navigation}) {
           />
         )}
         <AuthPassword
+          signIn={true}
           password={password}
           setPassword={setPassword}
           setValidity={setIsValidPassword}
