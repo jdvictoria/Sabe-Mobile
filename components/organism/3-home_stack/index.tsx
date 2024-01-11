@@ -40,19 +40,7 @@ function HomeStack() {
         tabBarBackground: '#042F40',
         activeTabBackgrounds: '#f3f3f3',
       }}
-      initialRouteName={'Profile'}>
-      <Tabs.Screen
-        name={'Home'}
-        options={{
-          tabBarIcon: ({focused}) =>
-            focused ? (
-              <HomeMainLogo width={20} height={20} />
-            ) : (
-              <HomeMainAlt width={20} height={20} />
-            ),
-        }}>
-        {props => <HomeMain {...props} />}
-      </Tabs.Screen>
+      initialRouteName={'Home'}>
       <Tabs.Screen
         name={'Journey'}
         options={{
@@ -65,6 +53,19 @@ function HomeStack() {
         }}>
         {props => <HomeJourney {...props} />}
       </Tabs.Screen>
+      <Tabs.Screen
+        name={'Home'}
+        options={{
+          tabBarIcon: ({focused}) =>
+            focused ? (
+              <HomeMainLogo width={20} height={20} />
+            ) : (
+              <HomeMainAlt width={20} height={20} />
+            ),
+        }}>
+        {props => <HomeMain {...props} />}
+      </Tabs.Screen>
+
       <Tabs.Screen
         name={'Profile'}
         options={{

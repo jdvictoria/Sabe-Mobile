@@ -13,7 +13,7 @@ function MainStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Loading"
+        initialRouteName="HomeStack"
         screenOptions={{
           headerShown: false,
         }}>
