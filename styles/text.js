@@ -29,13 +29,6 @@ export const StyledText24 = styled.Text`
   font-size: 24px;
 `;
 
-export const StyledText17 = styled.Text`
-  align-self: flex-start;
-  text-align: center;
-
-  font-size: 17px;
-`;
-
 export const StyledText16 = styled.Text`
   align-self: center;
   text-align: center;

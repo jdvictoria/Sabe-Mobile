@@ -1,7 +1,6 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
 
-import {StyledRow, StyledSafeAreaView} from '../../../styles/container';
+import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText24} from '../../../styles/text';
 
 // @ts-ignore
@@ -9,19 +8,19 @@ function HomeHeader({title}) {
   const sans = styledText();
 
   return (
-    <StyledSafeAreaView
+    <StyledCol
       style={{
         justifyContent: 'flex-end',
         width: '100%',
-        height: Dimensions.get('window').height * 0.1,
+        height: 50,
         backgroundColor: '#042F40',
       }}>
       <StyledRow>
-        <StyledText24 style={[sans.bold, {color: '#fff', paddingBottom: 10}]}>
+        <StyledText24 style={[sans.bold, {color: '#fff', paddingBottom: 15}]}>
           {title}
         </StyledText24>
       </StyledRow>
-    </StyledSafeAreaView>
+    </StyledCol>
   );
 }
 
