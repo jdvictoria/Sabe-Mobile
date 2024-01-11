@@ -25,13 +25,14 @@ import AuthOrcr from '../../atoms/auth-orcr';
 import AuthLicense from '../../atoms/auth-license';
 
 import * as Progress from 'react-native-progress';
+import AuthId from '../../atoms/auth-id';
 
 // @ts-ignore
 function AuthSignin({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
   const handleStep = () => {
     setStep(step + 1);
@@ -53,14 +54,12 @@ function AuthSignin({navigation}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeUser = () => {
-    if (!asUser) {
-      setStep(1);
-    }
     setAsUser(prevState => !prevState);
     setName('');
     setEmail('');
     setPhone('');
     setPassword('');
+    // setStep(1);
   };
 
   const handleButtonClick = () => {
@@ -135,6 +134,11 @@ function AuthSignin({navigation}) {
               setPassword={setPassword}
               setValidity={setIsValidPassword}
             />
+          </StyledCol>
+        )}
+        {asUser && step === 2 && (
+          <StyledCol style={{width: '90%'}}>
+            <AuthId />
           </StyledCol>
         )}
         {!asUser && step === 2 && (
