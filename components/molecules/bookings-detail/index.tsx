@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, ScrollView} from 'react-native';
+import {Dimensions} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
