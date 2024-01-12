@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   AnimatedTabBarNavigator,
@@ -23,9 +23,38 @@ import HomeProfileLogo from '../../../assets/icons/home-profile.svg';
 // @ts-ignore
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
+import GetLocation from 'react-native-get-location';
+
 // @ts-ignore
 function HomeStack() {
   const Tabs = AnimatedTabBarNavigator();
+
+  useEffect(() => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 60000,
+    })
+      .then(location => {
+        // console.log(location);
+        setPosition({
+          latitude: location.latitude,
+          longitude: location.longitude * -1,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        });
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
+  }, []);
+
+  const [position, setPosition] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
 
   return (
     <Tabs.Navigator
@@ -38,7 +67,7 @@ function HomeStack() {
         tabBarBackground: '#042F40',
         activeTabBackgrounds: '#f3f3f3',
       }}
-      initialRouteName={'Bookings'}>
+      initialRouteName={'Home'}>
       <Tabs.Screen
         name={'Bookings'}
         options={{
@@ -61,7 +90,7 @@ function HomeStack() {
               <HomeMainAlt width={20} height={20} />
             ),
         }}>
-        {props => <HomeMain {...props} />}
+        {props => <HomeMain {...props} position={position} />}
       </Tabs.Screen>
 
       <Tabs.Screen
