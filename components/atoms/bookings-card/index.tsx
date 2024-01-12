@@ -75,7 +75,7 @@ function BookingsCard() {
         <StyledCol>
           <StyledText12
             style={[sans.regular, {color: '#36A690', alignSelf: 'flex-start'}]}>
-            Start Location
+            09:00 AM
           </StyledText12>
           <StyledText14
             style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
@@ -85,7 +85,7 @@ function BookingsCard() {
         <StyledCol>
           <StyledText12
             style={[sans.regular, {color: '#36A690', alignSelf: 'flex-end'}]}>
-            End Location
+            12:00 NN
           </StyledText12>
           <StyledText14
             style={[sans.bold, {color: '#042F40', alignSelf: 'flex-end'}]}>
