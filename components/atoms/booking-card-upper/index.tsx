@@ -7,6 +7,23 @@ import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 function BookingCardUpper() {
   const sans = styledText();
 
+  const maskEmail = email => {
+    const atIndex = email.indexOf('@');
+    const maskedPart = email.slice(1, atIndex).replace(/./g, '*');
+    return email[0] + maskedPart + '@gmail.com';
+  };
+
+  const maskPhoneNumber = phoneNumber => {
+    const visibleDigits = phoneNumber.slice(0, 2);
+    const maskedPart = phoneNumber.slice(2).replace(/./g, '*');
+    return visibleDigits + maskedPart;
+  };
+
+  const maskPlate = plateNumber => {
+    const visiblePart = plateNumber.replace(/[^-]/g, '*');
+    return visiblePart;
+  };
+
   return (
     <StyledRow
       style={{
@@ -62,7 +79,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            juandc12@gmail.com
+            {maskEmail('juandc12@gmail.com')}
           </StyledText16>
         </StyledCol>
         <StyledCol style={{width: '100%'}}>
@@ -84,7 +101,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            09556736262
+            {maskPhoneNumber('09556736262')}
           </StyledText16>
         </StyledCol>
       </StyledCol>
@@ -153,7 +170,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            XXX-XXXX
+            {maskPlate('XEX - 123')}
           </StyledText16>
         </StyledCol>
       </StyledCol>
