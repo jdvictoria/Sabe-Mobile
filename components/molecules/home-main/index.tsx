@@ -1,19 +1,32 @@
 import React from 'react';
+import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 
 // @ts-ignore
-function HomeMain() {
+function HomeMain({navigation}) {
   return (
     <StyledSafeAreaView
       style={{
-        justifyContent: 'space-between',
-        backgroundColor: '#f3f3f3',
+        justifyContent: 'flex-start',
+        backgroundColor: '#042F40',
       }}>
-      <HomeHeader title={'Journey'} />
-      <></>
+      <HomeHeader navigation={navigation} title={'Journey'} main={true} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+        style={{
+          width: '100%',
+          height: Dimensions.get('window').height * 0.9,
+          backgroundColor: '#e7e7e7',
+        }}>
+        <></>
+      </ScrollView>
     </StyledSafeAreaView>
   );
 }

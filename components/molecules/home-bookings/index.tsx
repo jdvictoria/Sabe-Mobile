@@ -10,14 +10,14 @@ import BookingsCard from '../../atoms/bookings-card';
 import {Dimensions, ScrollView} from 'react-native';
 
 // @ts-ignore
-function HomeBookings() {
+function HomeBookings({navigation}) {
   return (
     <StyledSafeAreaView
       style={{
         justifyContent: 'flex-start',
         backgroundColor: '#042F40',
       }}>
-      <HomeHeader title={'Bookings'} />
+      <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -29,9 +29,7 @@ function HomeBookings() {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <BookingsCard />
-        <BookingsCard />
-        <BookingsCard />
+        <BookingsCard navigation={navigation} />
         <StyledPlaceholder />
       </ScrollView>
     </StyledSafeAreaView>

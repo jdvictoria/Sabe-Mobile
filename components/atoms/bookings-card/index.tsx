@@ -21,7 +21,8 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 
-function BookingsCard() {
+// @ts-ignore
+function BookingsCard({navigation}) {
   const sans = styledText();
 
   return (
@@ -121,7 +122,9 @@ function BookingsCard() {
             4 / 4
           </StyledText14>
         </StyledRow>
-        <StyledTouchableRow style={{paddingTop: 2.5}}>
+        <StyledTouchableRow
+          style={{paddingTop: 2.5}}
+          onPress={() => navigation.navigate('BookingsDetail')}>
           <StyledText14 style={[sans.bold, {color: '#042F40', paddingTop: 2}]}>
             VIEW DETAILS
           </StyledText14>
