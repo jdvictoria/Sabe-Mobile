@@ -32,7 +32,7 @@ function HomeHeader({navigation, title, main}) {
         style={{
           width: '90%',
           justifyContent: main ? 'center' : 'space-between',
-          paddingBottom: 15,
+          paddingBottom: 12.5,
         }}>
         {!main && (
           <StyledTouchableRow onPress={handleBack}>
