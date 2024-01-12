@@ -21,6 +21,8 @@ function HomeMain({navigation}) {
           alignItems: 'center',
         }}
         style={{
+          position: 'absolute',
+          bottom: 0,
           width: '100%',
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',

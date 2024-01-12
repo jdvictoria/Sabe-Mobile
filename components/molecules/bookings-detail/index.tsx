@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
-import {StyledSafeAreaView} from '../../../styles/container';
+import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 import BookingButton from '../../atoms/booking-button';
@@ -27,20 +27,19 @@ function BookingsDetail({navigation}) {
         title={'Booking Detail'}
         main={false}
       />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
+      <StyledCol
         style={{
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          position: 'absolute',
+          bottom: 0,
           width: '100%',
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
         <BookingCard Routes={Routes} />
         <BookingButton />
-      </ScrollView>
+      </StyledCol>
     </StyledSafeAreaView>
   );
 }

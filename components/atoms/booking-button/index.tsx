@@ -11,7 +11,6 @@ function BookingButton() {
       style={{
         width: '85%',
         height: 50,
-        marginTop: 15,
         backgroundColor: '#1FBF83',
         borderRadius: 10,
       }}>

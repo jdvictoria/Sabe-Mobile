@@ -14,8 +14,7 @@ function HomeBookings({navigation}) {
   return (
     <StyledSafeAreaView
       style={{
-        justifyContent: 'flex-start',
-        backgroundColor: '#042F40',
+        backgroundColor: '#f3f3f3',
       }}>
       <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
       <ScrollView
@@ -25,6 +24,8 @@ function HomeBookings({navigation}) {
           alignItems: 'center',
         }}
         style={{
+          position: 'absolute',
+          bottom: 0,
           width: '100%',
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',

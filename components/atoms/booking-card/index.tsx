@@ -31,35 +31,36 @@ function BookingCard({Routes}) {
           4 Passengers • {Routes.length} Stops
         </StyledText16>
       </StyledCol>
-      <StyledRow
-        style={{
-          justifyContent: 'space-between',
-          width: '85%',
-          marginTop: 15,
-        }}>
-        <StyledText18 style={[sans.regular, {color: '#042F40'}]}>
-          Journey Details
-        </StyledText18>
-        <StyledTouchableRow>
-          <InfoLogo width={18} height={18} />
-          <StyledText18
-            style={[sans.regular, {color: '#9D9D9D', paddingLeft: 2.5}]}>
-            Info
+      <StyledCol style={{width: '100%'}}>
+        <StyledRow
+          style={{
+            justifyContent: 'space-between',
+            width: '85%',
+          }}>
+          <StyledText18 style={[sans.regular, {color: '#042F40'}]}>
+            Journey Details
           </StyledText18>
-        </StyledTouchableRow>
-      </StyledRow>
-      <StyledCol
-        style={{
-          width: '85%',
-          height: 'auto',
-          minHeight: 400,
-          marginTop: 15,
-          borderWidth: 1.5,
-          borderColor: '#9d9d9d',
-          borderRadius: 10,
-        }}>
-        <BookingCardUpper />
-        <BookingCardLower Routes={Routes} />
+          <StyledTouchableRow>
+            <InfoLogo width={18} height={18} />
+            <StyledText18
+              style={[sans.regular, {color: '#9D9D9D', paddingLeft: 2.5}]}>
+              Info
+            </StyledText18>
+          </StyledTouchableRow>
+        </StyledRow>
+        <StyledCol
+          style={{
+            width: '85%',
+            height: 'auto',
+            minHeight: 400,
+            marginTop: 5,
+            borderWidth: 1.5,
+            borderColor: '#9d9d9d',
+            borderRadius: 10,
+          }}>
+          <BookingCardUpper />
+          <BookingCardLower Routes={Routes} />
+        </StyledCol>
       </StyledCol>
     </>
   );
