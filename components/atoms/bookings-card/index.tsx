@@ -36,7 +36,7 @@ function BookingsCard({navigation}) {
         paddingTop: 12.5,
         paddingBottom: 12.5,
         backgroundColor: '#fff',
-        borderRadius: 20,
+        borderRadius: 10,
       }}>
       <StyledRow
         style={{

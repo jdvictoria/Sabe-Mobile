@@ -9,7 +9,10 @@ import {Dimensions} from 'react-native';
 function MainMap({position}) {
   return (
     <StyledCol
-      style={{width: '100%', height: Dimensions.get('window').height * 0.74}}>
+      style={{
+        width: '100%',
+        height: Dimensions.get('window').height * 0.74,
+      }}>
       <MapView
         userInterfaceStyle={'dark'}
         style={{

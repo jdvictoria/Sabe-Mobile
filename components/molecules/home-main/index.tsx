@@ -5,6 +5,7 @@ import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 import MainMap from '../../atoms/main-map';
+import MainRide from '../../atoms/main-ride';
 
 // @ts-ignore
 function HomeMain({navigation, position}) {
@@ -29,6 +30,7 @@ function HomeMain({navigation, position}) {
           backgroundColor: '#e7e7e7',
         }}>
         <MainMap position={position} />
+        <MainRide />
       </ScrollView>
     </StyledSafeAreaView>
   );
