@@ -29,7 +29,7 @@ function BookingsCard({navigation}) {
     <StyledCol
       style={{
         justifyContent: 'space-between',
-        width: '87.5%',
+        width: '85%',
         height: 150,
         marginTop: 25,
         marginBottom: 5,
@@ -56,7 +56,7 @@ function BookingsCard({navigation}) {
             <StyledText12
               style={[
                 sans.regular,
-                {color: '#36A690', alignSelf: 'flex-start'},
+                {color: '#1FBF83', alignSelf: 'flex-start'},
               ]}>
               Toyota Corolla
             </StyledText12>
@@ -75,7 +75,7 @@ function BookingsCard({navigation}) {
         }}>
         <StyledCol>
           <StyledText12
-            style={[sans.regular, {color: '#36A690', alignSelf: 'flex-start'}]}>
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
             09:00 AM
           </StyledText12>
           <StyledText14
@@ -85,7 +85,7 @@ function BookingsCard({navigation}) {
         </StyledCol>
         <StyledCol>
           <StyledText12
-            style={[sans.regular, {color: '#36A690', alignSelf: 'flex-end'}]}>
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-end'}]}>
             12:00 NN
           </StyledText12>
           <StyledText14
@@ -107,7 +107,7 @@ function BookingsCard({navigation}) {
           <StyledText14
             style={[
               sans.regular,
-              {color: '#C7C7C7', paddingLeft: 2.5, paddingTop: 2},
+              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
             4.4
           </StyledText14>
@@ -117,7 +117,7 @@ function BookingsCard({navigation}) {
           <StyledText14
             style={[
               sans.regular,
-              {color: '#C7C7C7', paddingLeft: 2.5, paddingTop: 2},
+              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
             4 / 4
           </StyledText14>
