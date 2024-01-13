@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 
 import {
   StyledCol,
@@ -13,6 +13,7 @@ import {
   StyledText30,
 } from '../../../styles/text';
 import {FormButton, FormButtonHalf} from '../../../styles/button';
+import {alertInvalidEmail} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import HomeLogo from '../../../assets/icons/home-dark.svg';
@@ -27,8 +28,11 @@ import AuthId from '../../atoms/auth-id';
 
 import * as Progress from 'react-native-progress';
 
+import {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 // @ts-ignore
-function AuthSignin({navigation}) {
+function AuthSignUp({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
@@ -73,13 +77,60 @@ function AuthSignin({navigation}) {
     setStep(1);
   };
 
-  const handleButtonClick = () => {
+  const alertEmailVerification = navigation =>
+    Alert.alert(
+      'Email Verification Sent',
+      'Check your email and verify your account.',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            navigation.navigate('SignIn');
+          },
+        },
+      ],
+    );
+
+  const handleSignUp = async () => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      // navigation.navigate('HomeStack');
-      setIsLoading(false);
-    }, 2000);
+    try {
+      // Create user using Firebase Authentication
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // Send email verification
+      await userCredential.user?.sendEmailVerification();
+      alertEmailVerification(navigation);
+
+      // Add user data to Firestore
+      await firestore()
+        .collection('Commuters')
+        .doc(firebase.auth().currentUser?.uid)
+        .set({
+          type: 'commuter',
+          name: name,
+          email: email,
+          phone: phone,
+          rating: 0,
+          isVerified: false,
+          ride: [],
+        });
+
+      console.log('User added!');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alertInvalidEmail();
+      } else if (error.code === 'auth/invalid-email') {
+        alertInvalidEmail();
+      } else {
+        console.error('Error creating user:', error);
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -147,6 +198,7 @@ function AuthSignin({navigation}) {
               password={password}
               setPassword={setPassword}
               setValidity={setIsValidPassword}
+              handleForgotPass={null}
             />
           </StyledCol>
         )}
@@ -172,24 +224,38 @@ function AuthSignin({navigation}) {
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
         {asUser ? (
-          <FormButton
-            onPress={handleButtonClick}
-            disabled={
-              name === '' || !isValidEmail || !isValidPhone || !isValidPassword
-            }>
-            {!isLoading ? (
-              <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-                Sign Up
-              </StyledText16>
-            ) : (
-              <Progress.Circle
-                size={20}
-                indeterminate={true}
-                borderWidth={3}
-                borderColor={'#f3f3f3'}
-              />
+          <>
+            {step === 1 && (
+              <FormButton
+                onPress={handleStep}
+                disabled={
+                  name === '' ||
+                  !isValidEmail ||
+                  !isValidPhone ||
+                  !isValidPassword
+                }>
+                <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                  Next
+                </StyledText16>
+              </FormButton>
             )}
-          </FormButton>
+            {step === 2 && (
+              <FormButton onPress={handleSignUp}>
+                {!isLoading ? (
+                  <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                    Sign Up
+                  </StyledText16>
+                ) : (
+                  <Progress.Circle
+                    size={20}
+                    indeterminate={true}
+                    borderWidth={3}
+                    borderColor={'#f3f3f3'}
+                  />
+                )}
+              </FormButton>
+            )}
+          </>
         ) : (
           <>
             {step === 1 && (
@@ -250,4 +316,4 @@ function AuthSignin({navigation}) {
   );
 }
 
-export default AuthSignin;
+export default AuthSignUp;

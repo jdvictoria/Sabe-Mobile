@@ -15,7 +15,7 @@ function HomeBookings({navigation, setPickedRider}) {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const usersCollection = await firestore().collection('Riders').get();
+        const usersCollection = await firestore().collection('Bookings').get();
         const allUsers = usersCollection.docs.map(doc => doc.data());
         // @ts-ignore
         setRiders(allUsers);

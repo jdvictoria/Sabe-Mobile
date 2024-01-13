@@ -1,0 +1,23 @@
+import {Alert} from 'react-native';
+
+export const alertEmailVerification = () =>
+  Alert.alert('Unverified Email', 'Check your email to verify your account.', [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ]);
+
+export const alertInvalidEmail = () =>
+  Alert.alert('Invalid Email', 'Please provide a valid email.', [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ]);
+
+export const alertSignInError = () =>
+  Alert.alert('Sign In Error', 'Invalid Email / Password', [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ]);
+
+export const alertPasswordReset = () =>
+  Alert.alert(
+    'Password Reset Link',
+    'Check your email and reset your password.',
+    [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+  );

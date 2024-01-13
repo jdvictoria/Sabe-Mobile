@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Alert, TouchableOpacity} from 'react-native';
 
 import {
   StyledCol,
   StyledRow,
   StyledSafeAreaView,
+  StyledTouchableRow,
 } from '../../../styles/container';
 import {
   styledText,
@@ -13,6 +13,13 @@ import {
   StyledText30,
 } from '../../../styles/text';
 import {FormButton, FormButtonHalf} from '../../../styles/button';
+
+import {
+  alertEmailVerification,
+  alertInvalidEmail,
+  alertSignInError,
+  alertPasswordReset,
+} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import HomeLogo from '../../../assets/icons/home-dark.svg';
@@ -49,48 +56,40 @@ function AuthSignin({navigation, setIsLoggedIn, setUserUID}) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const alertEmailVerification = () =>
-    Alert.alert(
-      'Unverified Email',
-      'Check your email to verify your account.',
-      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-    );
-
-  const alertPasswordReset = () =>
-    Alert.alert(
-      'Password Reset Link',
-      'Check your email and reset your password.',
-      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-    );
-
   const handleSignIn = async () => {
     setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
 
     await firebase.auth().currentUser?.reload();
     await firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        setUserUID(firebase.auth().currentUser?.uid);
-        setIsLoggedIn(true);
-        navigation.navigate('HomeStack');
-        /*
         if (firebase.auth().currentUser?.emailVerified) {
           setUserUID(firebase.auth().currentUser?.uid);
           setIsLoggedIn(true);
-          navigation.navigate('Home');
+          navigation.navigate('HomeStack');
         } else {
           await firebase.auth().currentUser?.sendEmailVerification();
           alertEmailVerification();
         }
-         */
       })
       .catch(error => {
-        // setSigninError('Error: Invalid Email / Password');
+        alertSignInError();
+      });
+
+    setIsLoading(false);
+  };
+
+  const handleForgotPass = async () => {
+    await firebase.auth().currentUser?.reload();
+    await firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(async () => {
+        alertPasswordReset();
+      })
+      .catch(error => {
+        alertInvalidEmail();
       });
   };
 
@@ -165,6 +164,7 @@ function AuthSignin({navigation, setIsLoggedIn, setUserUID}) {
           password={password}
           setPassword={setPassword}
           setValidity={setIsValidPassword}
+          handleForgotPass={handleForgotPass}
         />
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
@@ -188,11 +188,11 @@ function AuthSignin({navigation, setIsLoggedIn, setUserUID}) {
           <StyledText14 style={[sans.regular, {color: '#042F40'}]}>
             Don't have an account yet?{' '}
           </StyledText14>
-          <TouchableOpacity onPress={handleChangeMode}>
+          <StyledTouchableRow onPress={handleChangeMode}>
             <StyledText14 style={[sans.bold, {color: '#042F40'}]}>
               Sign Up
             </StyledText14>
-          </TouchableOpacity>
+          </StyledTouchableRow>
         </StyledRow>
       </StyledCol>
     </StyledSafeAreaView>

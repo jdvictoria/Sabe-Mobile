@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 
-import {StyledCol} from '../../../styles/container';
-import {styledText, StyledText12, StyledText16} from '../../../styles/text';
+import {StyledCol, StyledTouchableCol} from '../../../styles/container';
+import {
+  styledText,
+  StyledText12,
+  StyledText14,
+  StyledText16,
+} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
 // @ts-ignore
@@ -11,7 +16,13 @@ import ShowLogo from '../../../assets/icons/show.svg';
 import HideLogo from '../../../assets/icons/hide.svg';
 
 // @ts-ignore
-function AuthPassword({signIn, password, setPassword, setValidity}) {
+function AuthPassword({
+  signIn,
+  password,
+  setPassword,
+  setValidity,
+  handleForgotPass,
+}) {
   const sans = styledText();
 
   // Regular expression for password validation
@@ -92,6 +103,14 @@ function AuthPassword({signIn, password, setPassword, setValidity}) {
           )}
         </TouchableOpacity>
       </StyledCol>
+      {signIn && (
+        <StyledTouchableCol style={{width: '100%'}} onPress={handleForgotPass}>
+          <StyledText14
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-end'}]}>
+            Forgot Password?
+          </StyledText14>
+        </StyledTouchableCol>
+      )}
     </>
   );
 }
