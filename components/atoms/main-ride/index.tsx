@@ -26,7 +26,7 @@ function MainRide() {
       <StyledCol style={{height: 150, justifyContent: 'center'}}>
         <SabeLogo width={50} height={50} />
         <StyledText20 style={[sans.regular, {color: '#042F40', marginTop: 10}]}>
-          You have no active booking.
+          You have no active booking
         </StyledText20>
       </StyledCol>
     </StyledCol>
