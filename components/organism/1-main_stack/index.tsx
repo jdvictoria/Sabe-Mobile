@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -11,10 +11,13 @@ import BookingsDetail from '../../molecules/bookings-detail';
 function MainStack() {
   const Stack = createStackNavigator();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userUID, setUserUID] = useState('');
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="HomeStack"
+        initialRouteName="Loading"
         screenOptions={{
           headerShown: false,
         }}>
@@ -22,10 +25,14 @@ function MainStack() {
           {props => <Loading {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
-          {props => <AuthStack {...props} />}
+          {props => (
+            <AuthStack setIsLoggedIn={setIsLoggedIn} setUserUID={setUserUID} />
+          )}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
-          {props => <HomeStack {...props} />}
+          {props => (
+            <HomeStack {...props} isLoggedIn={isLoggedIn} userUID={userUID} />
+          )}
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
           {props => <BookingsDetail {...props} />}

@@ -6,12 +6,12 @@ import AuthSignUp from '../../molecules/auth-signup';
 import AuthSignIn from '../../molecules/auth-signin';
 
 // @ts-ignore
-function AuthStack() {
+function AuthStack({setIsLoggedIn, setUserUID}) {
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator
-      initialRouteName="SignUp"
+      initialRouteName="SignIn"
       screenOptions={{
         headerShown: false,
       }}>
@@ -19,7 +19,13 @@ function AuthStack() {
         {props => <AuthSignUp {...props} />}
       </Stack.Screen>
       <Stack.Screen name="SignIn">
-        {props => <AuthSignIn {...props} />}
+        {props => (
+          <AuthSignIn
+            {...props}
+            setIsLoggedIn={setIsLoggedIn}
+            setUserUID={setUserUID}
+          />
+        )}
       </Stack.Screen>
     </Stack.Navigator>
   );

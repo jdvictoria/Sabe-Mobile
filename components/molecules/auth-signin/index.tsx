@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 
 import {
   StyledCol,
@@ -23,8 +23,10 @@ import AuthPhone from '../../atoms/auth-phone';
 
 import * as Progress from 'react-native-progress';
 
+import {firebase} from '@react-native-firebase/auth';
+
 // @ts-ignore
-function AuthSignin({navigation}) {
+function AuthSignin({navigation, setIsLoggedIn, setUserUID}) {
   const sans = styledText();
 
   const handleChangeMode = () => {
@@ -37,23 +39,59 @@ function AuthSignin({navigation}) {
     setWithEmail(prevState => !prevState);
   };
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('vjoshuaarlo12@gmail.com');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('psyApp12!');
 
-  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPhone, setIsValidPhone] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleButtonClick = () => {
+  const alertEmailVerification = () =>
+    Alert.alert(
+      'Unverified Email',
+      'Check your email to verify your account.',
+      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+    );
+
+  const alertPasswordReset = () =>
+    Alert.alert(
+      'Password Reset Link',
+      'Check your email and reset your password.',
+      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+    );
+
+  const handleSignIn = async () => {
     setIsLoading(true);
 
     setTimeout(() => {
-      // navigation.navigate('HomeStack');
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
+
+    await firebase.auth().currentUser?.reload();
+    await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(async () => {
+        setUserUID(firebase.auth().currentUser?.uid);
+        setIsLoggedIn(true);
+        navigation.navigate('HomeStack');
+        /*
+        if (firebase.auth().currentUser?.emailVerified) {
+          setUserUID(firebase.auth().currentUser?.uid);
+          setIsLoggedIn(true);
+          navigation.navigate('Home');
+        } else {
+          await firebase.auth().currentUser?.sendEmailVerification();
+          alertEmailVerification();
+        }
+         */
+      })
+      .catch(error => {
+        // setSigninError('Error: Invalid Email / Password');
+      });
   };
 
   return (
@@ -131,8 +169,8 @@ function AuthSignin({navigation}) {
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
         <FormButton
-          onPress={handleButtonClick}
-          disabled={!isValidEmail || !isValidPhone || !isValidPassword}>
+          onPress={handleSignIn}
+          disabled={(!isValidEmail || !isValidPhone) && !isValidPassword}>
           {!isLoading ? (
             <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
               Sign In

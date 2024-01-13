@@ -1,16 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, ScrollView} from 'react-native';
 
-import {
-  StyledCol,
-  StyledSafeAreaView,
-  StyledPlaceholder,
-} from '../../../styles/container';
+import {StyledSafeAreaView, StyledPlaceholder} from '../../../styles/container';
+
 import HomeHeader from '../../atoms/home-header';
 import BookingsCard from '../../atoms/bookings-card';
-import {Dimensions, ScrollView} from 'react-native';
+
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function HomeBookings({navigation}) {
+  const [riders, setRiders] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const usersCollection = await firestore().collection('Riders').get();
+        const allUsers = usersCollection.docs.map(doc => doc.data());
+        // @ts-ignore
+        setRiders(allUsers);
+      } catch (error) {
+        console.error('Error fetching users: ', error);
+      }
+    };
+
+    getUsers();
+  }, []);
+
   return (
     <StyledSafeAreaView
       style={{
@@ -30,7 +46,9 @@ function HomeBookings({navigation}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <BookingsCard navigation={navigation} />
+        {riders.map(rider => (
+          <BookingsCard key={rider.id} navigation={navigation} rider={rider} />
+        ))}
         <StyledPlaceholder />
       </ScrollView>
     </StyledSafeAreaView>

@@ -14,7 +14,7 @@ function Loading({navigation}) {
     const timer = setTimeout(() => {
       navigation.navigate('AuthStack');
       // navigation.navigate('HomeStack');
-    }, 2000);
+    }, 1000);
 
     // Clear the timeout on component unmount
     return () => clearTimeout(timer);

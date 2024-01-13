@@ -22,7 +22,7 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 
 // @ts-ignore
-function BookingsCard({navigation}) {
+function BookingsCard({navigation, rider}) {
   const sans = styledText();
 
   return (
@@ -51,20 +51,20 @@ function BookingsCard({navigation}) {
             }}>
             <StyledText14
               style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              Juan Dela Cruz
+              {rider.rider}
             </StyledText14>
             <StyledText12
               style={[
                 sans.regular,
                 {color: '#1FBF83', alignSelf: 'flex-start'},
               ]}>
-              Toyota Corolla
+              {rider.carMake + ' ' + rider.carSeries}
             </StyledText12>
           </StyledCol>
         </StyledRow>
         <StyledRow>
           <StyledText24 style={[sans.bold, {color: '#042F40'}]}>
-            PHP 150
+            PHP {rider.fare}
           </StyledText24>
         </StyledRow>
       </StyledRow>
@@ -76,21 +76,21 @@ function BookingsCard({navigation}) {
         <StyledCol>
           <StyledText12
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            09:00 AM
+            {rider.timeStart}
           </StyledText12>
           <StyledText14
             style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            DHVSU Campus
+            {rider.route[0]}
           </StyledText14>
         </StyledCol>
         <StyledCol>
           <StyledText12
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-end'}]}>
-            12:00 NN
+            {rider.timeEnd}
           </StyledText12>
           <StyledText14
             style={[sans.bold, {color: '#042F40', alignSelf: 'flex-end'}]}>
-            SM Telabastagan
+            {rider.route[rider.route.length - 1]}
           </StyledText14>
         </StyledCol>
       </StyledRow>
@@ -109,7 +109,7 @@ function BookingsCard({navigation}) {
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            4.4
+            {rider.rating}
           </StyledText14>
         </StyledRow>
         <StyledRow style={{paddingTop: 2}}>
@@ -119,7 +119,7 @@ function BookingsCard({navigation}) {
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            4 / 4
+            {rider.passengerCount} / {rider.passengerLimit}
           </StyledText14>
         </StyledRow>
         <StyledTouchableRow

@@ -26,7 +26,7 @@ import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 import GetLocation from 'react-native-get-location';
 
 // @ts-ignore
-function HomeStack() {
+function HomeStack({isLoggedIn, userUID}) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
