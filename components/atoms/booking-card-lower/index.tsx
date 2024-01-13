@@ -18,7 +18,7 @@ function BookingCardLower({routes}) {
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
       }}>
-      <StyledCol style={{justifyContent: 'space-around', height: '95%'}}>
+      <StyledCol style={{justifyContent: 'space-around', height: '90%'}}>
         {routes.map((route, index) => (
           <StyledCol key={index} style={{width: '100%'}}>
             <StyledText14

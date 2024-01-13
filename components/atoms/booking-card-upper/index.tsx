@@ -37,7 +37,29 @@ function BookingCardUpper({pickedRider}) {
         borderTopRightRadius: 10,
       }}>
       <StyledCol
-        style={{justifyContent: 'space-around', width: '57.5%', height: 125}}>
+        style={{justifyContent: 'space-around', width: '40%', height: 125}}>
+        <StyledCol style={{width: '100%'}}>
+          <StyledText14
+            style={[
+              sans.regular,
+              {
+                color: '#1FBF83',
+                alignSelf: 'flex-start',
+              },
+            ]}>
+            Price
+          </StyledText14>
+          <StyledText16
+            style={[
+              sans.bold,
+              {
+                color: '#042F40',
+                alignSelf: 'flex-start',
+              },
+            ]}>
+            PHP {pickedRider.fare}
+          </StyledText16>
+        </StyledCol>
         <StyledCol style={{width: '100%'}}>
           <StyledText14
             style={[
@@ -69,28 +91,6 @@ function BookingCardUpper({pickedRider}) {
                 alignSelf: 'flex-start',
               },
             ]}>
-            Email
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            {maskEmail(pickedRider.email)}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
             Phone
           </StyledText14>
           <StyledText16
@@ -106,7 +106,7 @@ function BookingCardUpper({pickedRider}) {
         </StyledCol>
       </StyledCol>
       <StyledCol
-        style={{justifyContent: 'space-around', width: '35%', height: 125}}>
+        style={{justifyContent: 'space-around', width: '40%', height: 125}}>
         <StyledCol style={{width: '100%'}}>
           <StyledText14
             style={[

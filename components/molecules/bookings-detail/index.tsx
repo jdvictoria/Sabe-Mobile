@@ -37,7 +37,7 @@ function BookingsDetail({navigation, pickedRider}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <BookingCard Routes={Routes} pickedRider={pickedRider} />
+        <BookingCard pickedRider={pickedRider} />
         <BookingButton />
       </StyledCol>
     </StyledSafeAreaView>

@@ -1,29 +1,28 @@
 import React from 'react';
 
-import {
-  StyledCol,
-  StyledRow,
-  StyledTouchableRow,
-} from '../../../styles/container';
+import {StyledCol} from '../../../styles/container';
 import {
   styledText,
   StyledText16,
-  StyledText18,
   StyledText20,
+  StyledText26,
 } from '../../../styles/text';
 
-// @ts-ignore
-import InfoLogo from '../../../assets/icons/info.svg';
 import BookingCardLower from '../booking-card-lower';
 import BookingCardUpper from '../booking-card-upper';
 
 // @ts-ignore
-function BookingCard({Routes, pickedRider}) {
+function BookingCard({pickedRider}) {
   const sans = styledText();
 
   return (
     <>
-      <StyledCol style={{marginTop: 15}}>
+      <StyledCol style={{width: '100%', marginTop: 15}}>
+        <StyledText26 style={[sans.bold, {color: '#042F40'}]}>
+          PHP {pickedRider.fare}
+        </StyledText26>
+      </StyledCol>
+      <StyledCol style={{width: '100%'}}>
         <StyledText20 style={[sans.regular, {color: '#042F40'}]}>
           {pickedRider.route[0]} to{' '}
           {pickedRider.route[pickedRider.route.length - 1]}
@@ -32,27 +31,9 @@ function BookingCard({Routes, pickedRider}) {
           {pickedRider.passengerCount} Passengers • {pickedRider.route.length}{' '}
           Stops
         </StyledText16>
-      </StyledCol>
-      <StyledCol style={{width: '100%'}}>
-        <StyledRow
-          style={{
-            justifyContent: 'space-between',
-            width: '90%',
-          }}>
-          <StyledText18 style={[sans.regular, {color: '#042F40'}]}>
-            Journey Details
-          </StyledText18>
-          <StyledTouchableRow>
-            <InfoLogo width={18} height={18} />
-            <StyledText18
-              style={[sans.regular, {color: '#9D9D9D', paddingLeft: 2.5}]}>
-              Info
-            </StyledText18>
-          </StyledTouchableRow>
-        </StyledRow>
         <StyledCol
           style={{
-            width: '90%',
+            width: '85%',
             height: 'auto',
             minHeight: 400,
             marginTop: 5,
