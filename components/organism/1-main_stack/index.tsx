@@ -14,6 +14,8 @@ function MainStack() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userUID, setUserUID] = useState('');
 
+  const [pickedRider, setPickedRider] = useState([]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -31,11 +33,16 @@ function MainStack() {
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
           {props => (
-            <HomeStack {...props} isLoggedIn={isLoggedIn} userUID={userUID} />
+            <HomeStack
+              {...props}
+              isLoggedIn={isLoggedIn}
+              userUID={userUID}
+              setPickedRider={setPickedRider}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
-          {props => <BookingsDetail {...props} />}
+          {props => <BookingsDetail {...props} pickedRider={pickedRider} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

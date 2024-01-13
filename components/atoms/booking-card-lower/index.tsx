@@ -4,7 +4,7 @@ import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 
 // @ts-ignore
-function BookingCardLower({Routes}) {
+function BookingCardLower({routes}) {
   const sans = styledText();
 
   return (
@@ -19,7 +19,7 @@ function BookingCardLower({Routes}) {
         borderBottomRightRadius: 10,
       }}>
       <StyledCol style={{justifyContent: 'space-around', height: '95%'}}>
-        {Routes.map((route, index) => (
+        {routes.map((route, index) => (
           <StyledCol key={index} style={{width: '100%'}}>
             <StyledText14
               style={[
@@ -54,7 +54,7 @@ function BookingCardLower({Routes}) {
             backgroundColor: '#1FBF83',
             borderRadius: 20,
           }}>
-          {Routes.map((key, index) => (
+          {routes.map((key, index) => (
             <StyledCol
               key={index}
               style={{

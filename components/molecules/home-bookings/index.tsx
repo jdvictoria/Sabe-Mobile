@@ -9,7 +9,7 @@ import BookingsCard from '../../atoms/bookings-card';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function HomeBookings({navigation}) {
+function HomeBookings({navigation, setPickedRider}) {
   const [riders, setRiders] = useState([]);
 
   useEffect(() => {
@@ -46,8 +46,13 @@ function HomeBookings({navigation}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        {riders.map(rider => (
-          <BookingsCard key={rider.id} navigation={navigation} rider={rider} />
+        {riders.map((rider, index) => (
+          <BookingsCard
+            key={index}
+            navigation={navigation}
+            rider={rider}
+            setPickedRider={setPickedRider}
+          />
         ))}
         <StyledPlaceholder />
       </ScrollView>

@@ -9,7 +9,7 @@ function BookingButton() {
   return (
     <StyledTouchableRow
       style={{
-        width: '85%',
+        width: '90%',
         height: 50,
         backgroundColor: '#1FBF83',
         borderRadius: 10,

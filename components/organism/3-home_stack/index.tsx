@@ -26,7 +26,7 @@ import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 import GetLocation from 'react-native-get-location';
 
 // @ts-ignore
-function HomeStack({isLoggedIn, userUID}) {
+function HomeStack({isLoggedIn, userUID, setPickedRider}) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function HomeStack({isLoggedIn, userUID}) {
               <HomeJourneyAlt width={27.5} height={27.5} />
             ),
         }}>
-        {props => <HomeBookings {...props} />}
+        {props => <HomeBookings {...props} setPickedRider={setPickedRider} />}
       </Tabs.Screen>
       <Tabs.Screen
         name={'Home'}

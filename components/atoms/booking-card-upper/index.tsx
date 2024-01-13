@@ -4,22 +4,22 @@ import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 
 // @ts-ignore
-function BookingCardUpper() {
+function BookingCardUpper({pickedRider}) {
   const sans = styledText();
 
-  const maskEmail = email => {
+  const maskEmail = (email: string) => {
     const atIndex = email.indexOf('@');
     const maskedPart = email.slice(1, atIndex).replace(/./g, '*');
     return email[0] + maskedPart + '@gmail.com';
   };
 
-  const maskPhoneNumber = phoneNumber => {
+  const maskPhoneNumber = (phoneNumber: string) => {
     const visibleDigits = phoneNumber.slice(0, 2);
     const maskedPart = phoneNumber.slice(2).replace(/./g, '*');
     return visibleDigits + maskedPart;
   };
 
-  const maskPlate = plateNumber => {
+  const maskPlate = (plateNumber: string) => {
     const visiblePart = plateNumber.replace(/[^-]/g, '*');
     return visiblePart;
   };
@@ -37,7 +37,7 @@ function BookingCardUpper() {
         borderTopRightRadius: 10,
       }}>
       <StyledCol
-        style={{justifyContent: 'space-around', width: '55%', height: 125}}>
+        style={{justifyContent: 'space-around', width: '57.5%', height: 125}}>
         <StyledCol style={{width: '100%'}}>
           <StyledText14
             style={[
@@ -57,7 +57,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            Juan Dela Cruz
+            {pickedRider.rider}
           </StyledText16>
         </StyledCol>
         <StyledCol style={{width: '100%'}}>
@@ -79,7 +79,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            {maskEmail('juandc12@gmail.com')}
+            {maskEmail(pickedRider.email)}
           </StyledText16>
         </StyledCol>
         <StyledCol style={{width: '100%'}}>
@@ -101,7 +101,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            {maskPhoneNumber('09556736262')}
+            {maskPhoneNumber(pickedRider.contact)}
           </StyledText16>
         </StyledCol>
       </StyledCol>
@@ -126,7 +126,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            Toyota Corolla
+            {pickedRider.carMake} {pickedRider.carSeries}
           </StyledText16>
         </StyledCol>
         <StyledCol style={{width: '100%'}}>
@@ -148,7 +148,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            Red
+            {pickedRider.carColor}
           </StyledText16>
         </StyledCol>
         <StyledCol style={{width: '100%'}}>
@@ -170,7 +170,7 @@ function BookingCardUpper() {
                 alignSelf: 'flex-start',
               },
             ]}>
-            {maskPlate('XEX - 123')}
+            {maskPlate(pickedRider.carPlate)}
           </StyledText16>
         </StyledCol>
       </StyledCol>

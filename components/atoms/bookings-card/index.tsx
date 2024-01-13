@@ -22,8 +22,13 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 
 // @ts-ignore
-function BookingsCard({navigation, rider}) {
+function BookingsCard({navigation, rider, setPickedRider}) {
   const sans = styledText();
+
+  const pickRider = () => {
+    setPickedRider(rider);
+    navigation.navigate('BookingsDetail');
+  };
 
   return (
     <StyledCol
@@ -122,9 +127,7 @@ function BookingsCard({navigation, rider}) {
             {rider.passengerCount} / {rider.passengerLimit}
           </StyledText14>
         </StyledRow>
-        <StyledTouchableRow
-          style={{paddingTop: 2.5}}
-          onPress={() => navigation.navigate('BookingsDetail')}>
+        <StyledTouchableRow style={{paddingTop: 2.5}} onPress={pickRider}>
           <StyledText14 style={[sans.bold, {color: '#042F40', paddingTop: 2}]}>
             VIEW DETAILS
           </StyledText14>

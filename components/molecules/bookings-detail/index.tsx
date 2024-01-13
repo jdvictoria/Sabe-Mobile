@@ -15,7 +15,7 @@ const Routes = [
 ];
 
 // @ts-ignore
-function BookingsDetail({navigation}) {
+function BookingsDetail({navigation, pickedRider}) {
   return (
     <StyledSafeAreaView
       style={{
@@ -37,7 +37,7 @@ function BookingsDetail({navigation}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <BookingCard Routes={Routes} />
+        <BookingCard Routes={Routes} pickedRider={pickedRider} />
         <BookingButton />
       </StyledCol>
     </StyledSafeAreaView>
