@@ -11,7 +11,7 @@ function AuthStack({setIsLoggedIn, setProfile, setUserUID}) {
 
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
+      initialRouteName="SignUp"
       screenOptions={{
         headerShown: false,
       }}>

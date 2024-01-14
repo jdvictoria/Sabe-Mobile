@@ -26,7 +26,6 @@ import AuthOrcr from '../../atoms/auth-orcr';
 import AuthLicense from '../../atoms/auth-license';
 import AuthId from '../../atoms/auth-id';
 
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import * as Progress from 'react-native-progress';
 
 import {firebase} from '@react-native-firebase/auth';
@@ -36,8 +35,9 @@ import firestore from '@react-native-firebase/firestore';
 function AuthSignUp({navigation}) {
   const sans = styledText();
 
-  const [asUser, setAsUser] = useState(true);
-  const [step, setStep] = useState(1);
+  const [asUser, setAsUser] = useState(false);
+  const [step, setStep] = useState(3);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
     setStep(step + 1);
@@ -57,11 +57,13 @@ function AuthSignUp({navigation}) {
   const [make, setMake] = useState('');
   const [series, setSeries] = useState('');
 
+  const [schoolID, setSchoolID] = useState('');
+  const [regImage, setRegImage] = useState('');
+  const [licenseImage, setLicenseImage] = useState('');
+
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeUser = () => {
     setAsUser(prevState => !prevState);
@@ -108,10 +110,10 @@ function AuthSignUp({navigation}) {
 
       // Add user data to Firestore
       await firestore()
-        .collection('Commuters')
+        .collection('Users')
         .doc(firebase.auth().currentUser?.uid)
         .set({
-          type: 'commuter',
+          type: asUser ? 'commuter' : 'driver',
           name: name,
           email: email,
           phone: phone,
@@ -205,7 +207,7 @@ function AuthSignUp({navigation}) {
         )}
         {asUser && step === 2 && (
           <StyledCol style={{width: '90%'}}>
-            <AuthId />
+            <AuthId schoolID={schoolID} setSchoolID={setSchoolID} />
           </StyledCol>
         )}
         {!asUser && step === 2 && (
@@ -218,8 +220,11 @@ function AuthSignUp({navigation}) {
         )}
         {!asUser && step === 3 && (
           <StyledCol style={{width: '90%'}}>
-            <AuthLicense />
-            <AuthOrcr />
+            <AuthLicense
+              licenseImage={licenseImage}
+              setLicenseImage={setLicenseImage}
+            />
+            <AuthOrcr regImage={regImage} setRegImage={setRegImage} />
           </StyledCol>
         )}
       </StyledCol>
@@ -241,7 +246,7 @@ function AuthSignUp({navigation}) {
               </FormButton>
             )}
             {step === 2 && (
-              <FormButton onPress={handleSignUp}>
+              <FormButton disabled={schoolID === ''} onPress={handleSignUp}>
                 {!isLoading ? (
                   <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
                     Sign Up
@@ -285,7 +290,7 @@ function AuthSignUp({navigation}) {
               </FormButton>
             )}
             {step === 3 && (
-              <FormButton>
+              <FormButton disabled={licenseImage === '' && regImage === ''}>
                 {!isLoading ? (
                   <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
                     Sign Up
