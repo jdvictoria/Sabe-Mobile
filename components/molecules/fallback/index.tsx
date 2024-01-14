@@ -38,7 +38,7 @@ function Fallback({navigation}) {
       </StyledCol>
       <StyledCol>
         <StyledText16 style={[sans.regular, {color: '#03314B'}]}>
-          🚧 Ongoing Verification. Try Again Later. 🚧
+          🚧 Ongoing Verification. Try Again. 🚧
         </StyledText16>
       </StyledCol>
     </StyledSafeAreaView>
