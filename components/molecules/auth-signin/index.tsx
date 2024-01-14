@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   StyledCol,
@@ -31,9 +31,10 @@ import AuthPhone from '../../atoms/auth-phone';
 import * as Progress from 'react-native-progress';
 
 import {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function AuthSignin({navigation, setIsLoggedIn, setUserUID}) {
+function AuthSignin({navigation, setIsLoggedIn, setProfile, setUserUID}) {
   const sans = styledText();
 
   const handleChangeMode = () => {
@@ -65,9 +66,20 @@ function AuthSignin({navigation, setIsLoggedIn, setUserUID}) {
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
         if (firebase.auth().currentUser?.emailVerified) {
-          setUserUID(firebase.auth().currentUser?.uid);
-          setIsLoggedIn(true);
-          navigation.navigate('HomeStack');
+          // Fetch additional user data from Firestore
+          const userDocument = await firestore()
+            .collection('Users')
+            .doc(firebase.auth().currentUser?.uid)
+            .get();
+          if (userDocument.exists) {
+            const userData = userDocument.data();
+            setUserUID(firebase.auth().currentUser?.uid);
+            setProfile(userData);
+            setIsLoggedIn(true);
+            navigation.navigate('HomeStack');
+          } else {
+            console.log('Document does not exist');
+          }
         } else {
           await firebase.auth().currentUser?.sendEmailVerification();
           alertEmailVerification();

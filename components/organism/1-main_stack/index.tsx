@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
+import Fallback from '../../molecules/fallback';
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
 import BookingsDetail from '../../molecules/bookings-detail';
@@ -11,9 +12,11 @@ import BookingsDetail from '../../molecules/bookings-detail';
 function MainStack() {
   const Stack = createStackNavigator();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState([]);
   const [userUID, setUserUID] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Commuter
   const [pickedRider, setPickedRider] = useState([]);
 
   return (
@@ -28,18 +31,26 @@ function MainStack() {
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
           {props => (
-            <AuthStack setIsLoggedIn={setIsLoggedIn} setUserUID={setUserUID} />
+            <AuthStack
+              setIsLoggedIn={setIsLoggedIn}
+              setProfile={setProfile}
+              setUserUID={setUserUID}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
-          {props => (
-            <HomeStack
-              {...props}
-              isLoggedIn={isLoggedIn}
-              userUID={userUID}
-              setPickedRider={setPickedRider}
-            />
-          )}
+          {props =>
+            profile.isVerified && profile.isVerified !== undefined ? (
+              <HomeStack
+                {...props}
+                isLoggedIn={isLoggedIn}
+                userUID={userUID}
+                setPickedRider={setPickedRider}
+              />
+            ) : (
+              <Fallback {...props} />
+            )
+          }
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
           {props => <BookingsDetail {...props} pickedRider={pickedRider} />}
