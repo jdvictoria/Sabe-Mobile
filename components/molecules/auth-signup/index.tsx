@@ -35,8 +35,8 @@ import firestore from '@react-native-firebase/firestore';
 function AuthSignUp({navigation}) {
   const sans = styledText();
 
-  const [asUser, setAsUser] = useState(false);
-  const [step, setStep] = useState(3);
+  const [asUser, setAsUser] = useState(true);
+  const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
