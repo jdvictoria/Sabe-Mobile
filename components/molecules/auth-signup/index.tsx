@@ -26,6 +26,7 @@ import AuthOrcr from '../../atoms/auth-orcr';
 import AuthLicense from '../../atoms/auth-license';
 import AuthId from '../../atoms/auth-id';
 
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import * as Progress from 'react-native-progress';
 
 import {firebase} from '@react-native-firebase/auth';
