@@ -48,7 +48,7 @@ function MainStack() {
           }
         </Stack.Screen>
         <Stack.Screen name="AdminStack">
-          {props => <AdminStack {...props} />}
+          {props => <AdminStack {...props} userUID={userUID} />}
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
           {props => <BookingsDetail {...props} pickedRider={pickedRider} />}

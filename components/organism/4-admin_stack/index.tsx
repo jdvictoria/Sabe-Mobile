@@ -24,7 +24,7 @@ import HomeProfile from '../../../assets/icons/home-profile.svg';
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
 // @ts-ignore
-function AdminStack({navigation}) {
+function AdminStack({navigation, userUID}) {
   const Tabs = AnimatedTabBarNavigator();
 
   return (
@@ -75,7 +75,7 @@ function AdminStack({navigation}) {
               <AdminStudentAlt width={20} height={20} />
             ),
         }}>
-        {props => <AdminCommuters {...props} />}
+        {props => <AdminCommuters {...props} userUID={userUID} />}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

@@ -1,12 +1,40 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 
+import firestore from '@react-native-firebase/firestore';
+
 // @ts-ignore
-function AdminCommuters({navigation}) {
+function AdminCommuters({navigation, userUID}) {
+  const [commuters, setCommuters] = useState([]);
+
+  useEffect(() => {
+    const fetchCommuters = async () => {
+      try {
+        const querySnapshot = await firestore()
+          .collection('Users')
+          .where('type', '==', 'commuter')
+          .where('isVerified', '==', false)
+          .get();
+
+        const docIds = querySnapshot.docs.map(doc => doc.id);
+        setCommuters(docIds);
+        console.log('Commuter Document IDs: ', docIds);
+      } catch (error) {
+        console.error('Error fetching commuters: ', error);
+      }
+    };
+
+    fetchCommuters();
+
+    return () => {
+      fetchCommuters();
+    };
+  }, [userUID]);
+
   return (
     <StyledSafeAreaView
       style={{
