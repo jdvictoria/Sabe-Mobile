@@ -34,7 +34,7 @@ import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function AuthSignin({navigation, setIsLoggedIn, setProfile, setUserUID}) {
+function AuthSignin({navigation, setProfile, setUserUID}) {
   const sans = styledText();
 
   const handleChangeMode = () => {
@@ -75,8 +75,12 @@ function AuthSignin({navigation, setIsLoggedIn, setProfile, setUserUID}) {
             const userData = userDocument.data();
             setUserUID(firebase.auth().currentUser?.uid);
             setProfile(userData);
-            setIsLoggedIn(true);
-            navigation.navigate('HomeStack');
+
+            if (userData.type === 'admin') {
+              navigation.navigate('AdminStack');
+            } else {
+              navigation.navigate('HomeStack');
+            }
           } else {
             console.log('Document does not exist');
           }

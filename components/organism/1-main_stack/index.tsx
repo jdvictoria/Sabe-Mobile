@@ -8,13 +8,13 @@ import Fallback from '../../molecules/fallback';
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
 import BookingsDetail from '../../molecules/bookings-detail';
+import AdminStack from '../4-admin_stack';
 
 function MainStack() {
   const Stack = createStackNavigator();
 
   const [profile, setProfile] = useState([]);
   const [userUID, setUserUID] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Commuter
   const [pickedRider, setPickedRider] = useState([]);
@@ -31,11 +31,7 @@ function MainStack() {
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
           {props => (
-            <AuthStack
-              setIsLoggedIn={setIsLoggedIn}
-              setProfile={setProfile}
-              setUserUID={setUserUID}
-            />
+            <AuthStack setProfile={setProfile} setUserUID={setUserUID} />
           )}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
@@ -43,7 +39,6 @@ function MainStack() {
             profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
-                isLoggedIn={isLoggedIn}
                 userUID={userUID}
                 setPickedRider={setPickedRider}
               />
@@ -51,6 +46,9 @@ function MainStack() {
               <Fallback {...props} />
             )
           }
+        </Stack.Screen>
+        <Stack.Screen name="AdminStack">
+          {props => <AdminStack {...props} />}
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
           {props => <BookingsDetail {...props} pickedRider={pickedRider} />}
