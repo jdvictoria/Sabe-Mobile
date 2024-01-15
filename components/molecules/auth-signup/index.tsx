@@ -96,7 +96,7 @@ function AuthSignUp({navigation}) {
       ],
     );
 
-  const handleSignUp = async () => {
+  const handleSignUpCommuter = async () => {
     setIsLoading(true);
 
     try {
@@ -112,7 +112,7 @@ function AuthSignUp({navigation}) {
       // Upload image to Firebase Storage
       const fileName =
         name + '-' + schoolID.substring(schoolID.lastIndexOf('/') + 1);
-      const storageRef = storage().ref(`images/${fileName}`);
+      const storageRef = storage().ref(`commuters/${fileName}`);
       const task = storageRef.putFile(schoolID);
       const downloadURL = await task.then(() => storageRef.getDownloadURL());
 
@@ -121,12 +121,75 @@ function AuthSignUp({navigation}) {
         .collection('Users')
         .doc(firebase.auth().currentUser?.uid)
         .set({
-          type: asUser ? 'commuter' : 'driver',
+          type: 'commuter',
           name: name,
           email: email,
-          phone: phone,
+          contact: phone,
           rating: 0,
           schoolIDUrl: downloadURL,
+          isVerified: false,
+          ride: [],
+        });
+
+      console.log('User added!');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alertInvalidEmail();
+        setStep(1);
+      } else if (error.code === 'auth/invalid-email') {
+        alertInvalidEmail();
+        setStep(1);
+      } else {
+        console.error('Error creating user:', error);
+        setStep(1);
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleSignUpDriver = async () => {
+    setIsLoading(true);
+
+    try {
+      // Create user using Firebase Authentication
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // Send email verification
+      await userCredential.user?.sendEmailVerification();
+      alertEmailVerification(navigation);
+
+      // Upload image to Firebase Storage
+      const regImageName =
+        name + '-' + regImage.substring(regImage.lastIndexOf('/') + 1);
+      const storageRef1 = storage().ref(`drivers/${regImageName}`);
+      const task1 = storageRef1.putFile(regImage);
+      const downloadURL1 = await task1.then(() => storageRef1.getDownloadURL());
+
+      const licenseImageName =
+        name + '-' + licenseImage.substring(licenseImage.lastIndexOf('/') + 1);
+      const storageRef2 = storage().ref(`drivers/${licenseImage}`);
+      const task2 = storageRef2.putFile(licenseImageName);
+      const downloadURL2 = await task2.then(() => storageRef2.getDownloadURL());
+
+      // Add user data to Firestore
+      await firestore()
+        .collection('Users')
+        .doc(firebase.auth().currentUser?.uid)
+        .set({
+          type: 'driver',
+          name: name,
+          email: email,
+          contact: phone,
+          carMake: make,
+          carSeries: series,
+          carColor: color,
+          carPlate: plate,
+          rating: 0,
+          regIDUrl: downloadURL1,
+          licenseIDUrl: downloadURL2,
           isVerified: false,
           ride: [],
         });
@@ -258,7 +321,9 @@ function AuthSignUp({navigation}) {
               </FormButton>
             )}
             {step === 2 && (
-              <FormButton disabled={schoolID === ''} onPress={handleSignUp}>
+              <FormButton
+                disabled={schoolID === ''}
+                onPress={handleSignUpCommuter}>
                 {!isLoading ? (
                   <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
                     Sign Up
@@ -302,7 +367,9 @@ function AuthSignUp({navigation}) {
               </FormButton>
             )}
             {step === 3 && (
-              <FormButton disabled={licenseImage === '' && regImage === ''}>
+              <FormButton
+                disabled={licenseImage === '' && regImage === ''}
+                onPress={handleSignUpDriver}>
                 {!isLoading ? (
                   <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
                     Sign Up
