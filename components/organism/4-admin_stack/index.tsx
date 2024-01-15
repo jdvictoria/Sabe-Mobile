@@ -49,7 +49,7 @@ function AdminStack({navigation, userUID}) {
               <AdminDriverAlt width={27.5} height={27.5} />
             ),
         }}>
-        {props => <AdminDrivers {...props} />}
+        {props => <AdminDrivers {...props} userUID={userUID} />}
       </Tabs.Screen>
 
       <Tabs.Screen
