@@ -1,31 +1,28 @@
 import React, {useState} from 'react';
-import {Dimensions, Image} from 'react-native';
 
-import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 import {
   StyledCol,
   StyledRow,
-  StyledTouchableCol,
   StyledTouchableRow,
 } from '../../../styles/container';
+import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 
 // @ts-ignore
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 // @ts-ignore
 import ArrowRight from '../../../assets/icons/arrow-right.svg';
-// @ts-ignore
 import Check from '../../../assets/icons/check.svg';
-// @ts-ignore
-import Cross from '../../../assets/icons/cross.svg';
 
 // @ts-ignore
-function DetailsCardCommuter({id, data, onApprove}) {
+function DetailsCardDriver({id, data, onApprove}) {
   const sans = styledText();
 
-  const [showID, setShowID] = useState(false);
+  const [showORCR, setShowORCR] = useState(false);
+  const [showLicense, setShowLicense] = useState(false);
 
   const handleShowID = () => {
-    setShowID(prevState => !prevState);
+    setShowORCR(prevState => !prevState);
+    setShowLicense(prevState => !prevState);
   };
 
   const handleApprove = () => {
@@ -34,43 +31,12 @@ function DetailsCardCommuter({id, data, onApprove}) {
 
   return (
     <>
-      {showID && (
-        <StyledTouchableCol
-          style={{
-            position: 'absolute',
-            justifyContent: 'flex-start',
-            width: '100%',
-            height: Dimensions.get('window').height,
-            zIndex: 2,
-          }}
-          onPress={handleShowID}>
-          <StyledCol
-            style={{
-              position: 'absolute',
-              justifyContent: 'flex-start',
-              width: '100%',
-              height: Dimensions.get('window').height,
-              backgroundColor: 'gray',
-              opacity: 0.5,
-            }}
-          />
-          <Image
-            source={{uri: data.schoolIDUrl}}
-            style={{
-              width: Dimensions.get('window').width * 0.85,
-              height: Dimensions.get('window').height * 0.6,
-              marginTop: 50,
-              borderRadius: 10,
-            }}
-          />
-        </StyledTouchableCol>
-      )}
-
+      <></>
       <StyledCol
         style={{
           justifyContent: 'space-between',
           width: '85%',
-          height: 175,
+          height: 275,
           marginTop: 25,
           marginBottom: 5,
           paddingTop: 12.5,
@@ -115,8 +81,8 @@ function DetailsCardCommuter({id, data, onApprove}) {
           </StyledText16>
         </StyledCol>
 
-        <StyledRow style={{width: '90%', justifyContent: 'space-between'}}>
-          <StyledCol>
+        <StyledRow style={{width: '90%'}}>
+          <StyledCol style={{width: '60%'}}>
             <StyledText14
               style={[
                 sans.regular,
@@ -138,7 +104,7 @@ function DetailsCardCommuter({id, data, onApprove}) {
               {data.name}
             </StyledText16>
           </StyledCol>
-          <StyledCol>
+          <StyledCol style={{width: '40%'}}>
             <StyledText14
               style={[
                 sans.regular,
@@ -158,6 +124,100 @@ function DetailsCardCommuter({id, data, onApprove}) {
                 },
               ]}>
               {data.phone}
+            </StyledText16>
+          </StyledCol>
+        </StyledRow>
+
+        <StyledRow style={{width: '90%'}}>
+          <StyledCol style={{width: '60%'}}>
+            <StyledText14
+              style={[
+                sans.regular,
+                {
+                  color: '#1FBF83',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              Car Make
+            </StyledText14>
+            <StyledText16
+              style={[
+                sans.bold,
+                {
+                  color: '#042F40',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              {data.carMake}
+            </StyledText16>
+          </StyledCol>
+          <StyledCol style={{width: '40%'}}>
+            <StyledText14
+              style={[
+                sans.regular,
+                {
+                  color: '#1FBF83',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              Car Series
+            </StyledText14>
+            <StyledText16
+              style={[
+                sans.bold,
+                {
+                  color: '#042F40',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              {data.carSeries}
+            </StyledText16>
+          </StyledCol>
+        </StyledRow>
+
+        <StyledRow style={{width: '90%'}}>
+          <StyledCol style={{width: '60%'}}>
+            <StyledText14
+              style={[
+                sans.regular,
+                {
+                  color: '#1FBF83',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              Car Color
+            </StyledText14>
+            <StyledText16
+              style={[
+                sans.bold,
+                {
+                  color: '#042F40',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              {data.carColor}
+            </StyledText16>
+          </StyledCol>
+          <StyledCol style={{width: '40%'}}>
+            <StyledText14
+              style={[
+                sans.regular,
+                {
+                  color: '#1FBF83',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              Plate Number
+            </StyledText14>
+            <StyledText16
+              style={[
+                sans.bold,
+                {
+                  color: '#042F40',
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              {data.carPlate}
             </StyledText16>
           </StyledCol>
         </StyledRow>
@@ -201,4 +261,4 @@ function DetailsCardCommuter({id, data, onApprove}) {
   );
 }
 
-export default DetailsCardCommuter;
+export default DetailsCardDriver;

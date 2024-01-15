@@ -1,52 +1,74 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, ScrollView} from 'react-native';
+import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
-import {StyledSafeAreaView} from '../../../styles/container';
+import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
+import DetailsCardDriver from '../../atoms/details-card-driver';
+
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function AdminDrivers({navigation, userUID}) {
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const [drivers, setDrivers] = useState([]);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      fetchDrivers().then(data => setDrivers(data));
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const handleApprove = async driverId => {
+    try {
+      // Update the isVerified property in Firestore
+      await firestore()
+        .collection('Users')
+        .doc(driverId)
+        .update({isVerified: true});
+
+      // Update the state to reflect the changes
+      const updatedCommuters = await fetchDrivers();
+      setDrivers(updatedCommuters);
+    } catch (error) {
+      console.error('Error updating isVerified: ', error);
+    }
+  };
+
+  const fetchDrivers = async () => {
+    try {
+      const querySnapshot = await firestore()
+        .collection('Users')
+        .where('type', '==', 'driver')
+        .where('isVerified', '==', false)
+        .get();
+
+      const docIds = querySnapshot.docs.map(doc => doc.id);
+      // console.log('Drivers Document IDs: ', docIds);
+
+      const driversDetails = await Promise.all(
+        docIds.map(async driverId => {
+          const driverDoc = await firestore()
+            .collection('Users')
+            .doc(driverId)
+            .get();
+          return {id: driverId, data: driverDoc.data()};
+        }),
+      );
+
+      // @ts-ignore
+      return driversDetails;
+    } catch (error) {
+      console.error('Error fetching commuters: ', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchDrivers = async () => {
-      try {
-        const querySnapshot = await firestore()
-          .collection('Users')
-          .where('type', '==', 'driver')
-          .where('isVerified', '==', false)
-          .get();
-
-        const docIds = querySnapshot.docs.map(doc => doc.id);
-        // console.log('Drivers Document IDs: ', docIds);
-
-        const driversDetails = await Promise.all(
-          docIds.map(async driverId => {
-            const driverDoc = await firestore()
-              .collection('Users')
-              .doc(driverId)
-              .get();
-            return {id: driverId, data: driverDoc.data()};
-          }),
-        );
-
-        // @ts-ignore
-        setDrivers(driversDetails);
-      } catch (error) {
-        console.error('Error fetching commuters: ', error);
-      }
-    };
-
-    fetchDrivers();
-
-    return () => {
-      fetchDrivers();
-    };
+    fetchDrivers().then(data => setDrivers(data));
   }, [userUID]);
-
-  // console.log(drivers);
 
   return (
     <StyledSafeAreaView
@@ -68,7 +90,16 @@ function AdminDrivers({navigation, userUID}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <></>
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        {drivers.map((driver, index) => (
+          <DetailsCardDriver
+            key={index}
+            id={driver.id}
+            data={driver.data}
+            onApprove={handleApprove}
+          />
+        ))}
+        <StyledCol style={{width: '100%', height: 100}} />
       </ScrollView>
     </StyledSafeAreaView>
   );

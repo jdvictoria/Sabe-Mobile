@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
-import {StyledSafeAreaView} from '../../../styles/container';
+import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 
@@ -98,6 +98,7 @@ function AdminCommuters({navigation, userUID}) {
             onApprove={handleApprove}
           />
         ))}
+        <StyledCol style={{width: '100%', height: 100}} />
       </ScrollView>
     </StyledSafeAreaView>
   );
