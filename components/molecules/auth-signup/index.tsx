@@ -36,7 +36,7 @@ function AuthSignUp({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
