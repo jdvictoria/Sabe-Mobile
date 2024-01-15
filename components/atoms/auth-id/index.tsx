@@ -44,7 +44,7 @@ function AuthId({schoolID, setSchoolID}) {
       } else {
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setSchoolID(imageUri);
-        console.log(imageUri);
+        // console.log(imageUri);
         setUploaded(prevState => !prevState);
       }
     });
@@ -66,7 +66,7 @@ function AuthId({schoolID, setSchoolID}) {
       } else {
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setSchoolID(imageUri);
-        console.log(response);
+        // console.log(imageUri);
         setUploaded(prevState => !prevState);
       }
     });

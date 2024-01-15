@@ -30,13 +30,14 @@ import * as Progress from 'react-native-progress';
 
 import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 // @ts-ignore
 function AuthSignUp({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
@@ -108,6 +109,13 @@ function AuthSignUp({navigation}) {
       await userCredential.user?.sendEmailVerification();
       alertEmailVerification(navigation);
 
+      // Upload image to Firebase Storage
+      const fileName =
+        name + '-' + schoolID.substring(schoolID.lastIndexOf('/') + 1);
+      const storageRef = storage().ref(`images/${fileName}`);
+      const task = storageRef.putFile(schoolID);
+      const downloadURL = await task.then(() => storageRef.getDownloadURL());
+
       // Add user data to Firestore
       await firestore()
         .collection('Users')
@@ -118,6 +126,7 @@ function AuthSignUp({navigation}) {
           email: email,
           phone: phone,
           rating: 0,
+          schoolIDUrl: downloadURL,
           isVerified: false,
           ride: [],
         });
@@ -126,10 +135,13 @@ function AuthSignUp({navigation}) {
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         alertInvalidEmail();
+        setStep(1);
       } else if (error.code === 'auth/invalid-email') {
         alertInvalidEmail();
+        setStep(1);
       } else {
         console.error('Error creating user:', error);
+        setStep(1);
       }
     }
 
