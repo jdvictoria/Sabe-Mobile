@@ -46,3 +46,15 @@ export const StyledTouchableCol = styled.TouchableOpacity`
   align-items: center;
   flex-direction: column;
 `;
+
+export const StyledTouchableRow = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+`;
+
+export const StyledPlaceholder = styled.View`
+  width: 100%;
+  height: 100;
+`;

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Image} from 'react-native';
 
 import {
   StyledCol,
@@ -14,7 +15,10 @@ import CameraLogo from '../../../assets/icons/camera.svg';
 // @ts-ignore
 import UploadLogo from '../../../assets/icons/upload.svg';
 
-function AuthOrcr() {
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+// @ts-ignore
+function AuthOrcr({regImage, setRegImage}) {
   const sans = styledText();
 
   const [clicked, setClicked] = useState(false);
@@ -24,8 +28,48 @@ function AuthOrcr() {
     setClicked(prevState => !prevState);
   };
 
-  const handleUpload = () => {
-    setUploaded(prevState => !prevState);
+  const openCameraCapture = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+      } else if (response.error) {
+        console.log('Camera Error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setRegImage(imageUri);
+        console.log(imageUri);
+        setUploaded(prevState => !prevState);
+      }
+    });
+  };
+
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        setRegImage(imageUri);
+        console.log(response);
+        setUploaded(prevState => !prevState);
+      }
+    });
   };
 
   return (
@@ -67,7 +111,7 @@ function AuthOrcr() {
                   borderRadius: 15,
                   borderColor: '#042f40',
                 }}
-                onPress={handleUpload}>
+                onPress={openCameraCapture}>
                 <CameraLogo width={25} height={25} />
                 <StyledText16
                   style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
@@ -83,7 +127,7 @@ function AuthOrcr() {
                   borderRadius: 15,
                   borderColor: '#042f40',
                 }}
-                onPress={handleUpload}>
+                onPress={openImagePicker}>
                 <UploadLogo width={25} height={25} />
                 <StyledText16
                   style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
@@ -93,7 +137,7 @@ function AuthOrcr() {
             </StyledRow>
           )
         ) : (
-          <StyledCol
+          <Image
             style={{
               width: '100%',
               height: 130,
@@ -103,12 +147,8 @@ function AuthOrcr() {
               borderRadius: 15,
               borderColor: '#042f40',
             }}
-            onPress={handleClick}>
-            <StyledText16
-              style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
-              OR / CR Photo Uploaded
-            </StyledText16>
-          </StyledCol>
+            source={{uri: regImage}}
+          />
         )}
       </StyledCol>
     </>

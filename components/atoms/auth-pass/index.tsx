@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 
-import {StyledCol} from '../../../styles/container';
-import {styledText, StyledText12, StyledText16} from '../../../styles/text';
+import {StyledCol, StyledTouchableCol} from '../../../styles/container';
+import {
+  styledText,
+  StyledText12,
+  StyledText14,
+  StyledText16,
+} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
 // @ts-ignore
@@ -11,7 +16,13 @@ import ShowLogo from '../../../assets/icons/show.svg';
 import HideLogo from '../../../assets/icons/hide.svg';
 
 // @ts-ignore
-function AuthPassword({password, setPassword, setValidity}) {
+function AuthPassword({
+  signIn,
+  password,
+  setPassword,
+  setValidity,
+  handleForgotPass,
+}) {
   const sans = styledText();
 
   // Regular expression for password validation
@@ -38,7 +49,7 @@ function AuthPassword({password, setPassword, setValidity}) {
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
           Password
         </StyledText16>
-        {!isLengthValid && (
+        {!signIn && !isLengthValid && (
           <StyledText12
             style={[
               sans.regular,
@@ -47,7 +58,7 @@ function AuthPassword({password, setPassword, setValidity}) {
             Must be at least 8 characters
           </StyledText12>
         )}
-        {isLengthValid && !hasCapitalLetter && (
+        {!signIn && isLengthValid && !hasCapitalLetter && (
           <StyledText12
             style={[
               sans.regular,
@@ -56,7 +67,7 @@ function AuthPassword({password, setPassword, setValidity}) {
             Must have 1 Capital letter
           </StyledText12>
         )}
-        {isLengthValid && hasCapitalLetter && !hasNumber && (
+        {!signIn && isLengthValid && hasCapitalLetter && !hasNumber && (
           <StyledText12
             style={[
               sans.regular,
@@ -92,6 +103,14 @@ function AuthPassword({password, setPassword, setValidity}) {
           )}
         </TouchableOpacity>
       </StyledCol>
+      {signIn && (
+        <StyledTouchableCol style={{width: '100%'}} onPress={handleForgotPass}>
+          <StyledText14
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-end'}]}>
+            Forgot Password?
+          </StyledText14>
+        </StyledTouchableCol>
+      )}
     </>
   );
 }
