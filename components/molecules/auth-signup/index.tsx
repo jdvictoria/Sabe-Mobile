@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 
 import {
   StyledCol,
@@ -13,6 +13,7 @@ import {
   StyledText30,
 } from '../../../styles/text';
 import {FormButton, FormButtonHalf} from '../../../styles/button';
+import {alertInvalidEmail} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import HomeLogo from '../../../assets/icons/home-dark.svg';
@@ -23,23 +24,24 @@ import AuthPassword from '../../atoms/auth-pass';
 import AuthPhone from '../../atoms/auth-phone';
 import AuthOrcr from '../../atoms/auth-orcr';
 import AuthLicense from '../../atoms/auth-license';
+import AuthId from '../../atoms/auth-id';
+
+import * as Progress from 'react-native-progress';
+
+import {firebase} from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 // @ts-ignore
-function AuthSignin({navigation}) {
+function AuthSignUp({navigation}) {
   const sans = styledText();
 
   const [asUser, setAsUser] = useState(true);
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleStep = () => {
     setStep(step + 1);
-  };
-
-  const handleChangeUser = () => {
-    if (!asUser) {
-      setStep(1);
-    }
-    setAsUser(prevState => !prevState);
   };
 
   const handleChangeMode = () => {
@@ -51,9 +53,163 @@ function AuthSignin({navigation}) {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
+  const [plate, setPlate] = useState('');
+  const [color, setColor] = useState('');
+  const [make, setMake] = useState('');
+  const [series, setSeries] = useState('');
+
+  const [schoolID, setSchoolID] = useState('');
+  const [regImage, setRegImage] = useState('');
+  const [licenseImage, setLicenseImage] = useState('');
+
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
+
+  const handleChangeUser = () => {
+    setAsUser(prevState => !prevState);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+
+    setPlate('');
+    setColor('');
+    setMake('');
+    setSeries('');
+
+    setStep(1);
+  };
+
+  const alertEmailVerification = navigation =>
+    Alert.alert(
+      'Email Verification Sent',
+      'Check your email and verify your account.',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            navigation.navigate('SignIn');
+          },
+        },
+      ],
+    );
+
+  const handleSignUpCommuter = async () => {
+    setIsLoading(true);
+
+    try {
+      // Create user using Firebase Authentication
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // Send email verification
+      await userCredential.user?.sendEmailVerification();
+      alertEmailVerification(navigation);
+
+      // Upload image to Firebase Storage
+      const fileName =
+        name + '-' + schoolID.substring(schoolID.lastIndexOf('/') + 1);
+      const storageRef = storage().ref(`commuters/${fileName}`);
+      const task = storageRef.putFile(schoolID);
+      const downloadURL = await task.then(() => storageRef.getDownloadURL());
+
+      // Add user data to Firestore
+      await firestore()
+        .collection('Users')
+        .doc(firebase.auth().currentUser?.uid)
+        .set({
+          type: 'commuter',
+          name: name,
+          email: email,
+          contact: phone,
+          rating: 0,
+          schoolIDUrl: downloadURL,
+          isVerified: false,
+          ride: [],
+        });
+
+      console.log('User added!');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alertInvalidEmail();
+        setStep(1);
+      } else if (error.code === 'auth/invalid-email') {
+        alertInvalidEmail();
+        setStep(1);
+      } else {
+        console.error('Error creating user:', error);
+        setStep(1);
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleSignUpDriver = async () => {
+    setIsLoading(true);
+
+    try {
+      // Create user using Firebase Authentication
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // Send email verification
+      await userCredential.user?.sendEmailVerification();
+      alertEmailVerification(navigation);
+
+      // Upload image to Firebase Storage
+      const regImageName =
+        name + '-' + regImage.substring(regImage.lastIndexOf('/') + 1);
+      const storageRef1 = storage().ref(`drivers/${regImageName}`);
+      const task1 = storageRef1.putFile(regImage);
+      const downloadURL1 = await task1.then(() => storageRef1.getDownloadURL());
+
+      const licenseImageName =
+        name + '-' + licenseImage.substring(licenseImage.lastIndexOf('/') + 1);
+      const storageRef2 = storage().ref(`drivers/${licenseImage}`);
+      const task2 = storageRef2.putFile(licenseImageName);
+      const downloadURL2 = await task2.then(() => storageRef2.getDownloadURL());
+
+      // Add user data to Firestore
+      await firestore()
+        .collection('Users')
+        .doc(firebase.auth().currentUser?.uid)
+        .set({
+          type: 'driver',
+          name: name,
+          email: email,
+          contact: phone,
+          carMake: make,
+          carSeries: series,
+          carColor: color,
+          carPlate: plate,
+          rating: 0,
+          regIDUrl: downloadURL1,
+          licenseIDUrl: downloadURL2,
+          isVerified: false,
+          ride: [],
+        });
+
+      console.log('User added!');
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        alertInvalidEmail();
+        setStep(1);
+      } else if (error.code === 'auth/invalid-email') {
+        alertInvalidEmail();
+        setStep(1);
+      } else {
+        console.error('Error creating user:', error);
+        setStep(1);
+      }
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <StyledSafeAreaView
@@ -99,43 +255,90 @@ function AuthSignin({navigation}) {
         </StyledRow>
         {(asUser || !asUser) && step === 1 && (
           <StyledCol style={{width: '90%'}}>
-            <AuthName name={name} setName={setName} />
+            <AuthName name={name} setName={setName} mode={'Name'} />
             <AuthEmail
+              signIn={false}
               email={email}
               setEmail={setEmail}
               validity={isValidEmail}
               setValidity={setIsValidEmail}
+              asUser={asUser}
             />
             <AuthPhone
+              signIn={false}
               phone={phone}
               setPhone={setPhone}
               validity={isValidPhone}
               setValidity={setIsValidPhone}
             />
             <AuthPassword
+              signIn={false}
               password={password}
               setPassword={setPassword}
               setValidity={setIsValidPassword}
+              handleForgotPass={null}
             />
+          </StyledCol>
+        )}
+        {asUser && step === 2 && (
+          <StyledCol style={{width: '90%'}}>
+            <AuthId schoolID={schoolID} setSchoolID={setSchoolID} />
           </StyledCol>
         )}
         {!asUser && step === 2 && (
           <StyledCol style={{width: '90%'}}>
-            <AuthLicense />
-            <AuthOrcr />
+            <AuthName name={plate} setName={setPlate} mode={'Plate Number'} />
+            <AuthName name={color} setName={setColor} mode={'Color'} />
+            <AuthName name={make} setName={setMake} mode={'Make'} />
+            <AuthName name={series} setName={setSeries} mode={'Series'} />
+          </StyledCol>
+        )}
+        {!asUser && step === 3 && (
+          <StyledCol style={{width: '90%'}}>
+            <AuthLicense
+              licenseImage={licenseImage}
+              setLicenseImage={setLicenseImage}
+            />
+            <AuthOrcr regImage={regImage} setRegImage={setRegImage} />
           </StyledCol>
         )}
       </StyledCol>
       <StyledCol style={{width: '100%'}}>
         {asUser ? (
-          <FormButton
-            disabled={
-              name === '' || !isValidEmail || !isValidPhone || !isValidPassword
-            }>
-            <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-              Sign Up
-            </StyledText16>
-          </FormButton>
+          <>
+            {step === 1 && (
+              <FormButton
+                onPress={handleStep}
+                disabled={
+                  name === '' ||
+                  !isValidEmail ||
+                  !isValidPhone ||
+                  !isValidPassword
+                }>
+                <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                  Next
+                </StyledText16>
+              </FormButton>
+            )}
+            {step === 2 && (
+              <FormButton
+                disabled={schoolID === ''}
+                onPress={handleSignUpCommuter}>
+                {!isLoading ? (
+                  <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                    Sign Up
+                  </StyledText16>
+                ) : (
+                  <Progress.Circle
+                    size={20}
+                    indeterminate={true}
+                    borderWidth={3}
+                    borderColor={'#f3f3f3'}
+                  />
+                )}
+              </FormButton>
+            )}
+          </>
         ) : (
           <>
             {step === 1 && (
@@ -153,10 +356,32 @@ function AuthSignin({navigation}) {
               </FormButton>
             )}
             {step === 2 && (
-              <FormButton>
+              <FormButton
+                onPress={handleStep}
+                disabled={
+                  plate === '' || color === '' || make === '' || series === ''
+                }>
                 <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
-                  Sign Up
+                  Next
                 </StyledText16>
+              </FormButton>
+            )}
+            {step === 3 && (
+              <FormButton
+                disabled={licenseImage === '' && regImage === ''}
+                onPress={handleSignUpDriver}>
+                {!isLoading ? (
+                  <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
+                    Sign Up
+                  </StyledText16>
+                ) : (
+                  <Progress.Circle
+                    size={20}
+                    indeterminate={true}
+                    borderWidth={3}
+                    borderColor={'#f3f3f3'}
+                  />
+                )}
               </FormButton>
             )}
           </>
@@ -176,4 +401,4 @@ function AuthSignin({navigation}) {
   );
 }
 
-export default AuthSignin;
+export default AuthSignUp;

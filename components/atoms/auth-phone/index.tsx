@@ -5,7 +5,7 @@ import {styledText, StyledText12, StyledText16} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
 // @ts-ignore
-function AuthFirstName({phone, setPhone, validity, setValidity}) {
+function AuthFirstName({signIn, phone, setPhone, validity, setValidity}) {
   const sans = styledText();
 
   const phoneRegex = /^09\d{9}$/; // Adjust the regex according to your specific requirements
@@ -22,7 +22,7 @@ function AuthFirstName({phone, setPhone, validity, setValidity}) {
           style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
           Phone
         </StyledText16>
-        {!validity && (
+        {!signIn && !validity && (
           <StyledText12
             style={[
               sans.regular,
