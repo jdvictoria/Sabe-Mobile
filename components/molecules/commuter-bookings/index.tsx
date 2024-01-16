@@ -9,7 +9,7 @@ import BookingsCard from '../../atoms/bookings-card';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function HomeBookings({navigation, setPickedRider}) {
+function CommuterBookings({navigation, setPickedRider}) {
   const [riders, setRiders] = useState([]);
 
   useEffect(() => {
@@ -60,4 +60,4 @@ function HomeBookings({navigation, setPickedRider}) {
   );
 }
 
-export default HomeBookings;
+export default CommuterBookings;
