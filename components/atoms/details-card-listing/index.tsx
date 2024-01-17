@@ -161,7 +161,7 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
             {profile.carColor}
           </StyledText16>
         </StyledCol>
-        <StyledCol style={{width: '40%', marginTop: 10}}>
+        <StyledCol style={{width: '40%'}}>
           <StyledText14
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
             Plate Number
