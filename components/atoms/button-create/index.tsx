@@ -6,7 +6,8 @@ import {StyledTouchableRow} from '../../../styles/container';
 // @ts-ignore
 import PlusIcon from '../../../assets/icons/plus-alt.svg';
 
-function ButtonCreate() {
+// @ts-ignore
+function ButtonCreate({onClick}) {
   const sans = styledText();
 
   return (
@@ -17,7 +18,8 @@ function ButtonCreate() {
         marginTop: 25,
         backgroundColor: '#1FBF83',
         borderRadius: 10,
-      }}>
+      }}
+      onPress={onClick}>
       <StyledText20 style={[sans.bold, {color: '#fff'}]}>
         Create Listing
       </StyledText20>

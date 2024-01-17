@@ -82,7 +82,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
         }}>
         {props =>
           profile.type === 'driver' ? (
-            <DriverBookings {...props} />
+            <DriverBookings {...props} profile={profile} />
           ) : (
             <CommuterBookings {...props} setPickedRider={setPickedRider} />
           )

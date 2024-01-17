@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Dimensions} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonCreate from '../../atoms/button-create';
-import {Dimensions} from 'react-native';
+import DetailsCardListing from '../../atoms/details-card-listing';
 
 // @ts-ignore
-function DriverBookings({navigation}) {
+function DriverBookings({navigation, profile}) {
+  const [create, setCreate] = useState(false);
+
+  const handleCreate = () => {
+    setCreate(prevState => !prevState);
+  };
+
+  const handleApprove = () => {};
+
   return (
     <StyledSafeAreaView
       style={{
@@ -24,7 +33,15 @@ function DriverBookings({navigation}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <ButtonCreate />
+        {!create ? (
+          <ButtonCreate onClick={handleCreate} />
+        ) : (
+          <DetailsCardListing
+            profile={profile}
+            onCancel={handleCreate}
+            onApprove={handleApprove}
+          />
+        )}
       </StyledCol>
     </StyledSafeAreaView>
   );
