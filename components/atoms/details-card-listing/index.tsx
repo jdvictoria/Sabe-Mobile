@@ -17,6 +17,9 @@ import {
 import Check from '../../../assets/icons/check.svg';
 // @ts-ignore
 import Cancel from '../../../assets/icons/cross.svg';
+// @ts-ignore
+import SabeLogo from '../../../assets/icons/home-dark.svg';
+
 import DropdownListing from '../dropdown-listing';
 
 // @ts-ignore
@@ -26,6 +29,7 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
   const [numDropdowns, setNumDropdowns] = useState(1);
 
   const [fare, setFare] = useState('');
+  const [pax, setPax] = useState('');
   const [routes, setRoutes] = useState([]);
 
   const removeDropdown = () => {
@@ -54,36 +58,72 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         backgroundColor: '#fff',
         borderRadius: 10,
       }}>
-      <StyledCol style={{width: Dimensions.get('window').width * 0.75}}>
-        <StyledRow style={{justifyContent: 'flex-end', width: '100%'}}>
-          <StyledRow>
-            <StyledTouchableRow style={{marginRight: 5}} onPress={onCancel}>
-              <Cancel width={25} height={25} />
-            </StyledTouchableRow>
-            <StyledTouchableRow style={{marginLeft: 5}} onPress={onApprove}>
-              <Check width={25} height={25} />
-            </StyledTouchableRow>
-          </StyledRow>
+      <StyledRow
+        style={{
+          justifyContent: 'space-between',
+          width: Dimensions.get('window').width * 0.75,
+        }}>
+        <StyledRow>
+          <SabeLogo width={25} height={25} />
         </StyledRow>
+        <StyledRow>
+          <StyledTouchableRow style={{marginRight: 5}} onPress={onCancel}>
+            <Cancel width={25} height={25} />
+          </StyledTouchableRow>
+          <StyledTouchableRow style={{marginLeft: 5}} onPress={onApprove}>
+            <Check width={25} height={25} />
+          </StyledTouchableRow>
+        </StyledRow>
+      </StyledRow>
 
-        <StyledText14
-          style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-          Fare
-        </StyledText14>
-        <StyledRow style={{justifyContent: 'flex-start', width: '104%'}}>
-          <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
-            PHP{' '}
-          </StyledText30>
-          <TextInput
-            style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
-            keyboardType={'numeric'}
-            placeholder={'0'}
-            placeholderTextColor={'#042F40'}
-            value={fare}
-            onChangeText={text => setFare(text)}
-          />
-        </StyledRow>
-      </StyledCol>
+      <StyledRow
+        style={{
+          justifyContent: 'space-between',
+          width: Dimensions.get('window').width * 0.77,
+          marginTop: 10,
+        }}>
+        <StyledCol style={{justifyContent: 'flex-start'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            {' '}
+            Fare
+          </StyledText14>
+          <StyledRow>
+            <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
+              PHP{' '}
+            </StyledText30>
+            <TextInput
+              style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
+              keyboardType={'numeric'}
+              placeholder={'0'}
+              placeholderTextColor={'#042F40'}
+              value={fare}
+              onChangeText={text => setFare(text)}
+            />
+          </StyledRow>
+        </StyledCol>
+
+        <StyledCol>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Passenger/s
+          </StyledText14>
+          <StyledRow>
+            <TextInput
+              style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
+              keyboardType={'numeric'}
+              placeholder={'0'}
+              placeholderTextColor={'#042F40'}
+              value={pax}
+              onChangeText={text => setPax(text)}
+            />
+            <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
+              {' '}
+              PAX
+            </StyledText30>
+          </StyledRow>
+        </StyledCol>
+      </StyledRow>
 
       <StyledCol
         style={{
