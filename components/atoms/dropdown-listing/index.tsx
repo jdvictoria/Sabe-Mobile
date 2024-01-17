@@ -56,6 +56,7 @@ function DropdownListing({index, routes, setRoutes}) {
     }
   }, [value, index]);
 
+  console.log(routes);
   return (
     <StyledCol>
       <StyledText14

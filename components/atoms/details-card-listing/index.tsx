@@ -25,16 +25,21 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
 
   const [numDropdowns, setNumDropdowns] = useState(1);
 
+  const [fare, setFare] = useState('');
+  const [routes, setRoutes] = useState([]);
+
   const removeDropdown = () => {
     setNumDropdowns(numDropdowns - 1);
+    if (routes.length > 1) {
+      const newArray = [...routes];
+      newArray.pop(); // Remove the last element
+      setRoutes(newArray);
+    }
   };
 
   const addDropdown = () => {
     setNumDropdowns(numDropdowns + 1);
   };
-
-  const [fare, setFare] = useState('');
-  const [routes, setRoutes] = useState([]);
 
   return (
     <StyledCol
