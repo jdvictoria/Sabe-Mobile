@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Dimensions, ScrollView, FlatList} from 'react-native';
+import {Dimensions, FlatList} from 'react-native';
 
-import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
+import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonCreate from '../../atoms/button-create';

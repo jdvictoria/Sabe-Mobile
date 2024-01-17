@@ -1,4 +1,5 @@
 import React from 'react';
+import {Dimensions} from 'react-native';
 
 import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
@@ -13,7 +14,7 @@ function ButtonCreate({onClick}) {
   return (
     <StyledTouchableRow
       style={{
-        width: '100%',
+        width: Dimensions.get('window').width * 0.85,
         height: 50,
         marginTop: 25,
         backgroundColor: '#1FBF83',

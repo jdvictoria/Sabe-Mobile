@@ -19,6 +19,7 @@ import {
 import Check from '../../../assets/icons/check.svg';
 // @ts-ignore
 import Cancel from '../../../assets/icons/cross.svg';
+import DropdownListing from '../dropdown-listing';
 
 // @ts-ignore
 function DetailsCardListing({profile, onCancel, onApprove}) {
@@ -35,24 +36,20 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
   };
 
   const [fare, setFare] = useState('');
-
   const [routes, setRoutes] = useState([]);
-  const [value, setValue] = useState('');
 
-  const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Banana', value: 'banana'},
-  ]);
+  console.log(routes);
 
   return (
     <StyledCol
       style={{
         justifyContent: 'flex-start',
+        width: Dimensions.get('window').width * 0.85,
         minHeight: 375,
         height: 'auto',
         marginTop: 25,
         padding: 15,
+        marginBottom: 100,
         backgroundColor: '#fff',
         borderRadius: 10,
       }}>
@@ -176,8 +173,16 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
       </StyledRow>
 
       <StyledCol
-        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
-        <StyledRow style={{justifyContent: 'space-evenly', width: '100%'}}>
+        style={{
+          width: Dimensions.get('window').width * 0.75,
+          marginTop: 10,
+        }}>
+        <StyledRow
+          style={{
+            justifyContent: 'space-evenly',
+            width: '100%',
+            marginBottom: 10,
+          }}>
           {numDropdowns >= 2 && (
             <StyledTouchableRow onPress={removeDropdown}>
               <StyledText14 style={[sans.bold, {color: '#E70000'}]}>
@@ -193,29 +198,11 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledRow>
 
         {[...Array(numDropdowns)].map((_, index) => (
-          <StyledCol key={index}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start', marginBottom: 5},
-              ]}>
-              Route {index + 1}
-            </StyledText14>
-            <DropDownPicker
-              style={{
-                width: Dimensions.get('window').width * 0.75,
-                borderColor: '#042F40',
-                borderWidth: 2,
-                marginBottom: 10,
-              }}
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setRoutes}
-              setItems={setItems}
-            />
-          </StyledCol>
+          <DropdownListing
+            index={index}
+            routes={routes}
+            setRoutes={setRoutes}
+          />
         ))}
       </StyledCol>
     </StyledCol>
