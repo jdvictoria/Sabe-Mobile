@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TextInput} from 'react-native';
+import {Dimensions, TextInput} from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -49,17 +49,14 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
     <StyledCol
       style={{
         justifyContent: 'flex-start',
-        width: '85%',
         minHeight: 375,
         height: 'auto',
         marginTop: 25,
-        marginBottom: 5,
-        paddingTop: 12.5,
-        paddingBottom: 12.5,
+        padding: 15,
         backgroundColor: '#fff',
         borderRadius: 10,
       }}>
-      <StyledCol style={{width: '90%'}}>
+      <StyledCol style={{width: Dimensions.get('window').width * 0.75}}>
         <StyledRow style={{justifyContent: 'flex-end', width: '100%'}}>
           <StyledRow>
             <StyledTouchableRow style={{marginRight: 5}} onPress={onCancel}>
@@ -90,7 +87,12 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledRow>
       </StyledCol>
 
-      <StyledCol style={{width: '90%', marginTop: 10}}>
+      <StyledCol
+        style={{
+          justifyContent: 'flex-start',
+          width: Dimensions.get('window').width * 0.75,
+          marginTop: 10,
+        }}>
         <StyledText14
           style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
           Email
@@ -101,7 +103,8 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledText16>
       </StyledCol>
 
-      <StyledRow style={{width: '90%', marginTop: 10}}>
+      <StyledRow
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
         <StyledCol style={{width: '60%'}}>
           <StyledText14
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
@@ -124,7 +127,8 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledCol>
       </StyledRow>
 
-      <StyledRow style={{width: '90%', marginTop: 10}}>
+      <StyledRow
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
         <StyledCol style={{width: '60%'}}>
           <StyledText14
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
@@ -147,7 +151,8 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledCol>
       </StyledRow>
 
-      <StyledRow style={{width: '90%', marginTop: 10}}>
+      <StyledRow
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
         <StyledCol style={{width: '60%'}}>
           <StyledText14
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
@@ -170,28 +175,8 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledCol>
       </StyledRow>
 
-      <StyledCol style={{width: '90%', marginTop: 10}}>
-        {[...Array(numDropdowns)].map((_, index) => (
-          <StyledCol key={index}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start', marginBottom: 5},
-              ]}>
-              Route {index + 1}
-            </StyledText14>
-            <DropDownPicker
-              style={{borderColor: '#042F40', borderWidth: 2, marginBottom: 10}}
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setRoutes}
-              setItems={setItems}
-            />
-          </StyledCol>
-        ))}
-
+      <StyledCol
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
         <StyledRow style={{justifyContent: 'space-evenly', width: '100%'}}>
           {numDropdowns >= 2 && (
             <StyledTouchableRow onPress={removeDropdown}>
@@ -206,6 +191,32 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
             </StyledText14>
           </StyledTouchableRow>
         </StyledRow>
+
+        {[...Array(numDropdowns)].map((_, index) => (
+          <StyledCol key={index}>
+            <StyledText14
+              style={[
+                sans.regular,
+                {color: '#1FBF83', alignSelf: 'flex-start', marginBottom: 5},
+              ]}>
+              Route {index + 1}
+            </StyledText14>
+            <DropDownPicker
+              style={{
+                width: Dimensions.get('window').width * 0.75,
+                borderColor: '#042F40',
+                borderWidth: 2,
+                marginBottom: 10,
+              }}
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setRoutes}
+              setItems={setItems}
+            />
+          </StyledCol>
+        ))}
       </StyledCol>
     </StyledCol>
   );

@@ -13,7 +13,7 @@ function ButtonCreate({onClick}) {
   return (
     <StyledTouchableRow
       style={{
-        width: '85%',
+        width: '100%',
         height: 50,
         marginTop: 25,
         backgroundColor: '#1FBF83',

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, ScrollView} from 'react-native';
+import {Dimensions, ScrollView, FlatList} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
@@ -24,30 +24,33 @@ function DriverBookings({navigation, profile}) {
         backgroundColor: '#f3f3f3',
       }}>
       <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
-      <ScrollView
+      <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           justifyContent: 'space-between',
           alignItems: 'center',
         }}
+        data={create ? [1] : [0]}
+        keyExtractor={item => item.toString()}
+        renderItem={({item}) =>
+          item === 1 ? (
+            <DetailsCardListing
+              profile={profile}
+              onCancel={handleCreate}
+              onApprove={handleApprove}
+            />
+          ) : (
+            <ButtonCreate onClick={handleCreate} />
+          )
+        }
         style={{
           position: 'absolute',
           bottom: 0,
-          width: '100%',
+          width: Dimensions.get('window').width,
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
-        }}>
-        {!create ? (
-          <ButtonCreate onClick={handleCreate} />
-        ) : (
-          <DetailsCardListing
-            profile={profile}
-            onCancel={handleCreate}
-            onApprove={handleApprove}
-          />
-        )}
-        <StyledCol style={{width: '100%', height: 100}} />
-      </ScrollView>
+        }}
+      />
     </StyledSafeAreaView>
   );
 }
