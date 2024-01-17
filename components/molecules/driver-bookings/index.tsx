@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
@@ -24,9 +24,13 @@ function DriverBookings({navigation, profile}) {
         backgroundColor: '#f3f3f3',
       }}>
       <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
-      <StyledCol
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
         style={{
-          justifyContent: 'flex-start',
           position: 'absolute',
           bottom: 0,
           width: '100%',
@@ -42,7 +46,8 @@ function DriverBookings({navigation, profile}) {
             onApprove={handleApprove}
           />
         )}
-      </StyledCol>
+        <StyledCol style={{width: '100%', height: 100}} />
+      </ScrollView>
     </StyledSafeAreaView>
   );
 }
