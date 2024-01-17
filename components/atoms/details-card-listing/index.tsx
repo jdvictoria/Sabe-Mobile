@@ -36,8 +36,6 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
   const [fare, setFare] = useState('');
   const [routes, setRoutes] = useState([]);
 
-  console.log(routes);
-
   return (
     <StyledCol
       style={{
@@ -170,25 +168,11 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         </StyledCol>
       </StyledRow>
 
-      <StyledCol
-        style={{
-          width: Dimensions.get('window').width * 0.75,
-          marginTop: 10,
-        }}>
-        {[...Array(numDropdowns)].map((_, index) => (
-          <DropdownListing
-            key={index}
-            index={index}
-            routes={routes}
-            setRoutes={setRoutes}
-          />
-        ))}
-      </StyledCol>
-
       <StyledRow
         style={{
           justifyContent: 'space-evenly',
           width: '100%',
+          marginTop: 10,
           marginBottom: 10,
         }}>
         {numDropdowns >= 2 && (
@@ -204,6 +188,20 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
           </StyledText14>
         </StyledTouchableRow>
       </StyledRow>
+
+      <StyledCol
+        style={{
+          width: Dimensions.get('window').width * 0.75,
+        }}>
+        {[...Array(numDropdowns)].map((_, index) => (
+          <DropdownListing
+            key={index}
+            index={index}
+            routes={routes}
+            setRoutes={setRoutes}
+          />
+        ))}
+      </StyledCol>
     </StyledCol>
   );
 }

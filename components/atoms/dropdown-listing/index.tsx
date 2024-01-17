@@ -12,22 +12,26 @@ import firestore from '@react-native-firebase/firestore';
 function DropdownListing({index, routes, setRoutes}) {
   const sans = styledText();
 
-  const [data, setData] = useState([]);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
         const routesSnapshot = await firestore().collection('Routes').get();
 
-        // Extract data from the snapshot without including the 'id' field
-        const routesData = routesSnapshot.docs.map(doc => {
-          const {id, ...data} = doc.data();
-          return {
-            ...data,
-          };
-        });
+        // Extract data from the snapshot and format it for the items state
+        const routesData = routesSnapshot.docs
+          .map(doc => {
+            const {id, ...data} = doc.data();
+            const labelValue = Object.entries(data).map(([label]) => ({
+              label,
+              value: label,
+            }));
+            return labelValue;
+          })
+          .flat(); // Flatten the array of arrays into a single array
 
-        setRoutes(routesData);
+        setItems(routesData);
       } catch (error) {
         console.error('Error fetching Routes:', error);
       }
@@ -36,22 +40,11 @@ function DropdownListing({index, routes, setRoutes}) {
     fetchRoutes();
   }, []);
 
-  console.log(data);
-
-  const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Banana', value: 'banana'},
-  ]);
-
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
 
-  const handleDropDownChange = index => {
-    const updatedRoutes = [...routes];
-    updatedRoutes[index] = value;
-    setRoutes(updatedRoutes);
-  };
-
+  console.log(routes);
+  console.log(value);
   return (
     <StyledCol>
       <StyledText14
@@ -62,7 +55,9 @@ function DropdownListing({index, routes, setRoutes}) {
         Route {index + 1}
       </StyledText14>
       <DropDownPicker
+        dropDownDirection="TOP"
         zIndex={3000}
+        zIndexInverse={3000}
         style={{
           width: Dimensions.get('window').width * 0.75,
           borderColor: '#042F40',
@@ -73,11 +68,7 @@ function DropdownListing({index, routes, setRoutes}) {
         value={value}
         items={items}
         setOpen={setOpen}
-        setValue={selectedValue => {
-          setValue(selectedValue);
-          handleDropDownChange(index);
-        }}
-        setItems={setItems}
+        setValue={setValue}
       />
     </StyledCol>
   );
