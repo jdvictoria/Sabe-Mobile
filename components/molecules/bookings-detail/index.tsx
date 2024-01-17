@@ -4,15 +4,8 @@ import {Dimensions} from 'react-native';
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
-import BookingButton from '../../atoms/booking-button';
 import BookingCard from '../../atoms/booking-card';
-
-const Routes = [
-  'DHVSU Campus',
-  'Walter Mart',
-  'GreenFields',
-  'SM Telabastagan',
-];
+import ButtonBooking from '../../atoms/button-booking';
 
 // @ts-ignore
 function BookingsDetail({navigation, pickedRider}) {
@@ -38,7 +31,7 @@ function BookingsDetail({navigation, pickedRider}) {
           backgroundColor: '#e7e7e7',
         }}>
         <BookingCard pickedRider={pickedRider} />
-        <BookingButton />
+        <ButtonBooking />
       </StyledCol>
     </StyledSafeAreaView>
   );
