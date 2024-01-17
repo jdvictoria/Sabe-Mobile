@@ -26,6 +26,7 @@ function DropdownListing({index, routes, setRoutes}) {
             const labelValue = Object.entries(data).map(([label]) => ({
               label,
               value: label,
+              disabled: routes.includes(label), // Set disabled to true if the label is in routes
             }));
             return labelValue;
           })
@@ -38,13 +39,23 @@ function DropdownListing({index, routes, setRoutes}) {
     };
 
     fetchRoutes();
-  }, []);
+  }, [routes]);
 
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
 
-  console.log(routes);
-  console.log(value);
+  useEffect(() => {
+    if (value !== '') {
+      const newArray = [...routes];
+      if (newArray[index] !== undefined) {
+        newArray[index] = value;
+      } else {
+        newArray.push(value);
+      }
+      setRoutes(newArray);
+    }
+  }, [value, index]);
+
   return (
     <StyledCol>
       <StyledText14
@@ -55,6 +66,7 @@ function DropdownListing({index, routes, setRoutes}) {
         Route {index + 1}
       </StyledText14>
       <DropDownPicker
+        itemSeparator={true}
         dropDownDirection="TOP"
         zIndex={3000}
         zIndexInverse={3000}
@@ -63,6 +75,10 @@ function DropdownListing({index, routes, setRoutes}) {
           borderColor: '#042F40',
           borderWidth: 2,
           marginBottom: 10,
+        }}
+        disabledItemLabelStyle={{
+          opacity: 0.5,
+          textDecorationStyle: 'dashed',
         }}
         open={open}
         value={value}
