@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {Dimensions, TextInput} from 'react-native';
 
-import DropDownPicker from 'react-native-dropdown-picker';
-
 import {
   StyledCol,
   StyledRow,
@@ -49,7 +47,7 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         height: 'auto',
         marginTop: 25,
         padding: 15,
-        marginBottom: 100,
+        marginBottom: 105,
         backgroundColor: '#fff',
         borderRadius: 10,
       }}>
@@ -177,34 +175,35 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
           width: Dimensions.get('window').width * 0.75,
           marginTop: 10,
         }}>
-        <StyledRow
-          style={{
-            justifyContent: 'space-evenly',
-            width: '100%',
-            marginBottom: 10,
-          }}>
-          {numDropdowns >= 2 && (
-            <StyledTouchableRow onPress={removeDropdown}>
-              <StyledText14 style={[sans.bold, {color: '#E70000'}]}>
-                Remove Route
-              </StyledText14>
-            </StyledTouchableRow>
-          )}
-          <StyledTouchableRow onPress={addDropdown}>
-            <StyledText14 style={[sans.bold, {color: '#448511'}]}>
-              Add Route
-            </StyledText14>
-          </StyledTouchableRow>
-        </StyledRow>
-
         {[...Array(numDropdowns)].map((_, index) => (
           <DropdownListing
+            key={index}
             index={index}
             routes={routes}
             setRoutes={setRoutes}
           />
         ))}
       </StyledCol>
+
+      <StyledRow
+        style={{
+          justifyContent: 'space-evenly',
+          width: '100%',
+          marginBottom: 10,
+        }}>
+        {numDropdowns >= 2 && (
+          <StyledTouchableRow onPress={removeDropdown}>
+            <StyledText14 style={[sans.bold, {color: '#E70000'}]}>
+              Remove Route
+            </StyledText14>
+          </StyledTouchableRow>
+        )}
+        <StyledTouchableRow onPress={addDropdown}>
+          <StyledText14 style={[sans.bold, {color: '#448511'}]}>
+            Add Route
+          </StyledText14>
+        </StyledTouchableRow>
+      </StyledRow>
     </StyledCol>
   );
 }
