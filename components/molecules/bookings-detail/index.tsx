@@ -10,7 +10,7 @@ import ButtonBooking from '../../atoms/button-booking';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function BookingsDetail({navigation, userUID, riderProfile}) {
+function BookingsDetail({navigation, userUID, profile, riderProfile}) {
   const sendRequest = async () => {
     try {
       const driverRef = firestore()
@@ -19,7 +19,8 @@ function BookingsDetail({navigation, userUID, riderProfile}) {
       const commuterRef = firestore().collection('Users').doc(userUID);
 
       await driverRef.update({
-        bookingUID: userUID,
+        bookerUID: userUID,
+        bookerProfile: profile,
         bookingRequest: true,
       });
 

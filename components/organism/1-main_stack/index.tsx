@@ -14,10 +14,9 @@ import AdminStack from '../4-admin_stack';
 function MainStack() {
   const Stack = createStackNavigator();
 
-  const [profile, setProfile] = useState([]);
   const [userUID, setUserUID] = useState('');
 
-  // Commuter
+  const [profile, setProfile] = useState([]);
   const [riderProfile, setRiderProfile] = useState([]);
 
   return (
@@ -31,12 +30,11 @@ function MainStack() {
           {props => <Loading {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
-          {props => (
-            <AuthStack setProfile={setProfile} setUserUID={setUserUID} />
-          )}
+          {() => <AuthStack setProfile={setProfile} setUserUID={setUserUID} />}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
           {props =>
+            // @ts-ignore
             profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
@@ -57,6 +55,7 @@ function MainStack() {
             <BookingsDetail
               {...props}
               userUID={userUID}
+              profile={profile}
               riderProfile={riderProfile}
             />
           )}
