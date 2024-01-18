@@ -12,7 +12,7 @@ function ButtonBooking() {
         width: '85%',
         height: 50,
         marginTop: 2.5,
-        marginBottom: 10,
+        marginBottom: 5,
         backgroundColor: '#1FBF83',
         borderRadius: 10,
       }}>

@@ -17,19 +17,23 @@ function BookingCard({pickedRider}) {
 
   return (
     <>
-      <StyledCol style={{width: '100%', marginTop: 15}}>
+      <StyledCol style={{width: '100%', marginTop: 10}}>
         <StyledText26 style={[sans.bold, {color: '#042F40'}]}>
           PHP {pickedRider.fare}
         </StyledText26>
+        <StyledText20 style={[sans.bold, {color: '#042F40'}]}>
+          {pickedRider.date}
+        </StyledText20>
       </StyledCol>
-      <StyledCol style={{width: '100%'}}>
+      <StyledCol style={{width: '100%', marginTop: 10}}>
         <StyledText20 style={[sans.regular, {color: '#042F40'}]}>
           {pickedRider.route[0]} to{' '}
           {pickedRider.route[pickedRider.route.length - 1]}
         </StyledText20>
-        <StyledText16 style={[sans.regular, {color: '#1FBF83'}]}>
-          {pickedRider.passengerCount} Passengers • {pickedRider.route.length}{' '}
-          Stops
+        <StyledText16
+          style={[sans.regular, {color: '#1FBF83', marginTop: 2.5}]}>
+          {pickedRider.passengerCount} / {pickedRider.passengerLimit} Passengers
+          • {pickedRider.route.length} Stops
         </StyledText16>
         <StyledCol
           style={{

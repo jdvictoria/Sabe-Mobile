@@ -9,6 +9,7 @@ import {
   styledText,
   StyledText12,
   StyledText14,
+  StyledText18,
   StyledText24,
 } from '../../../styles/text';
 
@@ -35,7 +36,7 @@ function BookingsCard({navigation, rider, setPickedRider}) {
       style={{
         justifyContent: 'space-between',
         width: '85%',
-        height: 150,
+        height: 175,
         marginTop: 25,
         marginBottom: 5,
         paddingTop: 12.5,
@@ -56,7 +57,7 @@ function BookingsCard({navigation, rider, setPickedRider}) {
             }}>
             <StyledText14
               style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {rider.rider}
+              {rider.name}
             </StyledText14>
             <StyledText12
               style={[
@@ -73,10 +74,19 @@ function BookingsCard({navigation, rider, setPickedRider}) {
           </StyledText24>
         </StyledRow>
       </StyledRow>
+
+      <StyledRow
+        style={{justifyContent: 'flex-start', width: '87.5%', marginTop: 10}}>
+        <StyledText18 style={[sans.bold, {color: '#042F40'}]}>
+          {rider.date}
+        </StyledText18>
+      </StyledRow>
+
       <StyledRow
         style={{
           width: '87.5%',
           justifyContent: 'space-between',
+          marginBottom: 5,
         }}>
         <StyledCol>
           <StyledText12
