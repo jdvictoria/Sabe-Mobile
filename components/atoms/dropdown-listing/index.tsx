@@ -73,7 +73,9 @@ function DropdownListing({index, routes, setRoutes}) {
         </StyledText14>
       </StyledRow>
       <DropDownPicker
+        searchable={true}
         itemSeparator={true}
+        listMode={'SCROLLVIEW'}
         dropDownDirection="TOP"
         zIndex={3000}
         zIndexInverse={3000}
