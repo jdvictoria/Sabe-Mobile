@@ -1,12 +1,7 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
 
-import {
-  styledText,
-  StyledText14,
-  StyledText16,
-  StyledText26,
-} from '../../../styles/text';
+import {styledText, StyledText14, StyledText26} from '../../../styles/text';
 import {
   StyledCol,
   StyledRow,
@@ -17,6 +12,8 @@ import {alertDeleteListing} from '../../../utils/alerts.ts';
 // @ts-ignore
 import Trash from '../../../assets/icons/trash.svg';
 import BookingCardLower from '../booking-card-lower';
+import ListingTwo from '../listing-two';
+import ListingOne from '../listing-one';
 
 // @ts-ignore
 function DetailsCardListing({booking}) {
@@ -53,186 +50,42 @@ function DetailsCardListing({booking}) {
           backgroundColor: '#fff',
           borderRadius: 10,
         }}>
-        <StyledRow
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledCol style={{width: '75%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Email
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.email}
-            </StyledText16>
-          </StyledCol>
-          <StyledCol style={{width: '25%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Fare
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              PHP {booking.fare}
-            </StyledText16>
-          </StyledCol>
-        </StyledRow>
+        <ListingTwo
+          labelOne={'Email'}
+          dataOne={booking.email}
+          labelTwo={'Fare'}
+          dataTwo={booking.fare}
+        />
 
-        <StyledCol
-          style={{
-            justifyContent: 'flex-start',
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Journey Date
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {booking.date}
-          </StyledText16>
-        </StyledCol>
+        <ListingOne label={'Journey Date'} data={booking.date} />
 
-        <StyledRow
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Journey Start Time
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.timeStart}
-            </StyledText16>
-          </StyledCol>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Est. Journey End Time
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.timeEnd}
-            </StyledText16>
-          </StyledCol>
-        </StyledRow>
+        <ListingTwo
+          labelOne={'Journey Start Time'}
+          dataOne={booking.timeStart}
+          labelTwo={'Est. Journey End Time'}
+          dataTwo={booking.timeEnd}
+        />
 
-        <StyledRow
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Name
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.name}
-            </StyledText16>
-          </StyledCol>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Phone
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.contact}
-            </StyledText16>
-          </StyledCol>
-        </StyledRow>
+        <ListingTwo
+          labelOne={'Name'}
+          dataOne={booking.name}
+          labelTwo={'Phone'}
+          dataTwo={booking.contact}
+        />
 
-        <StyledRow
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Car Make
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.carMake}
-            </StyledText16>
-          </StyledCol>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Car Series
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.carSeries}
-            </StyledText16>
-          </StyledCol>
-        </StyledRow>
+        <ListingTwo
+          labelOne={'Car Make'}
+          dataOne={booking.carMake}
+          labelTwo={'Car Series'}
+          dataTwo={booking.carSeries}
+        />
 
-        <StyledRow
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Car Color
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.carColor}
-            </StyledText16>
-          </StyledCol>
-          <StyledCol style={{width: '50%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Plate Number
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {booking.carPlate}
-            </StyledText16>
-          </StyledCol>
-        </StyledRow>
+        <ListingTwo
+          labelOne={'Car Color'}
+          dataOne={booking.carColor}
+          labelTwo={'Plate Number'}
+          dataTwo={booking.carPlate}
+        />
 
         <StyledCol
           style={{
