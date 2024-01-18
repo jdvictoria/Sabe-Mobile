@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, ScrollView} from 'react-native';
+import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView, StyledPlaceholder} from '../../../styles/container';
 
@@ -9,23 +9,33 @@ import BookingsCard from '../../atoms/bookings-card';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function CommuterBookings({navigation, setPickedRider}) {
+function CommuterBookings({navigation, userUID, setPickedRider}) {
+  const [refreshing, setRefreshing] = React.useState(false);
+
   const [riders, setRiders] = useState([]);
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const usersCollection = await firestore().collection('Bookings').get();
-        const allUsers = usersCollection.docs.map(doc => doc.data());
-        // @ts-ignore
-        setRiders(allUsers);
-      } catch (error) {
-        console.error('Error fetching users: ', error);
-      }
-    };
-
-    getUsers();
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      getUsers().then(data => setRiders(data));
+      setRefreshing(false);
+    }, 2000);
   }, []);
+
+  const getUsers = async () => {
+    try {
+      const usersCollection = await firestore().collection('Bookings').get();
+      const allUsers = usersCollection.docs.map(doc => doc.data());
+      // @ts-ignore
+      return allUsers;
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+    }
+  };
+
+  useEffect(() => {
+    getUsers().then(data => setRiders(data));
+  }, [userUID]);
 
   return (
     <StyledSafeAreaView
@@ -46,6 +56,7 @@ function CommuterBookings({navigation, setPickedRider}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {riders.map((rider, index) => (
           <BookingsCard
             key={index}

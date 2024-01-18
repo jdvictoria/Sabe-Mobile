@@ -73,6 +73,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
       <Tabs.Screen
         name={'Bookings'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeJourneyLogo width={27.5} height={27.5} />
@@ -84,7 +85,11 @@ function HomeStack({userUID, profile, setPickedRider}) {
           profile.type === 'driver' ? (
             <DriverBookings {...props} profile={profile} />
           ) : (
-            <CommuterBookings {...props} setPickedRider={setPickedRider} />
+            <CommuterBookings
+              {...props}
+              userUID={userUID}
+              setPickedRider={setPickedRider}
+            />
           )
         }
       </Tabs.Screen>
@@ -92,6 +97,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
       <Tabs.Screen
         name={'Home'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeMainLogo width={20} height={20} />
@@ -105,6 +111,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
       <Tabs.Screen
         name={'Profile'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeProfileLogo width={20} height={20} />
