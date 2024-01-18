@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
@@ -6,6 +6,7 @@ import {alertMissingDetails} from '../../../utils/alerts.ts';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonCreate from '../../atoms/button-create';
+import DetailsCardInput from '../../atoms/details-card-input';
 import DetailsCardListing from '../../atoms/details-card-listing';
 
 import firestore from '@react-native-firebase/firestore';
@@ -13,6 +14,30 @@ import firestore from '@react-native-firebase/firestore';
 // @ts-ignore
 function DriverBookings({navigation, profile}) {
   const [create, setCreate] = useState(false);
+
+  const [hasListing, setHasListing] = useState(false);
+  const [booking, setBooking] = useState([]);
+
+  useEffect(() => {
+    const checkListing = async () => {
+      try {
+        const docRef = firestore().collection('Bookings').doc(profile.name);
+        const docSnapshot = await docRef.get();
+
+        if (docSnapshot.exists) {
+          // @ts-ignore
+          setBooking(docSnapshot.data());
+          setHasListing(true);
+        } else {
+          setHasListing(false);
+        }
+      } catch (error) {
+        console.error('Error checking listing:', error);
+      }
+    };
+
+    checkListing();
+  }, [create]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,22 +76,26 @@ function DriverBookings({navigation, profile}) {
       try {
         setIsLoading(true);
 
-        await firestore().collection('Bookings').doc(profile.name).set({
-          carColor: profile.carColor,
-          carMake: profile.carMake,
-          carSeries: profile.carSeries,
-          carPlate: profile.carPlate,
-          contact: profile.phone,
-          email: profile.email,
-          fare: fare,
-          passengerCount: 0,
-          passengerLimit: pax,
-          rating: profile.rating,
-          route: routes,
-          timeStart: timeStart,
-          timeEnd: timeEnd,
-          date: dateJourney,
-        });
+        await firestore()
+          .collection('Bookings')
+          .doc(profile.name)
+          .set({
+            name: profile.name,
+            carColor: profile.carColor,
+            carMake: profile.carMake,
+            carSeries: profile.carSeries,
+            carPlate: profile.carPlate,
+            contact: profile.phone,
+            email: profile.email,
+            fare: Number(fare),
+            passengerCount: 0,
+            passengerLimit: Number(pax),
+            rating: profile.rating,
+            route: routes,
+            timeStart: timeStart,
+            timeEnd: timeEnd,
+            date: dateJourney,
+          });
 
         setIsLoading(false);
         handleCancel();
@@ -93,7 +122,7 @@ function DriverBookings({navigation, profile}) {
         keyExtractor={item => item.toString()}
         renderItem={({item}) =>
           item === 1 ? (
-            <DetailsCardListing
+            <DetailsCardInput
               isLoading={isLoading}
               profile={profile}
               onCancel={handleCancel}
@@ -111,8 +140,10 @@ function DriverBookings({navigation, profile}) {
               setDateJourney={setDateJourney}
               setRoutes={setRoutes}
             />
-          ) : (
+          ) : !hasListing ? (
             <ButtonCreate onClick={handleCreate} />
+          ) : (
+            <DetailsCardListing booking={booking} />
           )
         }
         style={{
