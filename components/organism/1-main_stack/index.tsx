@@ -44,6 +44,7 @@ function MainStack() {
                 setRedirect={setRedirect}
                 userUID={userUID}
                 profile={profile}
+                setProfile={setProfile}
                 setRiderProfile={setRiderProfile}
               />
             ) : (
@@ -61,6 +62,7 @@ function MainStack() {
               setRedirect={setRedirect}
               userUID={userUID}
               profile={profile}
+              setProfile={setProfile}
               riderProfile={riderProfile}
             />
           )}

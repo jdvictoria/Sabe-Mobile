@@ -29,7 +29,14 @@ import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
 
 // @ts-ignore
-function HomeStack({userUID, redirect, setRedirect, profile, setRiderProfile}) {
+function HomeStack({
+  userUID,
+  redirect,
+  setRedirect,
+  profile,
+  setProfile,
+  setRiderProfile,
+}) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -112,8 +119,11 @@ function HomeStack({userUID, redirect, setRedirect, profile, setRiderProfile}) {
           ) : (
             <CommuterMain
               {...props}
+              userUID={userUID}
               redirect={redirect}
               setRedirect={setRedirect}
+              profile={profile}
+              setProfile={setProfile}
               position={position}
             />
           )

@@ -8,7 +8,15 @@ import MainMap from '../../atoms/main-map';
 import MainRide from '../../atoms/main-ride';
 
 // @ts-ignore
-function CommuterMain({navigation, redirect, setRedirect, position}) {
+function CommuterMain({
+  navigation,
+  userUID,
+  redirect,
+  setRedirect,
+  profile,
+  setProfile,
+  position,
+}) {
   useEffect(() => {
     if (redirect) {
       // Scroll to the bottom when redirect is true
@@ -42,7 +50,12 @@ function CommuterMain({navigation, redirect, setRedirect, position}) {
           backgroundColor: '#e7e7e7',
         }}>
         <MainMap position={position} />
-        <MainRide />
+        <MainRide
+          navigation={navigation}
+          userUID={userUID}
+          profile={profile}
+          setProfile={setProfile}
+        />
       </ScrollView>
     </StyledSafeAreaView>
   );

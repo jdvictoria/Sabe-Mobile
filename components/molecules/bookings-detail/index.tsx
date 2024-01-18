@@ -15,8 +15,26 @@ function BookingsDetail({
   setRedirect,
   userUID,
   profile,
+  setProfile,
   riderProfile,
 }: any) {
+  const fetchProfile = async () => {
+    const userDocument = await firestore()
+      .collection('Users')
+      .doc(userUID)
+      .get();
+
+    if (userDocument.exists) {
+      const userData = userDocument.data();
+      setProfile(userData);
+
+      setRedirect(true);
+      navigation.navigate('Home');
+    } else {
+      console.log('Document does not exist');
+    }
+  };
+
   const sendRequest = async () => {
     try {
       const driverRef = firestore()
@@ -33,8 +51,8 @@ function BookingsDetail({
       await commuterRef.update({
         bookingRequest: true,
       });
-      setRedirect(true);
-      navigation.navigate('Home');
+
+      fetchProfile();
     } catch (error) {
       console.error('Error updating document:', error);
     }
