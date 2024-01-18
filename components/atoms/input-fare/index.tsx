@@ -9,13 +9,15 @@ function InputFare({fare, setFare}) {
   const sans = styledText();
 
   return (
-    <StyledCol style={{justifyContent: 'flex-start'}}>
+    <StyledCol style={{width: '60%'}}>
       <StyledText14
-        style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-        {' '}
+        style={[
+          sans.regular,
+          {color: '#1FBF83', alignSelf: 'flex-start', marginLeft: 5},
+        ]}>
         Fare
       </StyledText14>
-      <StyledRow>
+      <StyledRow style={{alignSelf: 'flex-start'}}>
         <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
           PHP{' '}
         </StyledText30>

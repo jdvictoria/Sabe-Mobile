@@ -9,12 +9,12 @@ function InputPax({pax, setPax}) {
   const sans = styledText();
 
   return (
-    <StyledCol>
+    <StyledCol style={{width: '40%'}}>
       <StyledText14
         style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
         Passenger/s
       </StyledText14>
-      <StyledRow>
+      <StyledRow style={{alignSelf: 'flex-start'}}>
         <TextInput
           style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
           keyboardType={'numeric'}
@@ -23,7 +23,8 @@ function InputPax({pax, setPax}) {
           value={pax}
           onChangeText={text => setPax(text)}
         />
-        <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
+        <StyledText30
+          style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
           {' '}
           PAX
         </StyledText30>

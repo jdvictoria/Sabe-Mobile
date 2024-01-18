@@ -18,6 +18,7 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 import DropdownListing from '../dropdown-listing';
 import InputFare from '../input-fare';
 import InputPax from '../input-pax';
+import InputTime from '../input-time';
 
 // @ts-ignore
 function DetailsCardListing({profile, onCancel, onApprove}) {
@@ -27,6 +28,8 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
 
   const [fare, setFare] = useState('');
   const [pax, setPax] = useState('');
+  const [timeStart, setTimeStart] = useState('');
+  const [timeEnd, setTimeEnd] = useState('');
   const [routes, setRoutes] = useState([]);
 
   const removeDropdown = () => {
@@ -169,6 +172,24 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
             {profile.carPlate}
           </StyledText16>
         </StyledCol>
+      </StyledRow>
+
+      <StyledRow
+        style={{
+          justifyContent: 'space-between',
+          width: Dimensions.get('window').width * 0.77,
+          marginTop: 10,
+        }}>
+        <InputTime
+          mode={'Journey Start'}
+          time={timeStart}
+          setTime={setTimeStart}
+        />
+        <InputTime
+          mode={'Est. Journey End'}
+          time={timeEnd}
+          setTime={setTimeEnd}
+        />
       </StyledRow>
 
       <StyledRow
