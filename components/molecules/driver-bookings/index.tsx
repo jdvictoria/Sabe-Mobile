@@ -2,16 +2,19 @@ import React, {useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
+import {alertMissingDetails} from '../../../utils/alerts.ts';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonCreate from '../../atoms/button-create';
 import DetailsCardListing from '../../atoms/details-card-listing';
 
-import {alertMissingDetails} from '../../../utils/alerts.ts';
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function DriverBookings({navigation, profile}) {
   const [create, setCreate] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fare, setFare] = useState('');
   const [pax, setPax] = useState('');
@@ -34,7 +37,7 @@ function DriverBookings({navigation, profile}) {
     setCreate(prevState => !prevState);
   };
 
-  const handleApprove = () => {
+  const handleApprove = async () => {
     if (
       fare === '' ||
       pax === '' ||
@@ -45,7 +48,26 @@ function DriverBookings({navigation, profile}) {
     ) {
       alertMissingDetails();
     } else {
-      console.log('approved');
+      setIsLoading(true);
+
+      await firestore().collection('Bookings').add({
+        carColor: profile.carColor,
+        carMake: profile.carMake,
+        carSeries: profile.carSeries,
+        carPlate: profile.carPlate,
+        contact: profile.contact,
+        email: profile.email,
+        fare: fare,
+        passengerCount: 0,
+        passengerLimit: pax,
+        rating: profile.rating,
+        route: routes,
+        timeStart: timeStart,
+        timeEnd: timeEnd,
+        date: dateJourney,
+      });
+
+      setIsLoading(false);
     }
   };
 
@@ -67,6 +89,7 @@ function DriverBookings({navigation, profile}) {
         renderItem={({item}) =>
           item === 1 ? (
             <DetailsCardListing
+              isLoading={isLoading}
               profile={profile}
               onCancel={handleCancel}
               onApprove={handleApprove}
