@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextInput} from 'react-native';
 
-import {styledText, StyledText14, StyledText30} from '../../../styles/text';
+import {styledText, StyledText14, StyledText26} from '../../../styles/text';
 import {StyledCol, StyledRow} from '../../../styles/container';
 
 // @ts-ignore
@@ -9,7 +9,7 @@ function InputFare({fare, setFare}) {
   const sans = styledText();
 
   return (
-    <StyledCol style={{width: '60%'}}>
+    <StyledCol style={{width: '50%'}}>
       <StyledText14
         style={[
           sans.regular,
@@ -18,11 +18,11 @@ function InputFare({fare, setFare}) {
         Fare
       </StyledText14>
       <StyledRow style={{alignSelf: 'flex-start'}}>
-        <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
+        <StyledText26 style={[sans.bold, {color: '#042F40'}]}>
           PHP{' '}
-        </StyledText30>
+        </StyledText26>
         <TextInput
-          style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
+          style={[sans.bold, {fontSize: 26, color: '#042F40'}]}
           keyboardType={'numeric'}
           placeholder={'0'}
           placeholderTextColor={'#042F40'}

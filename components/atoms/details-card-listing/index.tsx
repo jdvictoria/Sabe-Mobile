@@ -28,8 +28,9 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
 
   const [fare, setFare] = useState('');
   const [pax, setPax] = useState('');
-  const [timeStart, setTimeStart] = useState('');
-  const [timeEnd, setTimeEnd] = useState('');
+  const [timeStart, setTimeStart] = useState('--:-- --');
+  const [timeEnd, setTimeEnd] = useState('--:-- --');
+  const [dateJourney, setDateJourney] = useState('---');
   const [routes, setRoutes] = useState([]);
 
   const removeDropdown = () => {
@@ -86,92 +87,17 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
         <InputPax pax={pax} setPax={setPax} />
       </StyledRow>
 
-      <StyledCol
+      <StyledRow
         style={{
-          justifyContent: 'flex-start',
-          width: Dimensions.get('window').width * 0.75,
+          justifyContent: 'space-between',
+          width: Dimensions.get('window').width * 0.77,
           marginTop: 10,
         }}>
-        <StyledText14
-          style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-          Email
-        </StyledText14>
-        <StyledText16
-          style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-          {profile.email}
-        </StyledText16>
-      </StyledCol>
-
-      <StyledRow
-        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
-        <StyledCol style={{width: '60%'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Name
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {profile.name}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '40%'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Phone
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {profile.phone}
-          </StyledText16>
-        </StyledCol>
-      </StyledRow>
-
-      <StyledRow
-        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
-        <StyledCol style={{width: '60%'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Car Make
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {profile.carMake}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '40%'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Car Series
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {profile.carSeries}
-          </StyledText16>
-        </StyledCol>
-      </StyledRow>
-
-      <StyledRow
-        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
-        <StyledCol style={{width: '60%'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Car Color
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {profile.carColor}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '40%'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Plate Number
-          </StyledText14>
-          <StyledText16
-            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {profile.carPlate}
-          </StyledText16>
-        </StyledCol>
+        <InputTime
+          mode={'Journey Date'}
+          time={dateJourney}
+          setTime={setDateJourney}
+        />
       </StyledRow>
 
       <StyledRow
@@ -190,6 +116,94 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
           time={timeEnd}
           setTime={setTimeEnd}
         />
+      </StyledRow>
+
+      <StyledCol
+        style={{
+          justifyContent: 'flex-start',
+          width: Dimensions.get('window').width * 0.75,
+          marginTop: 10,
+        }}>
+        <StyledText14
+          style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+          Email
+        </StyledText14>
+        <StyledText16
+          style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+          {profile.email}
+        </StyledText16>
+      </StyledCol>
+
+      <StyledRow
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
+        <StyledCol style={{width: '50%'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Name
+          </StyledText14>
+          <StyledText16
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+            {profile.name}
+          </StyledText16>
+        </StyledCol>
+        <StyledCol style={{width: '50%'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Phone
+          </StyledText14>
+          <StyledText16
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+            {profile.phone}
+          </StyledText16>
+        </StyledCol>
+      </StyledRow>
+
+      <StyledRow
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
+        <StyledCol style={{width: '50%'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Car Make
+          </StyledText14>
+          <StyledText16
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+            {profile.carMake}
+          </StyledText16>
+        </StyledCol>
+        <StyledCol style={{width: '50%'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Car Series
+          </StyledText14>
+          <StyledText16
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+            {profile.carSeries}
+          </StyledText16>
+        </StyledCol>
+      </StyledRow>
+
+      <StyledRow
+        style={{width: Dimensions.get('window').width * 0.75, marginTop: 10}}>
+        <StyledCol style={{width: '50%'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Car Color
+          </StyledText14>
+          <StyledText16
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+            {profile.carColor}
+          </StyledText16>
+        </StyledCol>
+        <StyledCol style={{width: '50%'}}>
+          <StyledText14
+            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+            Plate Number
+          </StyledText14>
+          <StyledText16
+            style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
+            {profile.carPlate}
+          </StyledText16>
+        </StyledCol>
       </StyledRow>
 
       <StyledRow
