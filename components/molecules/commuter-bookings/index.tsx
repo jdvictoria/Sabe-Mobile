@@ -9,7 +9,7 @@ import BookingsCard from '../../atoms/bookings-card';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function CommuterBookings({navigation, userUID, setPickedRider}) {
+function CommuterBookings({navigation, userUID, setRiderProfile}) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [riders, setRiders] = useState([]);
@@ -62,7 +62,7 @@ function CommuterBookings({navigation, userUID, setPickedRider}) {
             key={index}
             navigation={navigation}
             rider={rider}
-            setPickedRider={setPickedRider}
+            setRiderProfile={setRiderProfile}
           />
         ))}
         <StyledPlaceholder />

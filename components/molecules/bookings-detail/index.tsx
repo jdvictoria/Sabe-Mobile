@@ -7,10 +7,30 @@ import HomeHeader from '../../atoms/home-header';
 import BookingCard from '../../atoms/booking-card';
 import ButtonBooking from '../../atoms/button-booking';
 
+import firestore from '@react-native-firebase/firestore';
+
 // @ts-ignore
-function BookingsDetail({navigation, pickedRider}) {
-  const sendRequest = () => {
-    console.log('request sent');
+function BookingsDetail({navigation, userUID, riderProfile}) {
+  const sendRequest = async () => {
+    try {
+      const driverRef = firestore()
+        .collection('Bookings')
+        .doc(riderProfile.name);
+      const commuterRef = firestore().collection('Users').doc(userUID);
+
+      await driverRef.update({
+        bookingUID: userUID,
+        bookingRequest: true,
+      });
+
+      await commuterRef.update({
+        bookingRequest: true,
+      });
+
+      // console.log(`${pickedRider.name} is being booked.`);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
   };
 
   return (
@@ -34,7 +54,7 @@ function BookingsDetail({navigation, pickedRider}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <BookingCard pickedRider={pickedRider} />
+        <BookingCard riderProfile={riderProfile} />
         <ButtonBooking onClick={sendRequest} />
       </StyledCol>
     </StyledSafeAreaView>

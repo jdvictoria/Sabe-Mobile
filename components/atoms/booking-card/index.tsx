@@ -14,22 +14,22 @@ import BookingCardLower from '../booking-card-lower';
 import BookingCardUpper from '../booking-card-upper';
 
 // @ts-ignore
-function BookingCard({pickedRider}) {
+function BookingCard({riderProfile}) {
   const sans = styledText();
 
   return (
     <>
       <StyledCol style={{width: '100%', marginTop: 10}}>
         <StyledText26 style={[sans.bold, {color: '#042F40'}]}>
-          PHP {pickedRider.fare}
+          PHP {riderProfile.fare}
         </StyledText26>
         <StyledText14 style={[sans.regular, {color: '#1FBF83'}]}>
-          {pickedRider.passengerCount} / {pickedRider.passengerLimit} Passengers
-          • {pickedRider.route.length} Stops
+          {riderProfile.passengerCount} / {riderProfile.passengerLimit}{' '}
+          Passengers • {riderProfile.route.length} Stops
         </StyledText14>
         <StyledText18 style={[sans.regular, {color: '#042F40', marginTop: 10}]}>
-          {pickedRider.route[0]} to{' '}
-          {pickedRider.route[pickedRider.route.length - 1]}
+          {riderProfile.route[0]} to{' '}
+          {riderProfile.route[riderProfile.route.length - 1]}
         </StyledText18>
       </StyledCol>
       <StyledCol
@@ -41,8 +41,8 @@ function BookingCard({pickedRider}) {
           borderColor: '#9d9d9d',
           borderRadius: 10,
         }}>
-        <BookingCardUpper pickedRider={pickedRider} />
-        <BookingCardLower routes={pickedRider.route} />
+        <BookingCardUpper riderProfile={riderProfile} />
+        <BookingCardLower routes={riderProfile.route} />
       </StyledCol>
     </>
   );

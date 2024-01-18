@@ -18,7 +18,7 @@ function MainStack() {
   const [userUID, setUserUID] = useState('');
 
   // Commuter
-  const [pickedRider, setPickedRider] = useState([]);
+  const [riderProfile, setRiderProfile] = useState([]);
 
   return (
     <NavigationContainer>
@@ -42,7 +42,7 @@ function MainStack() {
                 {...props}
                 userUID={userUID}
                 profile={profile}
-                setPickedRider={setPickedRider}
+                setRiderProfile={setRiderProfile}
               />
             ) : (
               <Fallback {...props} />
@@ -53,7 +53,13 @@ function MainStack() {
           {props => <AdminStack {...props} userUID={userUID} />}
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
-          {props => <BookingsDetail {...props} pickedRider={pickedRider} />}
+          {props => (
+            <BookingsDetail
+              {...props}
+              userUID={userUID}
+              riderProfile={riderProfile}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

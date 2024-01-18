@@ -28,7 +28,7 @@ import GetLocation from 'react-native-get-location';
 import DriverBookings from '../../molecules/driver-bookings';
 
 // @ts-ignore
-function HomeStack({userUID, profile, setPickedRider}) {
+function HomeStack({userUID, profile, setRiderProfile}) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -88,7 +88,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
             <CommuterBookings
               {...props}
               userUID={userUID}
-              setPickedRider={setPickedRider}
+              setRiderProfile={setRiderProfile}
             />
           )
         }

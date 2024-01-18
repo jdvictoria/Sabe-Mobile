@@ -23,11 +23,11 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 
 // @ts-ignore
-function BookingsCard({navigation, rider, setPickedRider}) {
+function BookingsCard({navigation, rider, setRiderProfile}) {
   const sans = styledText();
 
   const pickRider = () => {
-    setPickedRider(rider);
+    setRiderProfile(rider);
     navigation.navigate('BookingsDetail');
   };
 
