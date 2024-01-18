@@ -69,6 +69,7 @@ function DriverBookings({navigation, profile}) {
         });
 
         setIsLoading(false);
+        handleCancel();
       } catch (error) {
         console.log(error);
       }
