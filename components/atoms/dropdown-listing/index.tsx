@@ -62,7 +62,7 @@ function DropdownListing({index, routes, setRoutes}) {
       <StyledRow style={{alignSelf: 'flex-start', marginBottom: 5}}>
         <StyledText14
           style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-          Route {index + 1}
+          Stop {index + 1}
         </StyledText14>
         <StyledText14
           style={[

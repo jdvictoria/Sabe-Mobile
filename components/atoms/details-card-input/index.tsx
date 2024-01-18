@@ -85,7 +85,7 @@ function DetailsCardInput({
             borderColor={'#042F40'}
           />
           <StyledText20 style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
-            Uploading listing to server
+            Uploading Listing
           </StyledText20>
         </>
       ) : (
@@ -310,6 +310,13 @@ function DetailsCardInput({
             style={{
               width: Dimensions.get('window').width * 0.75,
             }}>
+            <StyledText14
+              style={[
+                sans.regular,
+                {color: '#1FBF83', alignSelf: 'flex-start'},
+              ]}>
+              Routes
+            </StyledText14>
             {[...Array(numDropdowns)].map((_, index) => (
               <DropdownListing
                 key={index}

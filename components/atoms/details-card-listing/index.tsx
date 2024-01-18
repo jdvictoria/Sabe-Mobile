@@ -1,7 +1,12 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
 
-import {styledText, StyledText14, StyledText26} from '../../../styles/text';
+import {
+  styledText,
+  StyledText14,
+  StyledText20,
+  StyledText26,
+} from '../../../styles/text';
 import {
   StyledCol,
   StyledRow,
@@ -10,12 +15,15 @@ import {
 
 // @ts-ignore
 import Trash from '../../../assets/icons/trash.svg';
+
 import BookingCardLower from '../booking-card-lower';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
 
+import * as Progress from 'react-native-progress';
+
 // @ts-ignore
-function DetailsCardListing({booking, onClick}) {
+function DetailsCardListing({isLoading, booking, onClick}) {
   const sans = styledText();
 
   return (
@@ -37,7 +45,7 @@ function DetailsCardListing({booking, onClick}) {
       </StyledRow>
       <StyledCol
         style={{
-          justifyContent: 'flex-start',
+          justifyContent: isLoading ? 'center' : 'flex-start',
           width: Dimensions.get('window').width * 0.85,
           minHeight: 375,
           height: 'auto',
@@ -47,55 +55,75 @@ function DetailsCardListing({booking, onClick}) {
           backgroundColor: '#fff',
           borderRadius: 10,
         }}>
-        <ListingTwo
-          labelOne={'Email'}
-          dataOne={booking.email}
-          labelTwo={'Fare'}
-          dataTwo={booking.fare}
-        />
+        {isLoading ? (
+          <>
+            <Progress.Circle
+              size={40}
+              indeterminate={true}
+              borderWidth={5}
+              borderColor={'#042F40'}
+            />
+            <StyledText20
+              style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
+              Deleting Listing
+            </StyledText20>
+          </>
+        ) : (
+          <>
+            <ListingTwo
+              labelOne={'Email'}
+              dataOne={booking.email}
+              labelTwo={'Fare'}
+              dataTwo={booking.fare}
+            />
 
-        <ListingOne label={'Journey Date'} data={booking.date} />
+            <ListingOne label={'Journey Date'} data={booking.date} />
 
-        <ListingTwo
-          labelOne={'Journey Start Time'}
-          dataOne={booking.timeStart}
-          labelTwo={'Est. Journey End Time'}
-          dataTwo={booking.timeEnd}
-        />
+            <ListingTwo
+              labelOne={'Journey Start Time'}
+              dataOne={booking.timeStart}
+              labelTwo={'Est. Journey End Time'}
+              dataTwo={booking.timeEnd}
+            />
 
-        <ListingTwo
-          labelOne={'Name'}
-          dataOne={booking.name}
-          labelTwo={'Phone'}
-          dataTwo={booking.contact}
-        />
+            <ListingTwo
+              labelOne={'Name'}
+              dataOne={booking.name}
+              labelTwo={'Phone'}
+              dataTwo={booking.contact}
+            />
 
-        <ListingTwo
-          labelOne={'Car Make'}
-          dataOne={booking.carMake}
-          labelTwo={'Car Series'}
-          dataTwo={booking.carSeries}
-        />
+            <ListingTwo
+              labelOne={'Car Make'}
+              dataOne={booking.carMake}
+              labelTwo={'Car Series'}
+              dataTwo={booking.carSeries}
+            />
 
-        <ListingTwo
-          labelOne={'Car Color'}
-          dataOne={booking.carColor}
-          labelTwo={'Plate Number'}
-          dataTwo={booking.carPlate}
-        />
+            <ListingTwo
+              labelOne={'Car Color'}
+              dataOne={booking.carColor}
+              labelTwo={'Plate Number'}
+              dataTwo={booking.carPlate}
+            />
 
-        <StyledCol
-          style={{
-            justifyContent: 'flex-start',
-            width: Dimensions.get('window').width * 0.75,
-            marginTop: 10,
-          }}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Route
-          </StyledText14>
-          <BookingCardLower routes={booking.route} />
-        </StyledCol>
+            <StyledCol
+              style={{
+                justifyContent: 'flex-start',
+                width: Dimensions.get('window').width * 0.75,
+                marginTop: 10,
+              }}>
+              <StyledText14
+                style={[
+                  sans.regular,
+                  {color: '#1FBF83', alignSelf: 'flex-start'},
+                ]}>
+                Route
+              </StyledText14>
+              <BookingCardLower routes={booking.route} />
+            </StyledCol>
+          </>
+        )}
       </StyledCol>
     </>
   );

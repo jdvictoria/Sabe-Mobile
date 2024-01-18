@@ -66,12 +66,13 @@ function DriverBookings({navigation, profile}) {
   };
 
   const handleDelete = () => {
-    // Define the deletion logic in a separate function
     const deleteListing = async () => {
       try {
+        setIsLoading(true);
         await firestore().collection('Bookings').doc(profile.name).delete();
         setHasListing(false);
         console.log('Document successfully deleted!');
+        setIsLoading(false);
       } catch (error) {
         console.error('Error deleting document:', error);
       }
@@ -92,7 +93,6 @@ function DriverBookings({navigation, profile}) {
     } else {
       try {
         setIsLoading(true);
-
         await firestore()
           .collection('Bookings')
           .doc(profile.name)
@@ -113,7 +113,6 @@ function DriverBookings({navigation, profile}) {
             timeEnd: timeEnd,
             date: dateJourney,
           });
-
         setIsLoading(false);
         handleCancel();
       } catch (error) {
@@ -160,7 +159,11 @@ function DriverBookings({navigation, profile}) {
           ) : !hasListing ? (
             <ButtonCreate onClick={handleCreate} />
           ) : (
-            <DetailsCardListing booking={booking} onClick={handleDelete} />
+            <DetailsCardListing
+              isLoading={isLoading}
+              booking={booking}
+              onClick={handleDelete}
+            />
           )
         }
         style={{
