@@ -19,19 +19,20 @@ function DropdownListing({index, routes, setRoutes}) {
       try {
         const routesSnapshot = await firestore().collection('Routes').get();
 
-        // Extract data from the snapshot and format it for the items state
         const routesData = routesSnapshot.docs
           .map(doc => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const {id, ...data} = doc.data();
             const labelValue = Object.entries(data).map(([label]) => ({
               label,
               value: label,
-              disabled: routes.includes(label), // Set disabled to true if the label is in routes
+              disabled: routes.includes(label),
             }));
             return labelValue;
           })
-          .flat(); // Flatten the array of arrays into a single array
+          .flat();
 
+        // @ts-ignore
         setItems(routesData);
       } catch (error) {
         console.error('Error fetching Routes:', error);
@@ -56,7 +57,6 @@ function DropdownListing({index, routes, setRoutes}) {
     }
   }, [value, index]);
 
-  console.log(routes);
   return (
     <StyledCol>
       <StyledRow style={{alignSelf: 'flex-start', marginBottom: 5}}>

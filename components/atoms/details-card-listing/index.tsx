@@ -21,23 +21,32 @@ import InputPax from '../input-pax';
 import InputTime from '../input-time';
 
 // @ts-ignore
-function DetailsCardListing({profile, onCancel, onApprove}) {
+function DetailsCardListing({
+  profile,
+  onCancel,
+  onApprove,
+  fare,
+  pax,
+  timeStart,
+  timeEnd,
+  dateJourney,
+  routes,
+  setFare,
+  setPax,
+  setTimeStart,
+  setTimeEnd,
+  setDateJourney,
+  setRoutes,
+}: any) {
   const sans = styledText();
 
   const [numDropdowns, setNumDropdowns] = useState(1);
-
-  const [fare, setFare] = useState('');
-  const [pax, setPax] = useState('');
-  const [timeStart, setTimeStart] = useState('--:-- --');
-  const [timeEnd, setTimeEnd] = useState('--:-- --');
-  const [dateJourney, setDateJourney] = useState('---');
-  const [routes, setRoutes] = useState([]);
 
   const removeDropdown = () => {
     setNumDropdowns(numDropdowns - 1);
     if (routes.length > 1) {
       const newArray = [...routes];
-      newArray.pop(); // Remove the last element
+      newArray.pop();
       setRoutes(newArray);
     }
   };

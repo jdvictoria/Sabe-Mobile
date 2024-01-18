@@ -7,15 +7,47 @@ import HomeHeader from '../../atoms/home-header';
 import ButtonCreate from '../../atoms/button-create';
 import DetailsCardListing from '../../atoms/details-card-listing';
 
+import {alertMissingDetails} from '../../../utils/alerts.ts';
+
 // @ts-ignore
 function DriverBookings({navigation, profile}) {
   const [create, setCreate] = useState(false);
+
+  const [fare, setFare] = useState('');
+  const [pax, setPax] = useState('');
+  const [timeStart, setTimeStart] = useState('--:-- --');
+  const [timeEnd, setTimeEnd] = useState('--:-- --');
+  const [dateJourney, setDateJourney] = useState('--------');
+  const [routes, setRoutes] = useState([]);
 
   const handleCreate = () => {
     setCreate(prevState => !prevState);
   };
 
-  const handleApprove = () => {};
+  const handleCancel = () => {
+    setFare('');
+    setPax('');
+    setTimeStart('--:-- --');
+    setTimeEnd('--:-- --');
+    setDateJourney('--------');
+    setRoutes([]);
+    setCreate(prevState => !prevState);
+  };
+
+  const handleApprove = () => {
+    if (
+      fare === '' ||
+      pax === '' ||
+      timeStart === '--:-- --' ||
+      timeEnd === '--:-- --' ||
+      dateJourney === '--------' ||
+      routes.length <= 1
+    ) {
+      alertMissingDetails();
+    } else {
+      console.log('approved');
+    }
+  };
 
   return (
     <StyledSafeAreaView
@@ -36,8 +68,20 @@ function DriverBookings({navigation, profile}) {
           item === 1 ? (
             <DetailsCardListing
               profile={profile}
-              onCancel={handleCreate}
+              onCancel={handleCancel}
               onApprove={handleApprove}
+              fare={fare}
+              pax={pax}
+              timeStart={timeStart}
+              timeEnd={timeEnd}
+              dateJourney={dateJourney}
+              routes={routes}
+              setFare={setFare}
+              setPax={setPax}
+              setTimeStart={setTimeStart}
+              setTimeEnd={setTimeEnd}
+              setDateJourney={setDateJourney}
+              setRoutes={setRoutes}
             />
           ) : (
             <ButtonCreate onClick={handleCreate} />
