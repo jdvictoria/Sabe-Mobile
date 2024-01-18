@@ -6,12 +6,11 @@ import {StyledSafeAreaView} from '../../../styles/container';
 import HomeHeader from '../../atoms/home-header';
 
 // @ts-ignore
-function HomeProfile({navigation}) {
+function CommuterProfile({navigation}) {
   return (
     <StyledSafeAreaView
       style={{
-        justifyContent: 'flex-start',
-        backgroundColor: '#042F40',
+        backgroundColor: '#f3f3f3',
       }}>
       <HomeHeader navigation={navigation} title={'Profile'} main={true} />
       <ScrollView
@@ -32,4 +31,4 @@ function HomeProfile({navigation}) {
   );
 }
 
-export default HomeProfile;
+export default CommuterProfile;
