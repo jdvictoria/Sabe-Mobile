@@ -66,7 +66,17 @@ function DriverBookings({navigation, profile}) {
   };
 
   const handleDelete = () => {
-    alertDeleteListing();
+    // Define the deletion logic in a separate function
+    const deleteListing = async () => {
+      try {
+        await firestore().collection('Bookings').doc(profile.name).delete();
+        setHasListing(false);
+        console.log('Document successfully deleted!');
+      } catch (error) {
+        console.error('Error deleting document:', error);
+      }
+    };
+    alertDeleteListing(deleteListing);
   };
 
   const handleApprove = async () => {
