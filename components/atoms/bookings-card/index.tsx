@@ -64,7 +64,7 @@ function BookingsCard({navigation, rider, setPickedRider}) {
                 sans.regular,
                 {color: '#1FBF83', alignSelf: 'flex-start'},
               ]}>
-              {rider.carMake + ' ' + rider.carSeries}
+              {rider.carMake + ' ' + rider.carSeries} ({rider.carColor})
             </StyledText12>
           </StyledCol>
         </StyledRow>
