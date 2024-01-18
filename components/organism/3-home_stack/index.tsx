@@ -6,11 +6,6 @@ import {
   TabElementDisplayOptions,
 } from 'react-native-animated-nav-tab-bar';
 
-import HomeMain from '../../molecules/home-main';
-
-import CommuterProfile from '../../molecules/commuter-profile';
-import CommuterBookings from '../../molecules/commuter-bookings';
-
 // @ts-ignore
 import HomeMainLogo from '../../../assets/icons/home-main.svg';
 // @ts-ignore
@@ -25,10 +20,16 @@ import HomeProfileLogo from '../../../assets/icons/home-profile.svg';
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
 import GetLocation from 'react-native-get-location';
+
+import CommuterMain from '../../molecules/commuter-main';
+import CommuterProfile from '../../molecules/commuter-profile';
+import CommuterBookings from '../../molecules/commuter-bookings';
+
+import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
 
 // @ts-ignore
-function HomeStack({userUID, profile, setRiderProfile}) {
+function HomeStack({userUID, redirect, setRedirect, profile, setRiderProfile}) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -105,7 +106,18 @@ function HomeStack({userUID, profile, setRiderProfile}) {
               <HomeMainAlt width={20} height={20} />
             ),
         }}>
-        {props => <HomeMain {...props} position={position} />}
+        {props =>
+          profile.type === 'driver' ? (
+            <DriverMain {...props} position={position} />
+          ) : (
+            <CommuterMain
+              {...props}
+              redirect={redirect}
+              setRedirect={setRedirect}
+              position={position}
+            />
+          )
+        }
       </Tabs.Screen>
 
       <Tabs.Screen

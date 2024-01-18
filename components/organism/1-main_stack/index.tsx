@@ -14,6 +14,8 @@ import AdminStack from '../4-admin_stack';
 function MainStack() {
   const Stack = createStackNavigator();
 
+  const [redirect, setRedirect] = useState(false);
+
   const [userUID, setUserUID] = useState('');
 
   const [profile, setProfile] = useState([]);
@@ -38,6 +40,8 @@ function MainStack() {
             profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
+                redirect={redirect}
+                setRedirect={setRedirect}
                 userUID={userUID}
                 profile={profile}
                 setRiderProfile={setRiderProfile}
@@ -54,6 +58,7 @@ function MainStack() {
           {props => (
             <BookingsDetail
               {...props}
+              setRedirect={setRedirect}
               userUID={userUID}
               profile={profile}
               riderProfile={riderProfile}

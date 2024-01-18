@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
@@ -8,7 +8,18 @@ import MainMap from '../../atoms/main-map';
 import MainRide from '../../atoms/main-ride';
 
 // @ts-ignore
-function HomeMain({navigation, position}) {
+function CommuterMain({navigation, redirect, setRedirect, position}) {
+  useEffect(() => {
+    if (redirect) {
+      // Scroll to the bottom when redirect is true
+      scrollViewRef.current.scrollToEnd({animated: true});
+      // Reset the redirect state to false after scrolling
+      setRedirect(false);
+    }
+  }, [redirect]);
+
+  const scrollViewRef = React.createRef();
+
   return (
     <StyledSafeAreaView
       style={{
@@ -17,6 +28,7 @@ function HomeMain({navigation, position}) {
       }}>
       <HomeHeader navigation={navigation} title={'Journey'} main={true} />
       <ScrollView
+        ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           justifyContent: 'flex-start',
@@ -36,4 +48,4 @@ function HomeMain({navigation, position}) {
   );
 }
 
-export default HomeMain;
+export default CommuterMain;
