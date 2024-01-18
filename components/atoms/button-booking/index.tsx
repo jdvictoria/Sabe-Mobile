@@ -3,7 +3,8 @@ import React from 'react';
 import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
-function ButtonBooking() {
+// @ts-ignore
+function ButtonBooking({onClick}) {
   const sans = styledText();
 
   return (
@@ -15,7 +16,8 @@ function ButtonBooking() {
         marginBottom: 5,
         backgroundColor: '#1FBF83',
         borderRadius: 10,
-      }}>
+      }}
+      onPress={onClick}>
       <StyledText20 style={[sans.bold, {color: '#fff'}]}>Book Now</StyledText20>
     </StyledTouchableRow>
   );

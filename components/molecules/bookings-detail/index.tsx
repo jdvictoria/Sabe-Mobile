@@ -9,6 +9,10 @@ import ButtonBooking from '../../atoms/button-booking';
 
 // @ts-ignore
 function BookingsDetail({navigation, pickedRider}) {
+  const sendRequest = () => {
+    console.log('request sent');
+  };
+
   return (
     <StyledSafeAreaView
       style={{
@@ -31,7 +35,7 @@ function BookingsDetail({navigation, pickedRider}) {
           backgroundColor: '#e7e7e7',
         }}>
         <BookingCard pickedRider={pickedRider} />
-        <ButtonBooking />
+        <ButtonBooking onClick={sendRequest} />
       </StyledCol>
     </StyledSafeAreaView>
   );
