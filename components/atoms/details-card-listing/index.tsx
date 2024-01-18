@@ -7,7 +7,6 @@ import {
   StyledRow,
   StyledTouchableCol,
 } from '../../../styles/container';
-import {alertDeleteListing} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import Trash from '../../../assets/icons/trash.svg';
@@ -16,7 +15,7 @@ import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
 
 // @ts-ignore
-function DetailsCardListing({booking}) {
+function DetailsCardListing({booking, onClick}) {
   const sans = styledText();
 
   return (
@@ -32,9 +31,7 @@ function DetailsCardListing({booking}) {
         <StyledText26 style={[sans.bold, {color: '#1FBF83'}]}>
           Active Listing
         </StyledText26>
-        <StyledTouchableCol
-          style={{height: '100%'}}
-          onPress={alertDeleteListing}>
+        <StyledTouchableCol style={{height: '100%'}} onPress={onClick}>
           <Trash width={20} height={20} />
         </StyledTouchableCol>
       </StyledRow>

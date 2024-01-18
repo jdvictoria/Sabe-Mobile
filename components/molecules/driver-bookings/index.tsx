@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions, FlatList} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
-import {alertMissingDetails} from '../../../utils/alerts.ts';
+import {
+  alertMissingDetails,
+  alertDeleteListing,
+} from '../../../utils/alerts.ts';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonCreate from '../../atoms/button-create';
@@ -60,6 +63,10 @@ function DriverBookings({navigation, profile}) {
     setDateJourney('--------');
     setRoutes([]);
     setCreate(prevState => !prevState);
+  };
+
+  const handleDelete = () => {
+    alertDeleteListing();
   };
 
   const handleApprove = async () => {
@@ -143,7 +150,7 @@ function DriverBookings({navigation, profile}) {
           ) : !hasListing ? (
             <ButtonCreate onClick={handleCreate} />
           ) : (
-            <DetailsCardListing booking={booking} />
+            <DetailsCardListing booking={booking} onClick={handleDelete} />
           )
         }
         style={{
