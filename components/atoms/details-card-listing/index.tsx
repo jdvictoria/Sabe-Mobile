@@ -1,17 +1,12 @@
 import React, {useState} from 'react';
-import {Dimensions, TextInput} from 'react-native';
+import {Dimensions} from 'react-native';
 
 import {
   StyledCol,
   StyledRow,
   StyledTouchableRow,
 } from '../../../styles/container';
-import {
-  styledText,
-  StyledText14,
-  StyledText16,
-  StyledText30,
-} from '../../../styles/text';
+import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 
 // @ts-ignore
 import Check from '../../../assets/icons/check.svg';
@@ -21,6 +16,8 @@ import Cancel from '../../../assets/icons/cross.svg';
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 import DropdownListing from '../dropdown-listing';
+import InputFare from '../input-fare';
+import InputPax from '../input-pax';
 
 // @ts-ignore
 function DetailsCardListing({profile, onCancel, onApprove}) {
@@ -82,47 +79,8 @@ function DetailsCardListing({profile, onCancel, onApprove}) {
           width: Dimensions.get('window').width * 0.77,
           marginTop: 10,
         }}>
-        <StyledCol style={{justifyContent: 'flex-start'}}>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            {' '}
-            Fare
-          </StyledText14>
-          <StyledRow>
-            <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
-              PHP{' '}
-            </StyledText30>
-            <TextInput
-              style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
-              keyboardType={'numeric'}
-              placeholder={'0'}
-              placeholderTextColor={'#042F40'}
-              value={fare}
-              onChangeText={text => setFare(text)}
-            />
-          </StyledRow>
-        </StyledCol>
-
-        <StyledCol>
-          <StyledText14
-            style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            Passenger/s
-          </StyledText14>
-          <StyledRow>
-            <TextInput
-              style={[sans.bold, {fontSize: 30, color: '#042F40'}]}
-              keyboardType={'numeric'}
-              placeholder={'0'}
-              placeholderTextColor={'#042F40'}
-              value={pax}
-              onChangeText={text => setPax(text)}
-            />
-            <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
-              {' '}
-              PAX
-            </StyledText30>
-          </StyledRow>
-        </StyledCol>
+        <InputFare fare={fare} setFare={setFare} />
+        <InputPax pax={pax} setPax={setPax} />
       </StyledRow>
 
       <StyledCol
