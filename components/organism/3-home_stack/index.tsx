@@ -7,8 +7,9 @@ import {
 } from 'react-native-animated-nav-tab-bar';
 
 import HomeMain from '../../molecules/home-main';
-import HomeBookings from '../../molecules/home-bookings';
-import HomeProfile from '../../molecules/home-profile';
+
+import CommuterProfile from '../../molecules/commuter-profile';
+import CommuterBookings from '../../molecules/commuter-bookings';
 
 // @ts-ignore
 import HomeMainLogo from '../../../assets/icons/home-main.svg';
@@ -24,9 +25,10 @@ import HomeProfileLogo from '../../../assets/icons/home-profile.svg';
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
 import GetLocation from 'react-native-get-location';
+import DriverBookings from '../../molecules/driver-bookings';
 
 // @ts-ignore
-function HomeStack({userUID, setPickedRider}) {
+function HomeStack({userUID, profile, setPickedRider}) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -78,7 +80,13 @@ function HomeStack({userUID, setPickedRider}) {
               <HomeJourneyAlt width={27.5} height={27.5} />
             ),
         }}>
-        {props => <HomeBookings {...props} setPickedRider={setPickedRider} />}
+        {props =>
+          profile.type === 'driver' ? (
+            <DriverBookings {...props} profile={profile} />
+          ) : (
+            <CommuterBookings {...props} setPickedRider={setPickedRider} />
+          )
+        }
       </Tabs.Screen>
 
       <Tabs.Screen
@@ -104,7 +112,7 @@ function HomeStack({userUID, setPickedRider}) {
               <HomeProfileAlt width={20} height={20} />
             ),
         }}>
-        {props => <HomeProfile {...props} />}
+        {props => <CommuterProfile {...props} />}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

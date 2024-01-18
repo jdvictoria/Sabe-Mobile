@@ -5,9 +5,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
 import Fallback from '../../molecules/fallback';
+import BookingsDetail from '../../molecules/bookings-detail';
+
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
-import BookingsDetail from '../../molecules/bookings-detail';
 import AdminStack from '../4-admin_stack';
 
 function MainStack() {
@@ -40,6 +41,7 @@ function MainStack() {
               <HomeStack
                 {...props}
                 userUID={userUID}
+                profile={profile}
                 setPickedRider={setPickedRider}
               />
             ) : (

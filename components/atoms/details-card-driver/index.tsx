@@ -11,6 +11,7 @@ import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 // @ts-ignore
 import ArrowRight from '../../../assets/icons/arrow-right.svg';
+// @ts-ignore
 import Check from '../../../assets/icons/check.svg';
 
 // @ts-ignore

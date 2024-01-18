@@ -21,3 +21,23 @@ export const alertPasswordReset = () =>
     'Check your email and reset your password.',
     [{text: 'OK', onPress: () => console.log('OK Pressed')}],
   );
+
+export const alertMissingDetails = () =>
+  Alert.alert(
+    'Insufficient Details',
+    'Fill up all inputs with the red asterisk.',
+    [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+  );
+
+export const alertDeleteListing = (onDelete: () => void) =>
+  Alert.alert('Delete Listing', 'Do you want to delete your listing?', [
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    {
+      text: 'Delete',
+      onPress: onDelete, // Call the provided onDelete callback
+    },
+  ]);

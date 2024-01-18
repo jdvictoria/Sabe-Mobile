@@ -1,7 +1,14 @@
 import React from 'react';
 
-import {StyledCol, StyledRow} from '../../../styles/container';
-import {styledText, StyledText14, StyledText16} from '../../../styles/text';
+import {StyledCol} from '../../../styles/container';
+
+import ListingTwo from '../listing-two';
+import {
+  styledText,
+  StyledText16,
+  StyledText18,
+  StyledText20,
+} from '../../../styles/text';
 
 // @ts-ignore
 function BookingCardUpper({pickedRider}) {
@@ -25,156 +32,51 @@ function BookingCardUpper({pickedRider}) {
   };
 
   return (
-    <StyledRow
+    <StyledCol
       style={{
         justifyContent: 'space-evenly',
         width: '100%',
         height: 'auto',
-        minHeight: 150,
+        minHeight: 200,
+        paddingBottom: 10,
+        paddingTop: 10,
         borderBottomWidth: 1.5,
         borderColor: '#9d9d9d',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
       }}>
-      <StyledCol
-        style={{justifyContent: 'space-around', width: '40%', height: 125}}>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            Price
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            PHP {pickedRider.fare}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            Driver
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            {pickedRider.rider}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            Phone
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            {maskPhoneNumber(pickedRider.contact)}
-          </StyledText16>
-        </StyledCol>
-      </StyledCol>
-      <StyledCol
-        style={{justifyContent: 'space-around', width: '40%', height: 125}}>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            Make / Series
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            {pickedRider.carMake} {pickedRider.carSeries}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            Color
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            {pickedRider.carColor}
-          </StyledText16>
-        </StyledCol>
-        <StyledCol style={{width: '100%'}}>
-          <StyledText14
-            style={[
-              sans.regular,
-              {
-                color: '#1FBF83',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            Plate
-          </StyledText14>
-          <StyledText16
-            style={[
-              sans.bold,
-              {
-                color: '#042F40',
-                alignSelf: 'flex-start',
-              },
-            ]}>
-            {maskPlate(pickedRider.carPlate)}
-          </StyledText16>
-        </StyledCol>
-      </StyledCol>
-    </StyledRow>
+      <StyledText16 style={[sans.bold, {color: '#042F40'}]}>
+        {pickedRider.date}
+      </StyledText16>
+
+      <ListingTwo
+        labelOne={'Journey Start Time'}
+        dataOne={pickedRider.timeStart}
+        labelTwo={'Est. Journey End Time'}
+        dataTwo={pickedRider.timeEnd}
+      />
+
+      <ListingTwo
+        labelOne={'Driver'}
+        dataOne={pickedRider.name}
+        labelTwo={'Phone'}
+        dataTwo={maskPhoneNumber(pickedRider.contact)}
+      />
+
+      <ListingTwo
+        labelOne={'Car Make'}
+        dataOne={pickedRider.carMake}
+        labelTwo={'Car Series'}
+        dataTwo={pickedRider.carSeries}
+      />
+
+      <ListingTwo
+        labelOne={'Car Color'}
+        dataOne={pickedRider.carColor}
+        labelTwo={'Plate Number'}
+        dataTwo={maskPlate(pickedRider.carPlate)}
+      />
+    </StyledCol>
   );
 }
 

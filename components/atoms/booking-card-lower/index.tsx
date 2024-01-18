@@ -13,8 +13,8 @@ function BookingCardLower({routes}) {
         justifyContent: 'space-evenly',
         width: '100%',
         height: 'auto',
-        minHeight: 250,
-        maxHeight: 250,
+        minHeight: 200,
+        maxHeight: 200,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
       }}>
