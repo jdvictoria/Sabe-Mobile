@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 
 import {styledText, StyledText14} from '../../../styles/text';
-import {StyledCol} from '../../../styles/container';
+import {StyledCol, StyledRow} from '../../../styles/container';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -59,13 +59,19 @@ function DropdownListing({index, routes, setRoutes}) {
   console.log(routes);
   return (
     <StyledCol>
-      <StyledText14
-        style={[
-          sans.regular,
-          {color: '#1FBF83', alignSelf: 'flex-start', marginBottom: 5},
-        ]}>
-        Route {index + 1}
-      </StyledText14>
+      <StyledRow style={{alignSelf: 'flex-start', marginBottom: 5}}>
+        <StyledText14
+          style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+          Route {index + 1}
+        </StyledText14>
+        <StyledText14
+          style={[
+            sans.regular,
+            {color: '#e70000', alignSelf: 'flex-start', marginLeft: 5},
+          ]}>
+          *
+        </StyledText14>
+      </StyledRow>
       <DropDownPicker
         itemSeparator={true}
         dropDownDirection="TOP"

@@ -10,10 +10,19 @@ function InputPax({pax, setPax}) {
 
   return (
     <StyledCol style={{width: '50%'}}>
-      <StyledText14
-        style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-        Available Seats
-      </StyledText14>
+      <StyledRow style={{alignSelf: 'flex-start'}}>
+        <StyledText14
+          style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
+          Available Seats
+        </StyledText14>
+        <StyledText14
+          style={[
+            sans.regular,
+            {color: '#e70000', alignSelf: 'flex-start', marginLeft: 5},
+          ]}>
+          *
+        </StyledText14>
+      </StyledRow>
       <StyledRow style={{alignSelf: 'flex-start'}}>
         <TextInput
           style={[sans.bold, {fontSize: 26, color: '#042F40'}]}
