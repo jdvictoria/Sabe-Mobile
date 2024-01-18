@@ -48,26 +48,30 @@ function DriverBookings({navigation, profile}) {
     ) {
       alertMissingDetails();
     } else {
-      setIsLoading(true);
+      try {
+        setIsLoading(true);
 
-      await firestore().collection('Bookings').add({
-        carColor: profile.carColor,
-        carMake: profile.carMake,
-        carSeries: profile.carSeries,
-        carPlate: profile.carPlate,
-        contact: profile.contact,
-        email: profile.email,
-        fare: fare,
-        passengerCount: 0,
-        passengerLimit: pax,
-        rating: profile.rating,
-        route: routes,
-        timeStart: timeStart,
-        timeEnd: timeEnd,
-        date: dateJourney,
-      });
+        await firestore().collection('Bookings').doc(profile.name).set({
+          carColor: profile.carColor,
+          carMake: profile.carMake,
+          carSeries: profile.carSeries,
+          carPlate: profile.carPlate,
+          contact: profile.phone,
+          email: profile.email,
+          fare: fare,
+          passengerCount: 0,
+          passengerLimit: pax,
+          rating: profile.rating,
+          route: routes,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
+          date: dateJourney,
+        });
 
-      setIsLoading(false);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
