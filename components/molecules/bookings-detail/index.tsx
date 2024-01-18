@@ -27,8 +27,6 @@ function BookingsDetail({navigation, userUID, profile, riderProfile}) {
       await commuterRef.update({
         bookingRequest: true,
       });
-
-      // console.log(`${pickedRider.name} is being booked.`);
     } catch (error) {
       console.error('Error updating document:', error);
     }
