@@ -14,7 +14,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function MainRide({navigation, userUID, profile, setProfile}) {
+function MainRide({navigation, userUID, profile, setProfile, riderProfile}) {
   const sans = styledText();
 
   const fetchProfile = async () => {
@@ -35,7 +35,16 @@ function MainRide({navigation, userUID, profile, setProfile}) {
 
   const handleCancel = async () => {
     try {
+      const driverRef = firestore()
+        .collection('Bookings')
+        .doc(riderProfile.name);
       const commuterRef = firestore().collection('Users').doc(userUID);
+
+      await driverRef.update({
+        bookerUID: '',
+        bookerProfile: {},
+        bookingRequest: false,
+      });
 
       await commuterRef.update({
         bookingRequest: false,

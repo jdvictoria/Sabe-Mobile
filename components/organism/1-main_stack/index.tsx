@@ -45,6 +45,7 @@ function MainStack() {
                 userUID={userUID}
                 profile={profile}
                 setProfile={setProfile}
+                riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}
               />
             ) : (

@@ -15,8 +15,9 @@ function CommuterMain({
   setRedirect,
   profile,
   setProfile,
+  riderProfile,
   position,
-}) {
+}: any) {
   useEffect(() => {
     if (redirect) {
       // Scroll to the bottom when redirect is true
@@ -55,6 +56,7 @@ function CommuterMain({
           userUID={userUID}
           profile={profile}
           setProfile={setProfile}
+          riderProfile={riderProfile}
         />
       </ScrollView>
     </StyledSafeAreaView>

@@ -35,8 +35,9 @@ function HomeStack({
   setRedirect,
   profile,
   setProfile,
+  riderProfile,
   setRiderProfile,
-}) {
+}: any) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -124,6 +125,7 @@ function HomeStack({
               setRedirect={setRedirect}
               profile={profile}
               setProfile={setProfile}
+              riderProfile={riderProfile}
               position={position}
             />
           )
