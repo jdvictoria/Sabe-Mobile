@@ -92,7 +92,10 @@ function BookingsDetail({
         <BookingCard riderProfile={riderProfile} />
         <ButtonBooking
           onClick={sendRequest}
-          disabled={riderProfile.bookingRequest}
+          conditionOne={riderProfile.bookingRequest}
+          conditionTwo={
+            riderProfile.passengerCount === riderProfile.passengerLimit
+          }
         />
       </StyledCol>
     </StyledSafeAreaView>

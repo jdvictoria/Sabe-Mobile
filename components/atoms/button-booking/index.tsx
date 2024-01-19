@@ -4,8 +4,10 @@ import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
 // @ts-ignore
-function ButtonBooking({onClick, disabled}) {
+function ButtonBooking({onClick, conditionOne, conditionTwo}) {
   const sans = styledText();
+
+  let disabled = conditionOne || conditionTwo;
 
   return (
     <StyledTouchableRow
@@ -20,7 +22,11 @@ function ButtonBooking({onClick, disabled}) {
       onPress={onClick}
       disabled={disabled}>
       <StyledText20 style={[sans.bold, {color: '#fff'}]}>
-        {disabled ? 'Driver Busy' : 'Book Driver'}
+        {conditionOne
+          ? 'Driver Busy'
+          : conditionTwo
+          ? 'Full Capacity'
+          : 'Book Driver'}
       </StyledText20>
     </StyledTouchableRow>
   );
