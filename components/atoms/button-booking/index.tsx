@@ -9,6 +9,15 @@ function ButtonBooking({onClick, conditionOne, conditionTwo}) {
 
   let disabled = conditionOne || conditionTwo;
 
+  let text;
+  if (conditionOne) {
+    text = 'Driver Busy';
+  } else if (conditionOne) {
+    text = 'Full Capacity';
+  } else {
+    text = 'Book Driver';
+  }
+
   return (
     <StyledTouchableRow
       style={{
@@ -21,13 +30,7 @@ function ButtonBooking({onClick, conditionOne, conditionTwo}) {
       }}
       onPress={onClick}
       disabled={disabled}>
-      <StyledText20 style={[sans.bold, {color: '#fff'}]}>
-        {conditionOne
-          ? 'Driver Busy'
-          : conditionTwo
-          ? 'Full Capacity'
-          : 'Book Driver'}
-      </StyledText20>
+      <StyledText20 style={[sans.bold, {color: '#fff'}]}>{text}</StyledText20>
     </StyledTouchableRow>
   );
 }
