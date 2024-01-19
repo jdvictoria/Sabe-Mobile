@@ -45,8 +45,6 @@ function BookingsDetail({
     navigation.navigate('Home');
   };
 
-  console.log('test: ' + riderProfile.bookingRequest);
-
   const sendRequest = async () => {
     try {
       const driverRef = firestore()
