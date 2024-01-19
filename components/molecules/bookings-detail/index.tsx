@@ -62,7 +62,7 @@ function BookingsDetail({
         bookingRequest: true,
       });
 
-      updateProfile();
+      await updateProfile();
     } catch (error) {
       console.error('Error updating document:', error);
     }
