@@ -4,7 +4,7 @@ import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
 // @ts-ignore
-function ButtonBooking({onClick}) {
+function ButtonBooking({onClick, disabled}) {
   const sans = styledText();
 
   return (
@@ -14,11 +14,14 @@ function ButtonBooking({onClick}) {
         height: 50,
         marginTop: 2.5,
         marginBottom: 5,
-        backgroundColor: '#1FBF83',
+        backgroundColor: disabled ? '#c6c6c6' : '#1FBF83',
         borderRadius: 10,
       }}
-      onPress={onClick}>
-      <StyledText20 style={[sans.bold, {color: '#fff'}]}>Book Now</StyledText20>
+      onPress={onClick}
+      disabled={disabled}>
+      <StyledText20 style={[sans.bold, {color: '#fff'}]}>
+        {disabled ? 'Driver Busy' : 'Book Driver'}
+      </StyledText20>
     </StyledTouchableRow>
   );
 }

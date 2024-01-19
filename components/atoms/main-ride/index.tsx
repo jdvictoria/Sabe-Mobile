@@ -14,23 +14,38 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function MainRide({navigation, userUID, profile, setProfile, riderProfile}) {
+function MainRide({
+  navigation,
+  userUID,
+  profile,
+  setProfile,
+  riderProfile,
+  setRiderProfile,
+}: any) {
   const sans = styledText();
 
-  const fetchProfile = async () => {
+  const updateProfile = async () => {
     const userDocument = await firestore()
       .collection('Users')
       .doc(userUID)
       .get();
-
     if (userDocument.exists) {
       const userData = userDocument.data();
       setProfile(userData);
-
-      navigation.navigate('BookingsDetail');
     } else {
       console.log('Document does not exist');
     }
+    const riderDocument = await firestore()
+      .collection('Bookings')
+      .doc(riderProfile.name)
+      .get();
+    if (riderDocument.exists) {
+      const riderData = riderDocument.data();
+      setRiderProfile(riderData);
+    } else {
+      console.log('Document does not exist');
+    }
+    navigation.navigate('BookingsDetail');
   };
 
   const handleCancel = async () => {
@@ -50,7 +65,7 @@ function MainRide({navigation, userUID, profile, setProfile, riderProfile}) {
         bookingRequest: false,
       });
 
-      fetchProfile();
+      updateProfile();
     } catch (error) {
       console.error('Error updating document:', error);
     }

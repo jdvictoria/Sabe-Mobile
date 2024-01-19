@@ -17,23 +17,35 @@ function BookingsDetail({
   profile,
   setProfile,
   riderProfile,
+  setRiderProfile,
 }: any) {
-  const fetchProfile = async () => {
+  const updateProfile = async () => {
     const userDocument = await firestore()
       .collection('Users')
       .doc(userUID)
       .get();
-
     if (userDocument.exists) {
       const userData = userDocument.data();
       setProfile(userData);
-
-      setRedirect(true);
-      navigation.navigate('Home');
     } else {
       console.log('Document does not exist');
     }
+    const riderDocument = await firestore()
+      .collection('Bookings')
+      .doc(riderProfile.name)
+      .get();
+    if (riderDocument.exists) {
+      const riderData = riderDocument.data();
+      setRiderProfile(riderData);
+    } else {
+      console.log('Document does not exist');
+    }
+
+    setRedirect(true);
+    navigation.navigate('Home');
   };
+
+  console.log('test: ' + riderProfile.bookingRequest);
 
   const sendRequest = async () => {
     try {
@@ -52,7 +64,7 @@ function BookingsDetail({
         bookingRequest: true,
       });
 
-      fetchProfile();
+      updateProfile();
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -80,7 +92,10 @@ function BookingsDetail({
           backgroundColor: '#e7e7e7',
         }}>
         <BookingCard riderProfile={riderProfile} />
-        <ButtonBooking onClick={sendRequest} />
+        <ButtonBooking
+          onClick={sendRequest}
+          disabled={riderProfile.bookingRequest}
+        />
       </StyledCol>
     </StyledSafeAreaView>
   );

@@ -97,6 +97,7 @@ function HomeStack({
             <CommuterBookings
               {...props}
               userUID={userUID}
+              profile={profile}
               setRiderProfile={setRiderProfile}
             />
           )
@@ -126,6 +127,7 @@ function HomeStack({
               profile={profile}
               setProfile={setProfile}
               riderProfile={riderProfile}
+              setRiderProfile={setRiderProfile}
               position={position}
             />
           )

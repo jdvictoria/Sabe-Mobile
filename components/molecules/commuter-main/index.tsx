@@ -16,6 +16,7 @@ function CommuterMain({
   profile,
   setProfile,
   riderProfile,
+  setRiderProfile,
   position,
 }: any) {
   useEffect(() => {
@@ -57,6 +58,7 @@ function CommuterMain({
           profile={profile}
           setProfile={setProfile}
           riderProfile={riderProfile}
+          setRiderProfile={setRiderProfile}
         />
       </ScrollView>
     </StyledSafeAreaView>

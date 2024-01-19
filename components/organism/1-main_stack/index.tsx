@@ -65,6 +65,7 @@ function MainStack() {
               profile={profile}
               setProfile={setProfile}
               riderProfile={riderProfile}
+              setRiderProfile={setRiderProfile}
             />
           )}
         </Stack.Screen>
