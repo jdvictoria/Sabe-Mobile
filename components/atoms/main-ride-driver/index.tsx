@@ -9,7 +9,8 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
-function MainRideDriver() {
+// @ts-ignore
+function MainRideDriver({hasListing}) {
   const sans = styledText();
 
   return (
@@ -31,15 +32,19 @@ function MainRideDriver() {
         <StyledRow>
           <StyledText18
             style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
-            Waiting for passenger request
+            {hasListing
+              ? 'Waiting for commuter request'
+              : 'You have no active listing'}
           </StyledText18>
-          <AnimatedEllipsis
-            style={{
-              color: '#042F40',
-              fontSize: 26,
-              letterSpacing: -2.5,
-            }}
-          />
+          {hasListing && (
+            <AnimatedEllipsis
+              style={{
+                color: '#042F40',
+                fontSize: 26,
+                letterSpacing: -2.5,
+              }}
+            />
+          )}
         </StyledRow>
       </StyledCol>
     </StyledCol>

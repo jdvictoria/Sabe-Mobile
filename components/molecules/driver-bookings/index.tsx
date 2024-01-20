@@ -15,11 +15,15 @@ import DetailsCardListing from '../../atoms/details-card-listing';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function DriverBookings({navigation, profile}) {
+function DriverBookings({
+  navigation,
+  profile,
+  hasListing,
+  setHasListing,
+  booking,
+  setBooking,
+}) {
   const [create, setCreate] = useState(false);
-
-  const [hasListing, setHasListing] = useState(false);
-  const [booking, setBooking] = useState([]);
 
   useEffect(() => {
     const checkListing = async () => {

@@ -14,12 +14,15 @@ import AdminStack from '../4-admin_stack';
 function MainStack() {
   const Stack = createStackNavigator();
 
-  const [redirect, setRedirect] = useState(false);
-
+  // Global
   const [userUID, setUserUID] = useState('');
 
+  // Commuter Hooks
   const [profile, setProfile] = useState([]);
   const [riderProfile, setRiderProfile] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+
+  // Driver Hooks
 
   return (
     <NavigationContainer>

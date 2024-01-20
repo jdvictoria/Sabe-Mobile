@@ -67,6 +67,10 @@ function HomeStack({
     longitudeDelta: 0.005,
   });
 
+  // Driver Hooks
+  const [hasListing, setHasListing] = useState(false);
+  const [booking, setBooking] = useState([]);
+
   return (
     <Tabs.Navigator
       appearance={{
@@ -92,7 +96,14 @@ function HomeStack({
         }}>
         {props =>
           profile.type === 'driver' ? (
-            <DriverBookings {...props} profile={profile} />
+            <DriverBookings
+              {...props}
+              profile={profile}
+              hasListing={hasListing}
+              setHasListing={setHasListing}
+              booking={booking}
+              setBooking={setBooking}
+            />
           ) : (
             <CommuterBookings
               {...props}
@@ -117,7 +128,11 @@ function HomeStack({
         }}>
         {props =>
           profile.type === 'driver' ? (
-            <DriverMain {...props} position={position} />
+            <DriverMain
+              {...props}
+              hasListing={hasListing}
+              position={position}
+            />
           ) : (
             <CommuterMain
               {...props}

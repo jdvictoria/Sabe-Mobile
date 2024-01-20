@@ -8,7 +8,7 @@ import MainMap from '../../atoms/main-map';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
 // @ts-ignore
-function DriverMain({navigation, position}) {
+function DriverMain({navigation, hasListing, position}) {
   return (
     <StyledSafeAreaView
       style={{
@@ -36,7 +36,7 @@ function DriverMain({navigation, position}) {
           backgroundColor: '#e7e7e7',
         }}>
         <MainMap position={position} />
-        <MainRideDriver />
+        <MainRideDriver hasListing={hasListing} />
       </ScrollView>
     </StyledSafeAreaView>
   );
