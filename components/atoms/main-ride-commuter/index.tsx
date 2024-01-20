@@ -14,7 +14,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function MainRide({
+function MainRideCommuter({
   navigation,
   userUID,
   profile,
@@ -110,4 +110,4 @@ function MainRide({
   );
 }
 
-export default MainRide;
+export default MainRideCommuter;

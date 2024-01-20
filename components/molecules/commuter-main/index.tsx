@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 import MainMap from '../../atoms/main-map';
-import MainRide from '../../atoms/main-ride';
+import MainRideCommuter from '../../atoms/main-ride-commuter';
 
 // @ts-ignore
 function CommuterMain({
@@ -36,7 +36,12 @@ function CommuterMain({
         justifyContent: 'flex-start',
         backgroundColor: '#042F40',
       }}>
-      <HomeHeader navigation={navigation} title={'Journey'} main={true} />
+      <HomeHeader
+        navigation={navigation}
+        title={'Journey'}
+        main={true}
+        fromProfile={false}
+      />
       <ScrollView
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
@@ -52,7 +57,7 @@ function CommuterMain({
           backgroundColor: '#e7e7e7',
         }}>
         <MainMap position={position} />
-        <MainRide
+        <MainRideCommuter
           navigation={navigation}
           userUID={userUID}
           profile={profile}
