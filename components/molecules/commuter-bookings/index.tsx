@@ -17,12 +17,12 @@ function CommuterBookings({navigation, userUID, profile, setRiderProfile}) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      getUsers().then(data => setRiders(data));
+      getBookings().then(data => setRiders(data));
       setRefreshing(false);
     }, 2000);
   }, []);
 
-  const getUsers = async () => {
+  const getBookings = async () => {
     try {
       const usersCollection = await firestore().collection('Bookings').get();
       const allUsers = usersCollection.docs.map(doc => doc.data());
@@ -34,7 +34,7 @@ function CommuterBookings({navigation, userUID, profile, setRiderProfile}) {
   };
 
   useEffect(() => {
-    getUsers().then(data => setRiders(data));
+    getBookings().then(data => setRiders(data));
   }, [userUID]);
 
   return (
