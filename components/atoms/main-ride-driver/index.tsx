@@ -10,14 +10,20 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import ButtonAccept from '../button-accept';
 import ButtonReject from '../button-reject';
+import ListingTwo from '../listing-two';
+import ListingOne from '../listing-one';
 
 // @ts-ignore
 function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
   const sans = styledText();
 
-  const handleReject = () => {};
+  const handleReject = () => {
+    console.log(requesteeProfile.bookerUID);
+  };
 
-  const handleAccept = () => {};
+  const handleAccept = () => {
+    console.log(requesteeProfile.bookerUID);
+  };
 
   return (
     <StyledCol
@@ -37,8 +43,7 @@ function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
         <SabeLogo width={50} height={50} />
         {!hasRequest ? (
           <StyledRow>
-            <StyledText18
-              style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
+            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
               {hasListing
                 ? 'Waiting for commuter request'
                 : 'You have no active listing'}
@@ -54,12 +59,38 @@ function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
             )}
           </StyledRow>
         ) : (
-          <>
+          <StyledCol>
             <StyledRow>
+              <StyledText18
+                style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                Commuter requesting
+              </StyledText18>
+              <AnimatedEllipsis
+                style={{
+                  color: '#042F40',
+                  fontSize: 26,
+                  letterSpacing: -2.5,
+                }}
+              />
+            </StyledRow>
+            <ListingOne label={'Email'} data={requesteeProfile.email} />
+            <ListingTwo
+              labelOne={'Name'}
+              dataOne={requesteeProfile.name}
+              labelTwo={'Contact'}
+              dataTwo={requesteeProfile.contact}
+            />
+            <ListingTwo
+              labelOne={'Type'}
+              dataOne={requesteeProfile.type}
+              labelTwo={'Rating'}
+              dataTwo={requesteeProfile.rating}
+            />
+            <StyledRow style={{marginTop: 10}}>
               <ButtonReject onClick={handleReject} />
               <ButtonAccept onClick={handleAccept} />
             </StyledRow>
-          </>
+          </StyledCol>
         )}
       </StyledCol>
     </StyledCol>

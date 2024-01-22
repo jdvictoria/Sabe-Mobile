@@ -26,7 +26,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           // @ts-ignore
           if (data.bookingRequest) {
             // @ts-ignore
-            setRequesteeDate(data);
+            setRequesteeDate(data.bookerProfile);
             setHasRequest(true);
           } else {
             setHasRequest(false);
