@@ -9,6 +9,8 @@ import MainRideDriver from '../../atoms/main-ride-driver';
 
 // @ts-ignore
 function DriverMain({navigation, hasListing, position}) {
+  const checkRequest = () => {};
+
   return (
     <StyledSafeAreaView
       style={{

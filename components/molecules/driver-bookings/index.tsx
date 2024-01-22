@@ -17,6 +17,7 @@ import firestore from '@react-native-firebase/firestore';
 // @ts-ignore
 function DriverBookings({
   navigation,
+  userUID,
   profile,
   hasListing,
   setHasListing,
@@ -28,7 +29,7 @@ function DriverBookings({
   useEffect(() => {
     const checkListing = async () => {
       try {
-        const docRef = firestore().collection('Bookings').doc(profile.name);
+        const docRef = firestore().collection('Bookings').doc(userUID);
         const docSnapshot = await docRef.get();
 
         if (docSnapshot.exists) {
@@ -99,7 +100,7 @@ function DriverBookings({
         setIsLoading(true);
         await firestore()
           .collection('Bookings')
-          .doc(profile.name)
+          .doc(userUID)
           .set({
             name: profile.name,
             carColor: profile.carColor,

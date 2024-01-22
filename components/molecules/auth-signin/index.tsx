@@ -93,6 +93,9 @@ function AuthSignin({navigation, setProfile, setUserUID}) {
         alertSignInError();
       });
 
+    setEmail('');
+    setPassword('');
+    setPhone('');
     setIsLoading(false);
   };
 

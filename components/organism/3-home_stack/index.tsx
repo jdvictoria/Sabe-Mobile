@@ -99,6 +99,7 @@ function HomeStack({
             <DriverBookings
               {...props}
               profile={profile}
+              userUID={userUID}
               hasListing={hasListing}
               setHasListing={setHasListing}
               booking={booking}
