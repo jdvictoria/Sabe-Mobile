@@ -16,6 +16,15 @@ function DriverMain({navigation, userUID, hasListing, position}) {
 
   const [intervalId, setIntervalId] = useState(null);
 
+  useEffect(() => {
+    if (hasRequest) {
+      // Scroll to the bottom when redirect is true
+      scrollViewRef.current.scrollToEnd({animated: true});
+    }
+  }, [hasRequest]);
+
+  const scrollViewRef = React.createRef();
+
   const getRequest = async () => {
     try {
       const docRef = firestore().collection('Bookings').doc(userUID);
@@ -65,7 +74,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         fromProfile={false}
       />
       <ScrollView
-        // ref={scrollViewRef}
+        ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           justifyContent: 'flex-start',

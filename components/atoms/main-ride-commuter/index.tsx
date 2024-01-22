@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -25,12 +25,15 @@ function MainRideCommuter({
 }: any) {
   const sans = styledText();
 
+  const [pendingRequest, setPendingRequest] = useState(false);
+
   const updateProfile = async () => {
     const userDocument = await firestore()
       .collection('Users')
       .doc(userUID)
       .get();
     if (userDocument.exists) {
+      console.log(userDocument.bookingRequest);
       const userData = userDocument.data();
       setProfile(userData);
     } else {
