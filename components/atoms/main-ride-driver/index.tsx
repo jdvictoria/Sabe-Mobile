@@ -10,7 +10,7 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 // @ts-ignore
-function MainRideDriver({hasListing}) {
+function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
   const sans = styledText();
 
   return (
@@ -29,23 +29,27 @@ function MainRideDriver({hasListing}) {
       }}>
       <StyledCol style={{marginTop: 0}}>
         <SabeLogo width={50} height={50} />
-        <StyledRow>
-          <StyledText18
-            style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
-            {hasListing
-              ? 'Waiting for commuter request'
-              : 'You have no active listing'}
-          </StyledText18>
-          {hasListing && (
-            <AnimatedEllipsis
-              style={{
-                color: '#042F40',
-                fontSize: 26,
-                letterSpacing: -2.5,
-              }}
-            />
-          )}
-        </StyledRow>
+        {!hasRequest ? (
+          <StyledRow>
+            <StyledText18
+              style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
+              {hasListing
+                ? 'Waiting for commuter request'
+                : 'You have no active listing'}
+            </StyledText18>
+            {hasListing && (
+              <AnimatedEllipsis
+                style={{
+                  color: '#042F40',
+                  fontSize: 26,
+                  letterSpacing: -2.5,
+                }}
+              />
+            )}
+          </StyledRow>
+        ) : (
+          <></>
+        )}
       </StyledCol>
     </StyledCol>
   );

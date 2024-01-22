@@ -35,6 +35,7 @@ function HomeStack({
   setRedirect,
   profile,
   setProfile,
+  setDriverUID,
   riderProfile,
   setRiderProfile,
 }: any) {
@@ -110,6 +111,7 @@ function HomeStack({
               {...props}
               userUID={userUID}
               profile={profile}
+              setDriverUID={setDriverUID}
               setRiderProfile={setRiderProfile}
             />
           )
@@ -131,6 +133,7 @@ function HomeStack({
           profile.type === 'driver' ? (
             <DriverMain
               {...props}
+              userUID={userUID}
               hasListing={hasListing}
               position={position}
             />

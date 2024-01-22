@@ -23,12 +23,20 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 
 // @ts-ignore
-function BookingsCard({navigation, profile, rider, setRiderProfile}) {
+function BookingsCard({
+  navigation,
+  profile,
+  riderId,
+  riderData,
+  setDriverUID,
+  setRiderProfile,
+}) {
   const sans = styledText();
 
   const pickRider = () => {
     if (!profile.bookingRequest) {
-      setRiderProfile(rider);
+      setDriverUID(riderId);
+      setRiderProfile(riderData);
     }
     navigation.navigate('BookingsDetail');
   };
@@ -59,20 +67,21 @@ function BookingsCard({navigation, profile, rider, setRiderProfile}) {
             }}>
             <StyledText14
               style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {rider.name}
+              {riderData.name}
             </StyledText14>
             <StyledText12
               style={[
                 sans.regular,
                 {color: '#1FBF83', alignSelf: 'flex-start'},
               ]}>
-              {rider.carMake + ' ' + rider.carSeries} ({rider.carColor})
+              {riderData.carMake + ' ' + riderData.carSeries} (
+              {riderData.carColor})
             </StyledText12>
           </StyledCol>
         </StyledRow>
         <StyledRow>
           <StyledText24 style={[sans.bold, {color: '#042F40'}]}>
-            PHP {rider.fare}
+            PHP {riderData.fare}
           </StyledText24>
         </StyledRow>
       </StyledRow>
@@ -80,7 +89,7 @@ function BookingsCard({navigation, profile, rider, setRiderProfile}) {
       <StyledRow
         style={{justifyContent: 'flex-start', width: '87.5%', marginTop: 10}}>
         <StyledText18 style={[sans.bold, {color: '#042F40'}]}>
-          {rider.date}
+          {riderData.date}
         </StyledText18>
       </StyledRow>
 
@@ -93,21 +102,21 @@ function BookingsCard({navigation, profile, rider, setRiderProfile}) {
         <StyledCol>
           <StyledText12
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
-            {rider.timeStart}
+            {riderData.timeStart}
           </StyledText12>
           <StyledText14
             style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-            {rider.route[0]}
+            {riderData.route[0]}
           </StyledText14>
         </StyledCol>
         <StyledCol>
           <StyledText12
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-end'}]}>
-            {rider.timeEnd}
+            {riderData.timeEnd}
           </StyledText12>
           <StyledText14
             style={[sans.bold, {color: '#042F40', alignSelf: 'flex-end'}]}>
-            {rider.route[rider.route.length - 1]}
+            {riderData.route[riderData.route.length - 1]}
           </StyledText14>
         </StyledCol>
       </StyledRow>
@@ -126,7 +135,7 @@ function BookingsCard({navigation, profile, rider, setRiderProfile}) {
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            {rider.rating}
+            {riderData.rating}
           </StyledText14>
         </StyledRow>
         <StyledRow style={{paddingTop: 2}}>
@@ -136,7 +145,7 @@ function BookingsCard({navigation, profile, rider, setRiderProfile}) {
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            {rider.passengerCount} / {rider.passengerLimit}
+            {riderData.passengerCount} / {riderData.passengerLimit}
           </StyledText14>
         </StyledRow>
         <StyledTouchableRow style={{paddingTop: 2.5}} onPress={pickRider}>

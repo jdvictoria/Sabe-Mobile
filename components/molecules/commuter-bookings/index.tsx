@@ -9,7 +9,13 @@ import BookingsCard from '../../atoms/bookings-card';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function CommuterBookings({navigation, userUID, profile, setRiderProfile}) {
+function CommuterBookings({
+  navigation,
+  userUID,
+  profile,
+  setDriverUID,
+  setRiderProfile,
+}) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [riders, setRiders] = useState([]);
@@ -25,11 +31,15 @@ function CommuterBookings({navigation, userUID, profile, setRiderProfile}) {
   const getBookings = async () => {
     try {
       const usersCollection = await firestore().collection('Bookings').get();
-      const allUsers = usersCollection.docs.map(doc => doc.data());
-      // @ts-ignore
+      const allUsers = usersCollection.docs.map(doc => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+
       return allUsers;
     } catch (error) {
       console.error('Error fetching users: ', error);
+      return []; // Handle the error as needed
     }
   };
 
@@ -42,7 +52,12 @@ function CommuterBookings({navigation, userUID, profile, setRiderProfile}) {
       style={{
         backgroundColor: '#f3f3f3',
       }}>
-      <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
+      <HomeHeader
+        navigation={navigation}
+        title={'Bookings'}
+        main={true}
+        fromProfile={false}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -62,7 +77,9 @@ function CommuterBookings({navigation, userUID, profile, setRiderProfile}) {
             key={index}
             navigation={navigation}
             profile={profile}
-            rider={rider}
+            riderId={rider.id}
+            riderData={rider.data}
+            setDriverUID={setDriverUID}
             setRiderProfile={setRiderProfile}
           />
         ))}

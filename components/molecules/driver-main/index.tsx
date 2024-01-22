@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
@@ -7,9 +7,41 @@ import HomeHeader from '../../atoms/home-header';
 import MainMap from '../../atoms/main-map';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
+import firestore from '@react-native-firebase/firestore';
+
 // @ts-ignore
-function DriverMain({navigation, hasListing, position}) {
-  const checkRequest = () => {};
+function DriverMain({navigation, userUID, hasListing, position}) {
+  const [requesteeProfile, setRequesteeDate] = useState([]);
+  const [hasRequest, setHasRequest] = useState(false);
+
+  useEffect(() => {
+    const getRequest = async () => {
+      try {
+        const docRef = firestore().collection('Bookings').doc(userUID);
+        const docSnapshot = await docRef.get();
+
+        if (docSnapshot.exists) {
+          const data = docSnapshot.data();
+
+          // @ts-ignore
+          if (data.bookingRequest) {
+            // @ts-ignore
+            setRequesteeDate(data);
+            setHasRequest(true);
+          } else {
+            setHasRequest(false);
+          }
+        } else {
+          console.log('Document does not exist');
+          // Do something when the document does not exist
+        }
+      } catch (error) {
+        console.error('Error checking listing:', error);
+      }
+    };
+
+    getRequest();
+  }, [userUID]);
 
   return (
     <StyledSafeAreaView
@@ -38,7 +70,11 @@ function DriverMain({navigation, hasListing, position}) {
           backgroundColor: '#e7e7e7',
         }}>
         <MainMap position={position} />
-        <MainRideDriver hasListing={hasListing} />
+        <MainRideDriver
+          requesteeProfile={requesteeProfile}
+          hasRequest={hasRequest}
+          hasListing={hasListing}
+        />
       </ScrollView>
     </StyledSafeAreaView>
   );

@@ -102,6 +102,9 @@ function DriverBookings({
           .collection('Bookings')
           .doc(userUID)
           .set({
+            bookerUID: '',
+            bookerProfile: {},
+            bookingRequest: false,
             name: profile.name,
             carColor: profile.carColor,
             carMake: profile.carMake,

@@ -16,9 +16,12 @@ function BookingsDetail({
   userUID,
   profile,
   setProfile,
+  driverUID,
   riderProfile,
   setRiderProfile,
 }: any) {
+  // console.log(driverUID);
+
   const updateProfile = async () => {
     const userDocument = await firestore()
       .collection('Users')
@@ -32,7 +35,7 @@ function BookingsDetail({
     }
     const riderDocument = await firestore()
       .collection('Bookings')
-      .doc(riderProfile.name)
+      .doc(driverUID)
       .get();
     if (riderDocument.exists) {
       const riderData = riderDocument.data();
@@ -47,9 +50,7 @@ function BookingsDetail({
 
   const sendRequest = async () => {
     try {
-      const driverRef = firestore()
-        .collection('Bookings')
-        .doc(riderProfile.name);
+      const driverRef = firestore().collection('Bookings').doc(driverUID);
       const commuterRef = firestore().collection('Users').doc(userUID);
 
       await driverRef.update({
@@ -78,6 +79,7 @@ function BookingsDetail({
         navigation={navigation}
         title={'Booking Detail'}
         main={false}
+        fromProfile={false}
       />
       <StyledCol
         style={{

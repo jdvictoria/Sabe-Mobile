@@ -16,6 +16,7 @@ function MainStack() {
 
   // Global
   const [userUID, setUserUID] = useState('');
+  const [driverUID, setDriverUID] = useState('');
 
   // Commuter Hooks
   const [profile, setProfile] = useState([]);
@@ -48,6 +49,7 @@ function MainStack() {
                 userUID={userUID}
                 profile={profile}
                 setProfile={setProfile}
+                setDriverUID={setDriverUID}
                 riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}
               />
@@ -67,6 +69,7 @@ function MainStack() {
               userUID={userUID}
               profile={profile}
               setProfile={setProfile}
+              driverUID={driverUID}
               riderProfile={riderProfile}
               setRiderProfile={setRiderProfile}
             />
