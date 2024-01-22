@@ -31,6 +31,7 @@ import DriverBookings from '../../molecules/driver-bookings';
 // @ts-ignore
 function HomeStack({
   userUID,
+  driverUID,
   redirect,
   setRedirect,
   profile,
@@ -141,6 +142,7 @@ function HomeStack({
             <CommuterMain
               {...props}
               userUID={userUID}
+              driverUID={driverUID}
               redirect={redirect}
               setRedirect={setRedirect}
               profile={profile}

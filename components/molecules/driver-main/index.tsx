@@ -11,37 +11,46 @@ import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function DriverMain({navigation, userUID, hasListing, position}) {
-  const [requesteeProfile, setRequesteeDate] = useState([]);
+  const [requesteeData, setRequesteeData] = useState([]);
   const [hasRequest, setHasRequest] = useState(false);
 
-  useEffect(() => {
-    const getRequest = async () => {
-      try {
-        const docRef = firestore().collection('Bookings').doc(userUID);
-        const docSnapshot = await docRef.get();
+  const [intervalId, setIntervalId] = useState(null);
 
-        if (docSnapshot.exists) {
-          const data = docSnapshot.data();
+  const getRequest = async () => {
+    try {
+      const docRef = firestore().collection('Bookings').doc(userUID);
+      const docSnapshot = await docRef.get();
 
-          // @ts-ignore
-          if (data.bookingRequest) {
-            // @ts-ignore
-            setRequesteeDate(data.bookerProfile);
-            setHasRequest(true);
-          } else {
-            setHasRequest(false);
-          }
+      if (docSnapshot.exists) {
+        const data = docSnapshot.data();
+
+        if (data.bookingRequest) {
+          setRequesteeData(data);
+          setHasRequest(true);
+          // Stop refreshing once requesteeData is not null
+          clearInterval(intervalId);
         } else {
-          console.log('Document does not exist');
-          // Do something when the document does not exist
+          setRequesteeData([]);
+          setHasRequest(false);
         }
-      } catch (error) {
-        console.error('Error checking listing:', error);
+      } else {
+        console.log('Document does not exist');
+        // Do something when the document does not exist
       }
-    };
+    } catch (error) {
+      console.error('Error checking listing:', error);
+    }
+  };
 
-    getRequest();
-  }, [userUID]);
+  useEffect(() => {
+    if (hasListing) {
+      const id = setInterval(() => {
+        getRequest();
+      }, 1000);
+      setIntervalId(id);
+      return () => clearInterval(id);
+    }
+  }, [hasListing]);
 
   return (
     <StyledSafeAreaView
@@ -71,8 +80,11 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         }}>
         <MainMap position={position} />
         <MainRideDriver
-          requesteeProfile={requesteeProfile}
+          userUID={userUID}
+          requesteeData={requesteeData}
+          setRequesteeData={setRequesteeData}
           hasRequest={hasRequest}
+          setHasRequest={setHasRequest}
           hasListing={hasListing}
         />
       </ScrollView>

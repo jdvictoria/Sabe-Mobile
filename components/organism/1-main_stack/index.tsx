@@ -49,6 +49,7 @@ function MainStack() {
                 redirect={redirect}
                 setRedirect={setRedirect}
                 userUID={userUID}
+                driverUID={driverUID}
                 profile={profile}
                 setProfile={setProfile}
                 setDriverUID={setDriverUID}

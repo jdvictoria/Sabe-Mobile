@@ -17,6 +17,7 @@ import firestore from '@react-native-firebase/firestore';
 function MainRideCommuter({
   navigation,
   userUID,
+  driverUID,
   profile,
   setProfile,
   riderProfile,
@@ -37,7 +38,7 @@ function MainRideCommuter({
     }
     const riderDocument = await firestore()
       .collection('Bookings')
-      .doc(riderProfile.name)
+      .doc(driverUID)
       .get();
     if (riderDocument.exists) {
       const riderData = riderDocument.data();
@@ -50,9 +51,7 @@ function MainRideCommuter({
 
   const handleCancel = async () => {
     try {
-      const driverRef = firestore()
-        .collection('Bookings')
-        .doc(riderProfile.name);
+      const driverRef = firestore().collection('Bookings').doc(driverUID);
       const commuterRef = firestore().collection('Users').doc(userUID);
 
       await driverRef.update({
@@ -88,8 +87,7 @@ function MainRideCommuter({
       <StyledCol style={{marginTop: profile.bookingRequest ? 15 : 0}}>
         <SabeLogo width={50} height={50} />
         <StyledRow>
-          <StyledText18
-            style={[sans.regular, {color: '#042F40', marginTop: 5}]}>
+          <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
             {profile.bookingRequest
               ? 'Waiting for driver to accept'
               : 'You have no ongoing ride'}

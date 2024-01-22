@@ -11,6 +11,7 @@ import MainRideCommuter from '../../atoms/main-ride-commuter';
 function CommuterMain({
   navigation,
   userUID,
+  driverUID,
   redirect,
   setRedirect,
   profile,
@@ -60,6 +61,7 @@ function CommuterMain({
         <MainRideCommuter
           navigation={navigation}
           userUID={userUID}
+          driverUID={driverUID}
           profile={profile}
           setProfile={setProfile}
           riderProfile={riderProfile}

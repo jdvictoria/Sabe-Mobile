@@ -20,8 +20,6 @@ function BookingsDetail({
   riderProfile,
   setRiderProfile,
 }: any) {
-  // console.log(driverUID);
-
   const updateProfile = async () => {
     const userDocument = await firestore()
       .collection('Users')

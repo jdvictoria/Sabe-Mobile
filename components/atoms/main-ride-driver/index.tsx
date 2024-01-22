@@ -8,21 +8,51 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
+
 import ButtonAccept from '../button-accept';
 import ButtonReject from '../button-reject';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
 
+import firestore from '@react-native-firebase/firestore';
+
 // @ts-ignore
-function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
+function MainRideDriver({
+  userUID,
+  requesteeData,
+  setRequesteeData,
+  hasRequest,
+  setHasRequest,
+  hasListing,
+}) {
   const sans = styledText();
 
-  const handleReject = () => {
-    console.log(requesteeProfile.bookerUID);
+  const handleReject = async () => {
+    try {
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const commuterRef = firestore()
+        .collection('Users')
+        .doc(requesteeData.bookerUID);
+
+      await driverRef.update({
+        bookerUID: '',
+        bookerProfile: {},
+        bookingRequest: false,
+      });
+
+      await commuterRef.update({
+        bookingRequest: false,
+      });
+
+      setHasRequest(false);
+      setRequesteeData([]);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
   };
 
   const handleAccept = () => {
-    console.log(requesteeProfile.bookerUID);
+    console.log(requesteeData.bookerUID);
   };
 
   return (
@@ -41,7 +71,7 @@ function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
       }}>
       <StyledCol style={{marginTop: 0}}>
         <SabeLogo width={50} height={50} />
-        {!hasRequest ? (
+        {!hasRequest || requesteeData.length === 0 ? (
           <StyledRow>
             <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
               {hasListing
@@ -73,18 +103,21 @@ function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
                 }}
               />
             </StyledRow>
-            <ListingOne label={'Email'} data={requesteeProfile.email} />
+            <ListingOne
+              label={'Email'}
+              data={requesteeData.bookerProfile.email}
+            />
             <ListingTwo
               labelOne={'Name'}
-              dataOne={requesteeProfile.name}
+              dataOne={requesteeData.bookerProfile.name}
               labelTwo={'Contact'}
-              dataTwo={requesteeProfile.contact}
+              dataTwo={requesteeData.bookerProfile.contact}
             />
             <ListingTwo
               labelOne={'Type'}
-              dataOne={requesteeProfile.type}
+              dataOne={requesteeData.bookerProfile.type}
               labelTwo={'Rating'}
-              dataTwo={requesteeProfile.rating}
+              dataTwo={requesteeData.bookerProfile.rating}
             />
             <StyledRow style={{marginTop: 10}}>
               <ButtonReject onClick={handleReject} />

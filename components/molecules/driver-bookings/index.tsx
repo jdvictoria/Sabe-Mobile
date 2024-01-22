@@ -74,7 +74,7 @@ function DriverBookings({
     const deleteListing = async () => {
       try {
         setIsLoading(true);
-        await firestore().collection('Bookings').doc(profile.name).delete();
+        await firestore().collection('Bookings').doc(userUID).delete();
         setHasListing(false);
         console.log('Document successfully deleted!');
         setIsLoading(false);
@@ -135,7 +135,12 @@ function DriverBookings({
         justifyContent: 'flex-start',
         backgroundColor: '#f3f3f3',
       }}>
-      <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
+      <HomeHeader
+        navigation={navigation}
+        title={'Bookings'}
+        main={true}
+        fromProfile={false}
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
