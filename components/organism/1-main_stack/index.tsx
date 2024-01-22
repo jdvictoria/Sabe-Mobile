@@ -16,6 +16,9 @@ function MainStack() {
 
   // Global
   const [userUID, setUserUID] = useState('');
+
+  // UIDs
+  const [commuterUID, setCommuterUID] = useState('');
   const [driverUID, setDriverUID] = useState('');
 
   // Commuter Hooks

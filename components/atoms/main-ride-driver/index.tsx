@@ -8,10 +8,16 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
+import ButtonAccept from '../button-accept';
+import ButtonReject from '../button-reject';
 
 // @ts-ignore
 function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
   const sans = styledText();
+
+  const handleReject = () => {};
+
+  const handleAccept = () => {};
 
   return (
     <StyledCol
@@ -48,7 +54,12 @@ function MainRideDriver({requesteeProfile, hasRequest, hasListing}) {
             )}
           </StyledRow>
         ) : (
-          <></>
+          <>
+            <StyledRow>
+              <ButtonReject onClick={handleReject} />
+              <ButtonAccept onClick={handleAccept} />
+            </StyledRow>
+          </>
         )}
       </StyledCol>
     </StyledCol>
