@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
@@ -20,6 +20,10 @@ function BookingsDetail({
   riderProfile,
   setRiderProfile,
 }: any) {
+  const [hasRequest, setHasRequest] = useState(false);
+
+  const [intervalId, setIntervalId] = useState(null);
+
   const updateProfile = async () => {
     const userDocument = await firestore()
       .collection('Users')
@@ -67,6 +71,38 @@ function BookingsDetail({
     }
   };
 
+  const getRequest = async () => {
+    try {
+      const docRef = firestore().collection('Users').doc(userUID);
+      const docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        const data = docSnapshot.data();
+
+        if (data.bookingRequest) {
+          setHasRequest(true);
+          // Stop refreshing once requesteeData is not null
+          clearInterval(intervalId);
+        } else {
+          setHasRequest(false);
+        }
+      } else {
+        console.log('Document does not exist');
+        // Do something when the document does not exist
+      }
+    } catch (error) {
+      console.error('Error checking listing:', error);
+    }
+  };
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      getRequest();
+    }, 1000);
+    setIntervalId(id);
+    return () => clearInterval(id);
+  }, [hasRequest]);
+
   return (
     <StyledSafeAreaView
       style={{
@@ -92,7 +128,7 @@ function BookingsDetail({
         <BookingCard riderProfile={riderProfile} />
         <ButtonBooking
           onClick={sendRequest}
-          conditionOne={riderProfile.bookingRequest}
+          conditionOne={hasRequest}
           conditionTwo={
             riderProfile.passengerCount === riderProfile.passengerLimit
           }

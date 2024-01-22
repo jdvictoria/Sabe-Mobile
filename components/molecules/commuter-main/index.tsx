@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
@@ -6,6 +6,7 @@ import {StyledSafeAreaView} from '../../../styles/container';
 import HomeHeader from '../../atoms/home-header';
 import MainMap from '../../atoms/main-map';
 import MainRideCommuter from '../../atoms/main-ride-commuter';
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function CommuterMain({
@@ -16,10 +17,13 @@ function CommuterMain({
   setRedirect,
   profile,
   setProfile,
-  riderProfile,
   setRiderProfile,
   position,
 }: any) {
+  const [hasRequest, setHasRequest] = useState(false);
+
+  const [intervalId, setIntervalId] = useState(null);
+
   useEffect(() => {
     if (redirect) {
       // Scroll to the bottom when redirect is true
@@ -30,6 +34,83 @@ function CommuterMain({
   }, [redirect]);
 
   const scrollViewRef = React.createRef();
+
+  const updateProfile = async () => {
+    const userDocument = await firestore()
+      .collection('Users')
+      .doc(userUID)
+      .get();
+    if (userDocument.exists) {
+      const userData = userDocument.data();
+      setProfile(userData);
+    } else {
+      console.log('Document does not exist');
+    }
+    const riderDocument = await firestore()
+      .collection('Bookings')
+      .doc(driverUID)
+      .get();
+    if (riderDocument.exists) {
+      const riderData = riderDocument.data();
+      setRiderProfile(riderData);
+    } else {
+      console.log('Document does not exist');
+    }
+    navigation.navigate('BookingsDetail');
+  };
+
+  const handleCancel = async () => {
+    try {
+      const driverRef = firestore().collection('Bookings').doc(driverUID);
+      const commuterRef = firestore().collection('Users').doc(userUID);
+
+      await driverRef.update({
+        bookerUID: '',
+        bookerProfile: {},
+        bookingRequest: false,
+      });
+
+      await commuterRef.update({
+        bookingRequest: false,
+      });
+
+      await updateProfile();
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  const getRequest = async () => {
+    try {
+      const docRef = firestore().collection('Users').doc(userUID);
+      const docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        const data = docSnapshot.data();
+
+        if (data.bookingRequest) {
+          setHasRequest(true);
+          // Stop refreshing once requesteeData is not null
+          clearInterval(intervalId);
+        } else {
+          setHasRequest(false);
+        }
+      } else {
+        console.log('Document does not exist');
+        // Do something when the document does not exist
+      }
+    } catch (error) {
+      console.error('Error checking listing:', error);
+    }
+  };
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      getRequest();
+    }, 1000);
+    setIntervalId(id);
+    return () => clearInterval(id);
+  }, [hasRequest]);
 
   return (
     <StyledSafeAreaView
@@ -59,13 +140,9 @@ function CommuterMain({
         }}>
         <MainMap position={position} />
         <MainRideCommuter
-          navigation={navigation}
-          userUID={userUID}
-          driverUID={driverUID}
+          hasRequest={hasRequest}
           profile={profile}
-          setProfile={setProfile}
-          riderProfile={riderProfile}
-          setRiderProfile={setRiderProfile}
+          handleCancel={handleCancel}
         />
       </ScrollView>
     </StyledSafeAreaView>
