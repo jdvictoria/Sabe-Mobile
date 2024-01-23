@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -11,10 +11,8 @@ import ButtonCancel from '../button-cancel';
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
-import firestore from '@react-native-firebase/firestore';
-
 // @ts-ignore
-function MainRideCommuter({hasRequest, hasRide, profile, handleCancel}: any) {
+function MainRideCommuter({hasRequest, hasRide, handleCancel}: any) {
   const sans = styledText();
 
   return (
@@ -23,7 +21,7 @@ function MainRideCommuter({hasRequest, hasRide, profile, handleCancel}: any) {
         justifyContent: hasRequest ? 'space-between' : 'center',
         width: '85%',
         height: 'auto',
-        minHeight: profile.bookingRequest ? 200 : 150,
+        minHeight: hasRequest ? 200 : 150,
         marginTop: 25,
         marginBottom: 110,
         paddingTop: 12.5,

@@ -15,7 +15,6 @@ function CommuterMain({
   driverUID,
   redirect,
   setRedirect,
-  profile,
   setProfile,
   setRiderProfile,
   position,
@@ -149,7 +148,6 @@ function CommuterMain({
         <MainRideCommuter
           hasRequest={hasRequest}
           hasRide={hasRide}
-          profile={profile}
           handleCancel={handleCancel}
         />
       </ScrollView>

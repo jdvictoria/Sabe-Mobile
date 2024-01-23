@@ -145,7 +145,6 @@ function HomeStack({
               driverUID={driverUID}
               redirect={redirect}
               setRedirect={setRedirect}
-              profile={profile}
               setProfile={setProfile}
               riderProfile={riderProfile}
               setRiderProfile={setRiderProfile}
