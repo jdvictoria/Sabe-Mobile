@@ -21,6 +21,7 @@ function MainRideDriver({
   userUID,
   requesteeData,
   setRequesteeData,
+  hasRide,
   hasRequest,
   setHasRequest,
   hasListing,
@@ -51,8 +52,34 @@ function MainRideDriver({
     }
   };
 
-  const handleAccept = () => {
-    console.log(requesteeData.bookerUID);
+  const handleAccept = async () => {
+    const driverRef = firestore().collection('Bookings').doc(userUID);
+    const driverSnapshot = await firestore()
+      .collection('Bookings')
+      .doc(userUID)
+      .get();
+    const commuterRef = firestore()
+      .collection('Users')
+      .doc(requesteeData.bookerUID);
+
+    // @ts-ignore
+    const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+    const newPassengerCount = currentPassengerCount + 1;
+
+    await driverRef.update({
+      bookerUID: '',
+      bookerProfile: {},
+      bookingRequest: false,
+      bookingOngoing: true,
+      passengerCount: newPassengerCount,
+    });
+
+    await commuterRef.update({
+      bookingRequest: false,
+      // @ts-ignore
+      bookingProfile: driverSnapshot.data(),
+      bookingOngoing: true,
+    });
   };
 
   return (
@@ -71,24 +98,14 @@ function MainRideDriver({
       }}>
       <StyledCol style={{marginTop: 0}}>
         <SabeLogo width={50} height={50} />
-        {!hasRequest || requesteeData.length === 0 ? (
-          <StyledRow>
+        {hasRide && !hasRequest && (
+          <>
             <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              {hasListing
-                ? 'Waiting for commuter request'
-                : 'You have no active listing'}
+              RIDE ONGOING
             </StyledText18>
-            {hasListing && (
-              <AnimatedEllipsis
-                style={{
-                  color: '#042F40',
-                  fontSize: 26,
-                  letterSpacing: -2.5,
-                }}
-              />
-            )}
-          </StyledRow>
-        ) : (
+          </>
+        )}
+        {!hasRide && hasRequest && (
           <StyledCol>
             <StyledRow>
               <StyledText18
@@ -124,6 +141,24 @@ function MainRideDriver({
               <ButtonAccept onClick={handleAccept} />
             </StyledRow>
           </StyledCol>
+        )}
+        {(!hasRequest || requesteeData.length) === 0 && (
+          <StyledRow>
+            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+              {hasListing
+                ? 'Waiting for commuter request'
+                : 'You have no active listing'}
+            </StyledText18>
+            {hasListing && (
+              <AnimatedEllipsis
+                style={{
+                  color: '#042F40',
+                  fontSize: 26,
+                  letterSpacing: -2.5,
+                }}
+              />
+            )}
+          </StyledRow>
         )}
       </StyledCol>
     </StyledCol>

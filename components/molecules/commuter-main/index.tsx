@@ -20,6 +20,7 @@ function CommuterMain({
   setRiderProfile,
   position,
 }: any) {
+  const [hasRide, setHasRide] = useState(false);
   const [hasRequest, setHasRequest] = useState(false);
 
   const [intervalId, setIntervalId] = useState(null);
@@ -90,10 +91,16 @@ function CommuterMain({
 
         if (data.bookingRequest) {
           setHasRequest(true);
-          // Stop refreshing once requesteeData is not null
           clearInterval(intervalId);
         } else {
           setHasRequest(false);
+        }
+
+        if (data.bookingOngoing) {
+          setHasRide(true);
+          clearInterval(intervalId);
+        } else {
+          setHasRide(false);
         }
       } else {
         console.log('Document does not exist');
@@ -110,7 +117,7 @@ function CommuterMain({
     }, 1000);
     setIntervalId(id);
     return () => clearInterval(id);
-  }, [hasRequest]);
+  }, [hasRequest, hasRide]);
 
   return (
     <StyledSafeAreaView
@@ -141,6 +148,7 @@ function CommuterMain({
         <MainMap position={position} />
         <MainRideCommuter
           hasRequest={hasRequest}
+          hasRide={hasRide}
           profile={profile}
           handleCancel={handleCancel}
         />

@@ -128,7 +128,6 @@ function AuthSignUp({navigation}) {
           rating: 0,
           schoolIDUrl: downloadURL,
           isVerified: false,
-          ride: [],
         });
 
       console.log('User added!');
@@ -191,7 +190,6 @@ function AuthSignUp({navigation}) {
           regIDUrl: downloadURL1,
           licenseIDUrl: downloadURL2,
           isVerified: false,
-          ride: [],
         });
 
       console.log('User added!');

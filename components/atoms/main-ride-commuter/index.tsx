@@ -14,7 +14,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function MainRideCommuter({hasRequest, profile, handleCancel}: any) {
+function MainRideCommuter({hasRequest, hasRide, profile, handleCancel}: any) {
   const sans = styledText();
 
   return (
@@ -33,7 +33,21 @@ function MainRideCommuter({hasRequest, profile, handleCancel}: any) {
       }}>
       <StyledCol style={{marginTop: hasRequest ? 15 : 0}}>
         <SabeLogo width={50} height={50} />
-        {hasRequest ? (
+        {!hasRequest && !hasRide && (
+          <StyledRow>
+            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+              You have no ongoing ride
+            </StyledText18>
+          </StyledRow>
+        )}
+        {!hasRequest && hasRide && (
+          <>
+            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+              RIDE ONGOING
+            </StyledText18>
+          </>
+        )}
+        {!hasRide && hasRequest && (
           <StyledCol>
             <StyledRow>
               <StyledText18
@@ -52,12 +66,6 @@ function MainRideCommuter({hasRequest, profile, handleCancel}: any) {
               <ButtonCancel onClick={handleCancel} />
             </StyledRow>
           </StyledCol>
-        ) : (
-          <StyledRow>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              You have no ongoing ride
-            </StyledText18>
-          </StyledRow>
         )}
       </StyledCol>
     </StyledCol>

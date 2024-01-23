@@ -11,6 +11,8 @@ import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function DriverMain({navigation, userUID, hasListing, position}) {
+  const [hasRide, setHasRide] = useState(false);
+
   const [requesteeData, setRequesteeData] = useState([]);
   const [hasRequest, setHasRequest] = useState(false);
 
@@ -36,11 +38,17 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         if (data.bookingRequest) {
           setRequesteeData(data);
           setHasRequest(true);
-          // Stop refreshing once requesteeData is not null
           clearInterval(intervalId);
         } else {
           setRequesteeData([]);
           setHasRequest(false);
+        }
+
+        if (data.bookingOngoing) {
+          setHasRide(true);
+          clearInterval(intervalId);
+        } else {
+          setHasRide(false);
         }
       } else {
         console.log('Document does not exist');
@@ -92,6 +100,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           userUID={userUID}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
+          hasRide={hasRide}
           hasRequest={hasRequest}
           setHasRequest={setHasRequest}
           hasListing={hasListing}
