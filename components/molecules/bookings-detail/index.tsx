@@ -20,6 +20,7 @@ function BookingsDetail({
   riderProfile,
   setRiderProfile,
 }: any) {
+  const [hasRide, setHasRide] = useState(false);
   const [hasRequest, setHasRequest] = useState(false);
 
   const [intervalId, setIntervalId] = useState(null);
@@ -45,9 +46,6 @@ function BookingsDetail({
     } else {
       console.log('Document does not exist');
     }
-
-    setRedirect(true);
-    navigation.navigate('Home');
   };
 
   const sendRequest = async () => {
@@ -66,6 +64,8 @@ function BookingsDetail({
       });
 
       await updateProfile();
+      setRedirect(true);
+      navigation.navigate('Home');
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -81,10 +81,16 @@ function BookingsDetail({
 
         if (data.bookingRequest) {
           setHasRequest(true);
-          // Stop refreshing once requesteeData is not null
           clearInterval(intervalId);
         } else {
           setHasRequest(false);
+        }
+
+        if (data.bookingOngoing) {
+          setHasRide(true);
+          clearInterval(intervalId);
+        } else {
+          setHasRide(false);
         }
       } else {
         console.log('Document does not exist');
@@ -98,10 +104,11 @@ function BookingsDetail({
   useEffect(() => {
     const id = setInterval(() => {
       getRequest();
+      updateProfile();
     }, 1000);
     setIntervalId(id);
     return () => clearInterval(id);
-  }, [hasRequest]);
+  }, [hasRequest, hasRide]);
 
   return (
     <StyledSafeAreaView
@@ -132,6 +139,7 @@ function BookingsDetail({
           conditionTwo={
             riderProfile.passengerCount === riderProfile.passengerLimit
           }
+          conditionThree={hasRide}
         />
       </StyledCol>
     </StyledSafeAreaView>

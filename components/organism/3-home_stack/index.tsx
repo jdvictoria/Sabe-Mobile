@@ -146,7 +146,6 @@ function HomeStack({
               redirect={redirect}
               setRedirect={setRedirect}
               setProfile={setProfile}
-              riderProfile={riderProfile}
               setRiderProfile={setRiderProfile}
               position={position}
             />

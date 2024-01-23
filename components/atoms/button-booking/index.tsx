@@ -4,16 +4,18 @@ import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
 // @ts-ignore
-function ButtonBooking({onClick, conditionOne, conditionTwo}) {
+function ButtonBooking({onClick, conditionOne, conditionTwo, conditionThree}) {
   const sans = styledText();
 
-  let disabled = conditionOne || conditionTwo;
+  let disabled = conditionOne || conditionTwo || conditionThree;
 
   let text;
   if (conditionOne) {
     text = 'Driver Busy';
-  } else if (conditionOne) {
+  } else if (conditionTwo) {
     text = 'Full Capacity';
+  } else if (conditionThree) {
+    text = 'Journey In Progress';
   } else {
     text = 'Book Driver';
   }
