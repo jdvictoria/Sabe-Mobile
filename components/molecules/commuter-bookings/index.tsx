@@ -15,7 +15,7 @@ function CommuterBookings({
   profile,
   setDriverUID,
   setRiderProfile,
-}) {
+}: any) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [riders, setRiders] = useState([]);

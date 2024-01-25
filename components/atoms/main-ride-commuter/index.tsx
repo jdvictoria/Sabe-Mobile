@@ -13,11 +13,17 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import StarRating from 'react-native-star-rating-widget';
 
 // @ts-ignore
-function MainRideCommuter({hasRequest, hasRide, handleCancel, handleEnd}: any) {
+function MainRideCommuter({
+  hasRequest,
+  hasRide,
+  handleCancel,
+  handleEnd,
+  rating,
+  setRating,
+  endStep,
+  setEndStep,
+}: any) {
   const sans = styledText();
-
-  const [endStep, setEndStep] = useState(1);
-  const [rating, setRating] = useState(0);
 
   const handleStep = () => {
     setEndStep(endStep + 1);

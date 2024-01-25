@@ -22,6 +22,9 @@ function CommuterMain({
   const [hasRide, setHasRide] = useState(false);
   const [hasRequest, setHasRequest] = useState(false);
 
+  const [endStep, setEndStep] = useState(1);
+  const [rating, setRating] = useState(0);
+
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
@@ -56,7 +59,6 @@ function CommuterMain({
     } else {
       console.log('Document does not exist');
     }
-    navigation.navigate('BookingsDetail');
   };
 
   const handleCancel = async () => {
@@ -75,6 +77,7 @@ function CommuterMain({
       });
 
       await updateProfile();
+      navigation.navigate('BookingsDetail');
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -93,15 +96,24 @@ function CommuterMain({
       const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
       const newPassengerCount = currentPassengerCount - 1;
 
+      // @ts-ignore
+      const currentTotalRides = driverSnapshot.data().totalRides || 0;
+      const newTotalRides = currentTotalRides + 1;
+      const currentDriverRating = driverSnapshot.data().rating || 0;
+      const newDriverRating = (currentDriverRating + rating) / newTotalRides;
+
       await driverRef.update({
         passengerCount: newPassengerCount,
         bookingOngoing: newPassengerCount !== 0,
+        rating: newDriverRating,
+        totalRides: newTotalRides,
       });
 
       await commuterRef.update({
         bookingOngoing: false,
       });
 
+      setEndStep(1);
       await updateProfile();
     } catch (error) {
       console.error('Error updating document:', error);
@@ -178,6 +190,10 @@ function CommuterMain({
           hasRide={hasRide}
           handleCancel={handleCancel}
           handleEnd={handleEnd}
+          rating={rating}
+          setRating={setRating}
+          endStep={endStep}
+          setEndStep={setEndStep}
         />
       </ScrollView>
     </StyledSafeAreaView>

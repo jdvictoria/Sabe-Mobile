@@ -137,6 +137,13 @@ function BookingsCard({
             ]}>
             {riderData.rating}
           </StyledText14>
+          <StyledText14
+            style={[
+              sans.regular,
+              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
+            ]}>
+            ( {riderData.totalRides} )
+          </StyledText14>
         </StyledRow>
         <StyledRow style={{paddingTop: 2}}>
           <CapacityLogo width={20} height={20} />
