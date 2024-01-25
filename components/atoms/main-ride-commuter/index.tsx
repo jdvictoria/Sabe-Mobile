@@ -6,13 +6,13 @@ import {styledText, StyledText18} from '../../../styles/text';
 // @ts-ignore
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 
-import ButtonCancel from '../button-cancel';
+import ButtonNegative from '../button-negative';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 // @ts-ignore
-function MainRideCommuter({hasRequest, hasRide, handleCancel}: any) {
+function MainRideCommuter({hasRequest, hasRide, handleCancel, handleEnd}: any) {
   const sans = styledText();
 
   return (
@@ -39,11 +39,14 @@ function MainRideCommuter({hasRequest, hasRide, handleCancel}: any) {
           </StyledRow>
         )}
         {!hasRequest && hasRide && (
-          <>
+          <StyledCol>
             <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
               RIDE ONGOING
             </StyledText18>
-          </>
+            <StyledRow style={{marginTop: 20}}>
+              <ButtonNegative onClick={handleEnd} text={'End Ride'} />
+            </StyledRow>
+          </StyledCol>
         )}
         {!hasRide && hasRequest && (
           <StyledCol>
@@ -61,7 +64,7 @@ function MainRideCommuter({hasRequest, hasRide, handleCancel}: any) {
               />
             </StyledRow>
             <StyledRow style={{marginTop: 20}}>
-              <ButtonCancel onClick={handleCancel} />
+              <ButtonNegative onClick={handleCancel} text={'Cancel'} />
             </StyledRow>
           </StyledCol>
         )}

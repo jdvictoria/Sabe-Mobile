@@ -80,6 +80,34 @@ function CommuterMain({
     }
   };
 
+  const handleEnd = async () => {
+    try {
+      const driverRef = firestore().collection('Bookings').doc(driverUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(driverUID)
+        .get();
+      const commuterRef = firestore().collection('Users').doc(userUID);
+
+      // @ts-ignore
+      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+      const newPassengerCount = currentPassengerCount - 1;
+
+      await driverRef.update({
+        passengerCount: newPassengerCount,
+        bookingOngoing: newPassengerCount !== 0,
+      });
+
+      await commuterRef.update({
+        bookingOngoing: false,
+      });
+
+      await updateProfile();
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
   const getRequest = async () => {
     try {
       const docRef = firestore().collection('Users').doc(userUID);
@@ -149,6 +177,7 @@ function CommuterMain({
           hasRequest={hasRequest}
           hasRide={hasRide}
           handleCancel={handleCancel}
+          handleEnd={handleEnd}
         />
       </ScrollView>
     </StyledSafeAreaView>

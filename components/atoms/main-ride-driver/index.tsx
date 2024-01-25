@@ -36,8 +36,6 @@ function MainRideDriver({
         .collection('Bookings')
         .doc(userUID)
         .get();
-
-      console.log(driverSnapshot.data().bookerUID);
       const commuterRef = firestore()
         .collection('Users')
         .doc(driverSnapshot.data().bookerUID);

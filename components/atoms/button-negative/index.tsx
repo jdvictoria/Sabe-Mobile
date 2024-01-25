@@ -4,7 +4,7 @@ import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
 // @ts-ignore
-function ButtonCancel({onClick}) {
+function ButtonNegative({onClick, text}) {
   const sans = styledText();
 
   return (
@@ -18,9 +18,9 @@ function ButtonCancel({onClick}) {
         borderRadius: 10,
       }}
       onPress={onClick}>
-      <StyledText20 style={[sans.bold, {color: '#fff'}]}>Cancel</StyledText20>
+      <StyledText20 style={[sans.bold, {color: '#fff'}]}>{text}</StyledText20>
     </StyledTouchableRow>
   );
 }
 
-export default ButtonCancel;
+export default ButtonNegative;
