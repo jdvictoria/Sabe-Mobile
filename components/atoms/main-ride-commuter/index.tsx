@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -10,10 +10,18 @@ import ButtonNegative from '../button-negative';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
+import StarRating from 'react-native-star-rating-widget';
 
 // @ts-ignore
 function MainRideCommuter({hasRequest, hasRide, handleCancel, handleEnd}: any) {
   const sans = styledText();
+
+  const [endStep, setEndStep] = useState(1);
+  const [rating, setRating] = useState(0);
+
+  const handleStep = () => {
+    setEndStep(endStep + 1);
+  };
 
   return (
     <StyledCol
@@ -40,12 +48,36 @@ function MainRideCommuter({hasRequest, hasRide, handleCancel, handleEnd}: any) {
         )}
         {!hasRequest && hasRide && (
           <StyledCol>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              RIDE ONGOING
-            </StyledText18>
-            <StyledRow style={{marginTop: 20}}>
-              <ButtonNegative onClick={handleEnd} text={'End Ride'} />
-            </StyledRow>
+            {endStep === 1 && (
+              <>
+                <StyledText18
+                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  RIDE ONGOING
+                </StyledText18>
+                <StyledRow style={{marginTop: 20}}>
+                  <ButtonNegative onClick={handleStep} text={'End Ride'} />
+                </StyledRow>
+              </>
+            )}
+            {endStep === 2 && (
+              <>
+                <StyledText18
+                  style={[
+                    sans.bold,
+                    {color: '#042F40', marginTop: 5, marginBottom: 10},
+                  ]}>
+                  Rate your driver!
+                </StyledText18>
+                <StarRating
+                  onRatingEnd={handleEnd}
+                  enableSwiping={true}
+                  enableHalfStar={false}
+                  rating={rating}
+                  onChange={setRating}
+                  color={'#FFB800'}
+                />
+              </>
+            )}
           </StyledCol>
         )}
         {!hasRide && hasRequest && (
