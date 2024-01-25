@@ -22,18 +22,25 @@ function MainRideDriver({
   requesteeData,
   setRequesteeData,
   hasRide,
+  setHasRide,
   hasRequest,
   setHasRequest,
   hasListing,
-}) {
+}: any) {
   const sans = styledText();
 
   const handleReject = async () => {
     try {
       const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+
+      console.log(driverSnapshot.data().bookerUID);
       const commuterRef = firestore()
         .collection('Users')
-        .doc(requesteeData.bookerUID);
+        .doc(driverSnapshot.data().bookerUID);
 
       await driverRef.update({
         bookerUID: '',
@@ -53,33 +60,41 @@ function MainRideDriver({
   };
 
   const handleAccept = async () => {
-    const driverRef = firestore().collection('Bookings').doc(userUID);
-    const driverSnapshot = await firestore()
-      .collection('Bookings')
-      .doc(userUID)
-      .get();
-    const commuterRef = firestore()
-      .collection('Users')
-      .doc(requesteeData.bookerUID);
+    try {
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+      const commuterRef = firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().bookerUID);
 
-    // @ts-ignore
-    const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
-    const newPassengerCount = currentPassengerCount + 1;
-
-    await driverRef.update({
-      bookerUID: '',
-      bookerProfile: {},
-      bookingRequest: false,
-      bookingOngoing: true,
-      passengerCount: newPassengerCount,
-    });
-
-    await commuterRef.update({
-      bookingRequest: false,
       // @ts-ignore
-      bookingProfile: driverSnapshot.data(),
-      bookingOngoing: true,
-    });
+      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+      const newPassengerCount = currentPassengerCount + 1;
+
+      await driverRef.update({
+        bookerUID: '',
+        bookerProfile: {},
+        bookingRequest: false,
+        bookingOngoing: true,
+        passengerCount: newPassengerCount,
+      });
+
+      await commuterRef.update({
+        bookingRequest: false,
+        // @ts-ignore
+        // bookingProfile: driverSnapshot.data(),
+        bookingOngoing: true,
+      });
+
+      setHasRequest(false);
+      setHasRide(true);
+      setRequesteeData([]);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
   };
 
   return (
@@ -98,14 +113,14 @@ function MainRideDriver({
       }}>
       <StyledCol style={{marginTop: 0}}>
         <SabeLogo width={50} height={50} />
-        {hasRide && !hasRequest && (
+        {hasRide && (
           <>
             <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
               RIDE ONGOING
             </StyledText18>
           </>
         )}
-        {!hasRide && hasRequest && (
+        {hasRequest && (
           <StyledCol>
             <StyledRow>
               <StyledText18
@@ -120,21 +135,18 @@ function MainRideDriver({
                 }}
               />
             </StyledRow>
-            <ListingOne
-              label={'Email'}
-              data={requesteeData.bookerProfile.email}
-            />
+            <ListingOne label={'Email'} data={requesteeData.email} />
             <ListingTwo
               labelOne={'Name'}
-              dataOne={requesteeData.bookerProfile.name}
+              dataOne={requesteeData.name}
               labelTwo={'Contact'}
-              dataTwo={requesteeData.bookerProfile.contact}
+              dataTwo={requesteeData.contact}
             />
             <ListingTwo
               labelOne={'Type'}
-              dataOne={requesteeData.bookerProfile.type}
+              dataOne={requesteeData.type}
               labelTwo={'Rating'}
-              dataTwo={requesteeData.bookerProfile.rating}
+              dataTwo={requesteeData.rating}
             />
             <StyledRow style={{marginTop: 10}}>
               <ButtonReject onClick={handleReject} />
@@ -142,7 +154,7 @@ function MainRideDriver({
             </StyledRow>
           </StyledCol>
         )}
-        {(!hasRequest || requesteeData.length) === 0 && (
+        {!hasRide && (!hasRequest || requesteeData.length === 0) && (
           <StyledRow>
             <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
               {hasListing

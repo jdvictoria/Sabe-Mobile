@@ -36,7 +36,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         const data = docSnapshot.data();
 
         if (data.bookingRequest) {
-          setRequesteeData(data);
+          setRequesteeData(data.bookerProfile);
           setHasRequest(true);
           clearInterval(intervalId);
         } else {
@@ -101,6 +101,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
           hasRide={hasRide}
+          setHasRide={setHasRide}
           hasRequest={hasRequest}
           setHasRequest={setHasRequest}
           hasListing={hasListing}
