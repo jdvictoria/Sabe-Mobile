@@ -7,12 +7,12 @@ import {styledText, StyledText18} from '../../../styles/text';
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 import ButtonNegative from '../button-negative';
+import ButtonNeutral from '../button-neutral';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
-import ButtonNeutral from '../button-neutral';
 
 // @ts-ignore
 function MainRideCommuter({
@@ -68,10 +68,8 @@ function MainRideCommuter({
                 />
               </StyledRow>
             ) : (
-              <StyledRow>
-                <StyledRow style={{marginTop: 20}}>
-                  <ButtonNeutral text={'Reviewing Request'} />
-                </StyledRow>
+              <StyledRow style={{marginTop: 10}}>
+                <ButtonNeutral text={'Reviewing Request'} />
               </StyledRow>
             )}
           </StyledCol>

@@ -12,6 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 // @ts-ignore
 function DriverMain({navigation, userUID, hasListing, position}) {
   const [requesteeData, setRequesteeData] = useState([]);
+  const [dropeeData, setDropeeData] = useState([]);
 
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
@@ -107,6 +108,8 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           hasListing={hasListing}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
+          setDropeeData={setDropeeData}
+          dropeeData={dropeeData}
           hasRequest={hasRequest}
           setHasRequest={setHasRequest}
           hasRide={hasRide}

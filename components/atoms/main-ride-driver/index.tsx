@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -23,6 +23,8 @@ function MainRideDriver({
   hasListing,
   requesteeData,
   setRequesteeData,
+  dropeeData,
+  setDropeeData,
   hasRequest,
   setHasRequest,
   hasRide,
@@ -31,6 +33,8 @@ function MainRideDriver({
   setHasDrop,
 }: any) {
   const sans = styledText();
+
+  const [dropStep, setDropStep] = useState(1);
 
   const handleReject = async () => {
     try {
@@ -102,6 +106,45 @@ function MainRideDriver({
 
   const handleViewDrop = async () => {
     try {
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+      const commuterRef = firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().dropOffUID);
+      const commuterSnapshot = await firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().dropOffUID)
+        .get();
+
+      setDropeeData(commuterSnapshot.data());
+      setDropStep(2);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  const handleCancelDrop = async () => {
+    try {
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+      const commuterRef = firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().dropOffUID);
+
+      await driverRef.update({
+        bookingDropoff: false,
+        dropOffUID: '',
+      });
+
+      await commuterRef.update({
+        bookingDropoff: false,
+      });
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -109,6 +152,8 @@ function MainRideDriver({
 
   const handleAcceptDrop = async () => {
     try {
+      // setHasDrop(false);
+      // setDropeeData([]);
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -141,16 +186,47 @@ function MainRideDriver({
               </>
             ) : (
               <>
-                <StyledText18
-                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                  Dropoff Request
-                </StyledText18>
-                <StyledRow style={{marginTop: 20}}>
-                  <ButtonPositive
-                    onClick={handleViewDrop}
-                    text={'View Request'}
+                <StyledRow>
+                  <StyledText18
+                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                    Dropoff Request
+                  </StyledText18>
+                  <AnimatedEllipsis
+                    style={{
+                      color: '#042F40',
+                      fontSize: 26,
+                      letterSpacing: -2.5,
+                    }}
                   />
                 </StyledRow>
+                {dropStep === 1 ? (
+                  <StyledRow style={{marginTop: 10}}>
+                    <ButtonPositive
+                      onClick={handleViewDrop}
+                      text={'View Request'}
+                    />
+                  </StyledRow>
+                ) : (
+                  <>
+                    <ListingOne label={'Email'} data={dropeeData.email} />
+                    <ListingTwo
+                      labelOne={'Name'}
+                      dataOne={dropeeData.name}
+                      labelTwo={'Contact'}
+                      dataTwo={dropeeData.contact}
+                    />
+                    <ListingTwo
+                      labelOne={'Type'}
+                      dataOne={dropeeData.type}
+                      labelTwo={'Rating'}
+                      dataTwo={dropeeData.rating}
+                    />
+                    <StyledRow style={{marginTop: 10}}>
+                      <ButtonReject onClick={handleCancelDrop} />
+                      <ButtonAccept onClick={handleAcceptDrop} />
+                    </StyledRow>
+                  </>
+                )}
               </>
             )}
           </StyledCol>
