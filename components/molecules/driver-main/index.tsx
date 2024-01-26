@@ -20,7 +20,8 @@ function DriverMain({navigation, userUID, hasListing, position}) {
 
   useEffect(() => {
     if (hasRequest) {
-      // Scroll to the bottom when redirect is true
+      navigation.navigate('Home');
+      // @ts-ignore
       scrollViewRef.current.scrollToEnd({animated: true});
     }
   }, [hasRequest]);
