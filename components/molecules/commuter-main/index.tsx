@@ -99,6 +99,7 @@ function CommuterMain({
       // @ts-ignore
       const currentTotalRides = driverSnapshot.data().totalRides || 0;
       const newTotalRides = currentTotalRides + 1;
+      // @ts-ignore
       const currentDriverRating = driverSnapshot.data().rating || 0;
       const newDriverRating = (currentDriverRating + rating) / newTotalRides;
 
