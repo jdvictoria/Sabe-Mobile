@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import {
   StyledCol,
@@ -47,9 +47,9 @@ function AuthSignin({navigation, setProfile, setUserUID}) {
     setWithEmail(prevState => !prevState);
   };
 
-  const [email, setEmail] = useState('vjoshuaarlo12@gmail.com');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('psyApp12!');
+  const [password, setPassword] = useState('');
 
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPhone, setIsValidPhone] = useState(false);
@@ -93,6 +93,9 @@ function AuthSignin({navigation, setProfile, setUserUID}) {
         alertSignInError();
       });
 
+    setEmail('');
+    setPassword('');
+    setPhone('');
     setIsLoading(false);
   };
 

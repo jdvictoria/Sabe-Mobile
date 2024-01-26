@@ -85,7 +85,7 @@ function DetailsCardInput({
             borderColor={'#042F40'}
           />
           <StyledText20 style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
-            Uploading Listing
+            Creating Listing
           </StyledText20>
         </>
       ) : (

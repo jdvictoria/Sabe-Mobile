@@ -3,15 +3,10 @@ import React from 'react';
 import {StyledCol} from '../../../styles/container';
 
 import ListingTwo from '../listing-two';
-import {
-  styledText,
-  StyledText16,
-  StyledText18,
-  StyledText20,
-} from '../../../styles/text';
+import {styledText, StyledText16} from '../../../styles/text';
 
 // @ts-ignore
-function BookingCardUpper({pickedRider}) {
+function BookingCardUpper({riderProfile}) {
   const sans = styledText();
 
   const maskEmail = (email: string) => {
@@ -46,35 +41,35 @@ function BookingCardUpper({pickedRider}) {
         borderTopRightRadius: 10,
       }}>
       <StyledText16 style={[sans.bold, {color: '#042F40'}]}>
-        {pickedRider.date}
+        {riderProfile.date}
       </StyledText16>
 
       <ListingTwo
         labelOne={'Journey Start Time'}
-        dataOne={pickedRider.timeStart}
+        dataOne={riderProfile.timeStart}
         labelTwo={'Est. Journey End Time'}
-        dataTwo={pickedRider.timeEnd}
+        dataTwo={riderProfile.timeEnd}
       />
 
       <ListingTwo
         labelOne={'Driver'}
-        dataOne={pickedRider.name}
+        dataOne={riderProfile.name}
         labelTwo={'Phone'}
-        dataTwo={maskPhoneNumber(pickedRider.contact)}
+        dataTwo={maskPhoneNumber(riderProfile.contact)}
       />
 
       <ListingTwo
         labelOne={'Car Make'}
-        dataOne={pickedRider.carMake}
+        dataOne={riderProfile.carMake}
         labelTwo={'Car Series'}
-        dataTwo={pickedRider.carSeries}
+        dataTwo={riderProfile.carSeries}
       />
 
       <ListingTwo
         labelOne={'Car Color'}
-        dataOne={pickedRider.carColor}
+        dataOne={riderProfile.carColor}
         labelTwo={'Plate Number'}
-        dataTwo={maskPlate(pickedRider.carPlate)}
+        dataTwo={maskPlate(riderProfile.carPlate)}
       />
     </StyledCol>
   );
