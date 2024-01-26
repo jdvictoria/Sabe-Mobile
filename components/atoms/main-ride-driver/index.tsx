@@ -145,6 +145,8 @@ function MainRideDriver({
       await commuterRef.update({
         bookingDropoff: false,
       });
+
+      setDropStep(1);
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -189,7 +191,7 @@ function MainRideDriver({
                 <StyledRow>
                   <StyledText18
                     style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Dropoff Request
+                    Requesting Dropoff
                   </StyledText18>
                   <AnimatedEllipsis
                     style={{
