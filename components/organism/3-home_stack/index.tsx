@@ -6,11 +6,6 @@ import {
   TabElementDisplayOptions,
 } from 'react-native-animated-nav-tab-bar';
 
-import HomeMain from '../../molecules/home-main';
-
-import CommuterProfile from '../../molecules/commuter-profile';
-import CommuterBookings from '../../molecules/commuter-bookings';
-
 // @ts-ignore
 import HomeMainLogo from '../../../assets/icons/home-main.svg';
 // @ts-ignore
@@ -25,10 +20,25 @@ import HomeProfileLogo from '../../../assets/icons/home-profile.svg';
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
 import GetLocation from 'react-native-get-location';
+
+import CommuterMain from '../../molecules/commuter-main';
+import CommuterProfile from '../../molecules/commuter-profile';
+import CommuterBookings from '../../molecules/commuter-bookings';
+
+import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
 
 // @ts-ignore
-function HomeStack({userUID, profile, setPickedRider}) {
+function HomeStack({
+  userUID,
+  driverUID,
+  redirect,
+  setRedirect,
+  profile,
+  setProfile,
+  setDriverUID,
+  setRiderProfile,
+}: any) {
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
@@ -58,6 +68,10 @@ function HomeStack({userUID, profile, setPickedRider}) {
     longitudeDelta: 0.005,
   });
 
+  // Driver Hooks
+  const [hasListing, setHasListing] = useState(false);
+  const [booking, setBooking] = useState([]);
+
   return (
     <Tabs.Navigator
       appearance={{
@@ -73,6 +87,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
       <Tabs.Screen
         name={'Bookings'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeJourneyLogo width={27.5} height={27.5} />
@@ -82,9 +97,23 @@ function HomeStack({userUID, profile, setPickedRider}) {
         }}>
         {props =>
           profile.type === 'driver' ? (
-            <DriverBookings {...props} profile={profile} />
+            <DriverBookings
+              {...props}
+              profile={profile}
+              userUID={userUID}
+              hasListing={hasListing}
+              setHasListing={setHasListing}
+              booking={booking}
+              setBooking={setBooking}
+            />
           ) : (
-            <CommuterBookings {...props} setPickedRider={setPickedRider} />
+            <CommuterBookings
+              {...props}
+              userUID={userUID}
+              profile={profile}
+              setDriverUID={setDriverUID}
+              setRiderProfile={setRiderProfile}
+            />
           )
         }
       </Tabs.Screen>
@@ -92,6 +121,7 @@ function HomeStack({userUID, profile, setPickedRider}) {
       <Tabs.Screen
         name={'Home'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeMainLogo width={20} height={20} />
@@ -99,12 +129,33 @@ function HomeStack({userUID, profile, setPickedRider}) {
               <HomeMainAlt width={20} height={20} />
             ),
         }}>
-        {props => <HomeMain {...props} position={position} />}
+        {props =>
+          profile.type === 'driver' ? (
+            <DriverMain
+              {...props}
+              userUID={userUID}
+              hasListing={hasListing}
+              position={position}
+            />
+          ) : (
+            <CommuterMain
+              {...props}
+              userUID={userUID}
+              driverUID={driverUID}
+              redirect={redirect}
+              setRedirect={setRedirect}
+              setProfile={setProfile}
+              setRiderProfile={setRiderProfile}
+              position={position}
+            />
+          )
+        }
       </Tabs.Screen>
 
       <Tabs.Screen
         name={'Profile'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeProfileLogo width={20} height={20} />

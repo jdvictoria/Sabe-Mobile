@@ -15,16 +15,21 @@ import DetailsCardListing from '../../atoms/details-card-listing';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function DriverBookings({navigation, profile}) {
+function DriverBookings({
+  navigation,
+  userUID,
+  profile,
+  hasListing,
+  setHasListing,
+  booking,
+  setBooking,
+}: any) {
   const [create, setCreate] = useState(false);
-
-  const [hasListing, setHasListing] = useState(false);
-  const [booking, setBooking] = useState([]);
 
   useEffect(() => {
     const checkListing = async () => {
       try {
-        const docRef = firestore().collection('Bookings').doc(profile.name);
+        const docRef = firestore().collection('Bookings').doc(userUID);
         const docSnapshot = await docRef.get();
 
         if (docSnapshot.exists) {
@@ -69,7 +74,7 @@ function DriverBookings({navigation, profile}) {
     const deleteListing = async () => {
       try {
         setIsLoading(true);
-        await firestore().collection('Bookings').doc(profile.name).delete();
+        await firestore().collection('Bookings').doc(userUID).delete();
         setHasListing(false);
         console.log('Document successfully deleted!');
         setIsLoading(false);
@@ -95,8 +100,11 @@ function DriverBookings({navigation, profile}) {
         setIsLoading(true);
         await firestore()
           .collection('Bookings')
-          .doc(profile.name)
+          .doc(userUID)
           .set({
+            bookerUID: '',
+            bookerProfile: {},
+            bookingRequest: false,
             name: profile.name,
             carColor: profile.carColor,
             carMake: profile.carMake,
@@ -108,6 +116,7 @@ function DriverBookings({navigation, profile}) {
             passengerCount: 0,
             passengerLimit: Number(pax),
             rating: profile.rating,
+            totalRides: profile.totalRides,
             route: routes,
             timeStart: timeStart,
             timeEnd: timeEnd,
@@ -127,7 +136,12 @@ function DriverBookings({navigation, profile}) {
         justifyContent: 'flex-start',
         backgroundColor: '#f3f3f3',
       }}>
-      <HomeHeader navigation={navigation} title={'Bookings'} main={true} />
+      <HomeHeader
+        navigation={navigation}
+        title={'Bookings'}
+        main={true}
+        fromProfile={false}
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{

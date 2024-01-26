@@ -12,7 +12,12 @@ function CommuterProfile({navigation}) {
       style={{
         backgroundColor: '#f3f3f3',
       }}>
-      <HomeHeader navigation={navigation} title={'Profile'} main={true} />
+      <HomeHeader
+        navigation={navigation}
+        title={'Profile'}
+        main={true}
+        fromProfile={true}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{

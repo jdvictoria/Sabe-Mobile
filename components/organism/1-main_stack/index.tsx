@@ -14,11 +14,18 @@ import AdminStack from '../4-admin_stack';
 function MainStack() {
   const Stack = createStackNavigator();
 
-  const [profile, setProfile] = useState([]);
+  // Global
   const [userUID, setUserUID] = useState('');
 
-  // Commuter
-  const [pickedRider, setPickedRider] = useState([]);
+  // UIDs
+  const [driverUID, setDriverUID] = useState('');
+
+  // Commuter Hooks
+  const [profile, setProfile] = useState([]);
+  const [riderProfile, setRiderProfile] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+
+  // Driver Hooks
 
   return (
     <NavigationContainer>
@@ -31,18 +38,23 @@ function MainStack() {
           {props => <Loading {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
-          {props => (
-            <AuthStack setProfile={setProfile} setUserUID={setUserUID} />
-          )}
+          {() => <AuthStack setProfile={setProfile} setUserUID={setUserUID} />}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
           {props =>
+            // @ts-ignore
             profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
+                redirect={redirect}
+                setRedirect={setRedirect}
                 userUID={userUID}
+                driverUID={driverUID}
                 profile={profile}
-                setPickedRider={setPickedRider}
+                setProfile={setProfile}
+                setDriverUID={setDriverUID}
+                riderProfile={riderProfile}
+                setRiderProfile={setRiderProfile}
               />
             ) : (
               <Fallback {...props} />
@@ -53,7 +65,18 @@ function MainStack() {
           {props => <AdminStack {...props} userUID={userUID} />}
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
-          {props => <BookingsDetail {...props} pickedRider={pickedRider} />}
+          {props => (
+            <BookingsDetail
+              {...props}
+              setRedirect={setRedirect}
+              userUID={userUID}
+              profile={profile}
+              setProfile={setProfile}
+              driverUID={driverUID}
+              riderProfile={riderProfile}
+              setRiderProfile={setRiderProfile}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

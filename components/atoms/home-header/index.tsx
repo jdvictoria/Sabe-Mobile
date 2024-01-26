@@ -1,7 +1,7 @@
 import React from 'react';
+import {Dimensions} from 'react-native';
 
 import {
-  StyledCol,
   StyledRow,
   StyledSafeAreaView,
   StyledTouchableRow,
@@ -10,16 +10,26 @@ import {styledText, StyledText24} from '../../../styles/text';
 
 // @ts-ignore
 import ArrowLeft from '../../../assets/icons/arrow-left.svg';
-import {Dimensions} from 'react-native';
+// @ts-ignore
+import Logout from '../../../assets/icons/logout.svg';
+
+import auth from '@react-native-firebase/auth';
 
 // @ts-ignore
-function HomeHeader({navigation, title, main}) {
+function HomeHeader({navigation, title, main, fromProfile}) {
   const sans = styledText();
 
   const handleBack = () => {
     if (title === 'Booking Detail') {
       navigation.navigate('Bookings');
     }
+  };
+
+  const handleLogout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+    navigation.navigate('AuthStack');
   };
 
   return (
@@ -34,7 +44,7 @@ function HomeHeader({navigation, title, main}) {
       <StyledRow
         style={{
           width: '90%',
-          justifyContent: main ? 'center' : 'space-between',
+          justifyContent: fromProfile || !main ? 'space-between' : 'center',
           paddingBottom: 11,
         }}>
         {!main && (
@@ -42,10 +52,16 @@ function HomeHeader({navigation, title, main}) {
             <ArrowLeft width={30} height={30} />
           </StyledTouchableRow>
         )}
+        {fromProfile && <StyledRow style={{width: 30, height: 30}} />}
         <StyledText24 style={[sans.bold, {color: '#fff'}]}>
           {title}
         </StyledText24>
         {!main && <StyledRow style={{width: 30, height: 30}} />}
+        {fromProfile && (
+          <StyledTouchableRow onPress={handleLogout}>
+            <Logout width={30} height={30} />
+          </StyledTouchableRow>
+        )}
       </StyledRow>
     </StyledSafeAreaView>
   );

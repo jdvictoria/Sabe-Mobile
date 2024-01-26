@@ -75,7 +75,12 @@ function AdminCommuters({navigation, userUID}) {
         justifyContent: 'flex-start',
         backgroundColor: '#042F40',
       }}>
-      <HomeHeader navigation={navigation} title={'Commuters'} main={true} />
+      <HomeHeader
+        navigation={navigation}
+        title={'Commuters'}
+        main={true}
+        fromProfile={false}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
