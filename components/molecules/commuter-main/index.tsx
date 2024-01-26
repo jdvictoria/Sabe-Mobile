@@ -19,8 +19,9 @@ function CommuterMain({
   setRiderProfile,
   position,
 }: any) {
-  const [hasRide, setHasRide] = useState(false);
   const [hasRequest, setHasRequest] = useState(false);
+  const [hasRide, setHasRide] = useState(false);
+  const [hasDrop, setHasDrop] = useState(false);
 
   const [endStep, setEndStep] = useState(1);
   const [rating, setRating] = useState(0);
@@ -78,6 +79,26 @@ function CommuterMain({
 
       await updateProfile();
       navigation.navigate('BookingsDetail');
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  const handleDropoff = async () => {
+    try {
+      const driverRef = firestore().collection('Bookings').doc(driverUID);
+      const commuterRef = firestore().collection('Users').doc(userUID);
+
+      await driverRef.update({
+        bookingDropoff: true,
+        dropOffUID: userUID,
+      });
+
+      await commuterRef.update({
+        bookingDropoff: true,
+      });
+
+      await updateProfile();
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -142,6 +163,13 @@ function CommuterMain({
         } else {
           setHasRide(false);
         }
+
+        if (data.bookingDropoff) {
+          setHasDrop(true);
+          clearInterval(intervalId);
+        } else {
+          setHasDrop(false);
+        }
       } else {
         console.log('Document does not exist');
         // Do something when the document does not exist
@@ -157,7 +185,7 @@ function CommuterMain({
     }, 1000);
     setIntervalId(id);
     return () => clearInterval(id);
-  }, [hasRequest, hasRide]);
+  }, [hasRequest, hasRide, hasDrop]);
 
   return (
     <StyledSafeAreaView
@@ -187,10 +215,11 @@ function CommuterMain({
         }}>
         <MainMap position={position} />
         <MainRideCommuter
-          hasRequest={hasRequest}
           hasRide={hasRide}
+          hasRequest={hasRequest}
+          hasDrop={hasDrop}
           handleCancel={handleCancel}
-          handleEnd={handleEnd}
+          handleDropoff={handleDropoff}
           rating={rating}
           setRating={setRating}
           endStep={endStep}

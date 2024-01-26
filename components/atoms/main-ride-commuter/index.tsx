@@ -10,14 +10,17 @@ import ButtonNegative from '../button-negative';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
+// @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
+import ButtonNeutral from '../button-neutral';
 
 // @ts-ignore
 function MainRideCommuter({
   hasRequest,
   hasRide,
+  hasDrop,
   handleCancel,
-  handleEnd,
+  handleDropoff,
   rating,
   setRating,
   endStep,
@@ -54,35 +57,22 @@ function MainRideCommuter({
         )}
         {!hasRequest && hasRide && (
           <StyledCol>
-            {endStep === 1 && (
-              <>
-                <StyledText18
-                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                  RIDE ONGOING
-                </StyledText18>
-                <StyledRow style={{marginTop: 20}}>
-                  <ButtonNegative onClick={handleStep} text={'End Ride'} />
-                </StyledRow>
-              </>
-            )}
-            {endStep === 2 && (
-              <>
-                <StyledText18
-                  style={[
-                    sans.bold,
-                    {color: '#042F40', marginTop: 5, marginBottom: 10},
-                  ]}>
-                  Rate your driver!
-                </StyledText18>
-                <StarRating
-                  onRatingEnd={handleEnd}
-                  enableSwiping={true}
-                  enableHalfStar={false}
-                  rating={rating}
-                  onChange={setRating}
-                  color={'#FFB800'}
+            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+              Ride Ongoing
+            </StyledText18>
+            {!hasDrop ? (
+              <StyledRow style={{marginTop: 20}}>
+                <ButtonNegative
+                  onClick={handleDropoff}
+                  text={'Request Dropoff'}
                 />
-              </>
+              </StyledRow>
+            ) : (
+              <StyledRow>
+                <StyledRow style={{marginTop: 20}}>
+                  <ButtonNeutral text={'Reviewing Request'} />
+                </StyledRow>
+              </StyledRow>
             )}
           </StyledCol>
         )}

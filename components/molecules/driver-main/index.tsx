@@ -11,10 +11,11 @@ import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function DriverMain({navigation, userUID, hasListing, position}) {
-  const [hasRide, setHasRide] = useState(false);
-
   const [requesteeData, setRequesteeData] = useState([]);
+
   const [hasRequest, setHasRequest] = useState(false);
+  const [hasRide, setHasRide] = useState(false);
+  const [hasDrop, setHasDrop] = useState(false);
 
   const [intervalId, setIntervalId] = useState(null);
 
@@ -51,9 +52,15 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         } else {
           setHasRide(false);
         }
+
+        if (data.bookingDropoff) {
+          setHasDrop(true);
+          clearInterval(intervalId);
+        } else {
+          setHasDrop(false);
+        }
       } else {
         console.log('Document does not exist');
-        // Do something when the document does not exist
       }
     } catch (error) {
       console.error('Error checking listing:', error);
@@ -61,14 +68,12 @@ function DriverMain({navigation, userUID, hasListing, position}) {
   };
 
   useEffect(() => {
-    if (hasListing) {
-      const id = setInterval(() => {
-        getRequest();
-      }, 1000);
-      setIntervalId(id);
-      return () => clearInterval(id);
-    }
-  }, [hasListing]);
+    const id = setInterval(() => {
+      getRequest();
+    }, 1000);
+    setIntervalId(id);
+    return () => clearInterval(id);
+  }, [hasListing, hasRide]);
 
   return (
     <StyledSafeAreaView
@@ -99,13 +104,15 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         <MainMap position={position} />
         <MainRideDriver
           userUID={userUID}
+          hasListing={hasListing}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
-          hasRide={hasRide}
-          setHasRide={setHasRide}
           hasRequest={hasRequest}
           setHasRequest={setHasRequest}
-          hasListing={hasListing}
+          hasRide={hasRide}
+          setHasRide={setHasRide}
+          hasDrop={hasDrop}
+          setHasDrop={setHasDrop}
         />
       </ScrollView>
     </StyledSafeAreaView>

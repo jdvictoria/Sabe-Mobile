@@ -15,17 +15,20 @@ import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
 
 import firestore from '@react-native-firebase/firestore';
+import ButtonPositive from '../button-positive';
 
 // @ts-ignore
 function MainRideDriver({
   userUID,
+  hasListing,
   requesteeData,
   setRequesteeData,
-  hasRide,
-  setHasRide,
   hasRequest,
   setHasRequest,
-  hasListing,
+  hasRide,
+  setHasRide,
+  hasDrop,
+  setHasDrop,
 }: any) {
   const sans = styledText();
 
@@ -78,18 +81,34 @@ function MainRideDriver({
         bookingRequest: false,
         bookingOngoing: true,
         passengerCount: newPassengerCount,
+        // @ts-ignore
+        bookingPassengers: firestore.FieldValue.arrayUnion(
+          driverSnapshot.data().bookerUID,
+        ),
       });
 
       await commuterRef.update({
         bookingRequest: false,
-        // @ts-ignore
-        // bookingProfile: driverSnapshot.data(),
         bookingOngoing: true,
       });
 
       setHasRequest(false);
       setHasRide(true);
       setRequesteeData([]);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  const handleViewDrop = async () => {
+    try {
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  const handleAcceptDrop = async () => {
+    try {
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -112,11 +131,29 @@ function MainRideDriver({
       <StyledCol style={{marginTop: 0}}>
         <SabeLogo width={50} height={50} />
         {hasRide && (
-          <>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              RIDE ONGOING
-            </StyledText18>
-          </>
+          <StyledCol>
+            {!hasDrop ? (
+              <>
+                <StyledText18
+                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  Ride Ongoing
+                </StyledText18>
+              </>
+            ) : (
+              <>
+                <StyledText18
+                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  Dropoff Request
+                </StyledText18>
+                <StyledRow style={{marginTop: 20}}>
+                  <ButtonPositive
+                    onClick={handleViewDrop}
+                    text={'View Request'}
+                  />
+                </StyledRow>
+              </>
+            )}
+          </StyledCol>
         )}
         {hasRequest && (
           <StyledCol>
