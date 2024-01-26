@@ -37,7 +37,6 @@ function HomeStack({
   profile,
   setProfile,
   setDriverUID,
-  riderProfile,
   setRiderProfile,
 }: any) {
   const Tabs = AnimatedTabBarNavigator();

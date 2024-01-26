@@ -187,6 +187,7 @@ function AuthSignUp({navigation}) {
           carColor: color,
           carPlate: plate,
           rating: 0,
+          totalRides: 0,
           regIDUrl: downloadURL1,
           licenseIDUrl: downloadURL2,
           isVerified: false,

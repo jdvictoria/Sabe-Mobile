@@ -23,7 +23,7 @@ function DriverBookings({
   setHasListing,
   booking,
   setBooking,
-}) {
+}: any) {
   const [create, setCreate] = useState(false);
 
   useEffect(() => {
@@ -116,6 +116,7 @@ function DriverBookings({
             passengerCount: 0,
             passengerLimit: Number(pax),
             rating: profile.rating,
+            totalRides: profile.totalRides,
             route: routes,
             timeStart: timeStart,
             timeEnd: timeEnd,
