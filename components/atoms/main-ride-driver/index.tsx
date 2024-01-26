@@ -11,11 +11,12 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import ButtonAccept from '../button-accept';
 import ButtonReject from '../button-reject';
+import ButtonPositive from '../button-positive';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
 
 import firestore from '@react-native-firebase/firestore';
-import ButtonPositive from '../button-positive';
+import StarRating from 'react-native-star-rating-widget';
 
 // @ts-ignore
 function MainRideDriver({
@@ -31,6 +32,10 @@ function MainRideDriver({
   setHasRide,
   hasDrop,
   setHasDrop,
+  hasApproved,
+  setHasApproved,
+  rating,
+  setRating,
 }: any) {
   const sans = styledText();
 
@@ -113,10 +118,10 @@ function MainRideDriver({
         .get();
       const commuterRef = firestore()
         .collection('Users')
-        .doc(driverSnapshot.data().dropOffUID);
+        .doc(driverSnapshot.data().dropoffUID);
       const commuterSnapshot = await firestore()
         .collection('Users')
-        .doc(driverSnapshot.data().dropOffUID)
+        .doc(driverSnapshot.data().dropoffUID)
         .get();
 
       setDropeeData(commuterSnapshot.data());
@@ -135,11 +140,11 @@ function MainRideDriver({
         .get();
       const commuterRef = firestore()
         .collection('Users')
-        .doc(driverSnapshot.data().dropOffUID);
+        .doc(driverSnapshot.data().dropoffUID);
 
       await driverRef.update({
         bookingDropoff: false,
-        dropOffUID: '',
+        dropoffUID: '',
       });
 
       await commuterRef.update({
@@ -154,8 +159,79 @@ function MainRideDriver({
 
   const handleAcceptDrop = async () => {
     try {
-      // setHasDrop(false);
-      // setDropeeData([]);
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+      const commuterRef = firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().dropoffUID);
+
+      await driverRef.update({
+        bookingDropoff: false,
+        dropoffApproved: true,
+      });
+
+      await commuterRef.update({
+        bookingDropoff: false,
+        dropoffApproved: true,
+      });
+
+      setHasDrop(false);
+      setHasApproved(true);
+      setRating(0);
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  const handleEnd = async () => {
+    try {
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+      const commuterRef = firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().dropoffUID);
+      const commuterSnapshot = await firestore()
+        .collection('Users')
+        .doc(driverSnapshot.data().dropoffUID)
+        .get();
+
+      // @ts-ignore
+      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+      const newPassengerCount = currentPassengerCount - 1;
+      // @ts-ignore
+      const currentTotalRides = driverSnapshot.data().totalRides || 0;
+      const newTotalRides = currentTotalRides + 1;
+
+      await driverRef.update({
+        passengerCount: newPassengerCount,
+        bookingOngoing: newPassengerCount !== 0,
+        totalRides: newTotalRides,
+        dropoffUID: '',
+        dropoffApproved: false,
+      });
+
+      // @ts-ignore
+      const currentCommuterTotalRides = commuterSnapshot.data().totalRides || 0;
+      const newCommuterTotalRides = currentCommuterTotalRides + 1;
+      // @ts-ignore
+      const currentCommuterRating = commuterSnapshot.data().rating || 0;
+      const newCustomerRating =
+        (currentCommuterRating + rating) / newCommuterTotalRides;
+
+      await commuterRef.update({
+        rating: newCustomerRating,
+        totalRides: newTotalRides,
+      });
+
+      setHasDrop(false);
+      setHasApproved(false);
+      setRating(null);
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -179,14 +255,15 @@ function MainRideDriver({
         <SabeLogo width={50} height={50} />
         {hasRide && (
           <StyledCol>
-            {!hasDrop ? (
+            {!hasDrop && !hasApproved && (
               <>
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
               </>
-            ) : (
+            )}
+            {hasDrop && (
               <>
                 <StyledRow>
                   <StyledText18
@@ -229,6 +306,25 @@ function MainRideDriver({
                     </StyledRow>
                   </>
                 )}
+              </>
+            )}
+            {hasApproved && (
+              <>
+                <StyledText18
+                  style={[
+                    sans.bold,
+                    {color: '#042F40', marginTop: 5, marginBottom: 10},
+                  ]}>
+                  Rate your passenger!
+                </StyledText18>
+                <StarRating
+                  onRatingEnd={handleEnd}
+                  enableSwiping={true}
+                  enableHalfStar={false}
+                  rating={rating}
+                  onChange={setRating}
+                  color={'#FFB800'}
+                />
               </>
             )}
           </StyledCol>

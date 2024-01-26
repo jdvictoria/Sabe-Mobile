@@ -17,6 +17,9 @@ function DriverMain({navigation, userUID, hasListing, position}) {
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
   const [hasDrop, setHasDrop] = useState(false);
+  const [hasApproved, setHasApproved] = useState(false);
+
+  const [rating, setRating] = useState(null);
 
   const [intervalId, setIntervalId] = useState(null);
 
@@ -60,6 +63,13 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         } else {
           setHasDrop(false);
         }
+
+        if (data.dropoffApproved) {
+          setHasApproved(true);
+          clearInterval(intervalId);
+        } else {
+          setHasApproved(false);
+        }
       } else {
         console.log('Document does not exist');
       }
@@ -69,12 +79,15 @@ function DriverMain({navigation, userUID, hasListing, position}) {
   };
 
   useEffect(() => {
-    const id = setInterval(() => {
-      getRequest();
-    }, 1000);
-    setIntervalId(id);
-    return () => clearInterval(id);
-  }, [hasListing, hasRide]);
+    if (rating === null) {
+      const id = setInterval(() => {
+        getRequest();
+      }, 1000);
+      setIntervalId(id);
+
+      return () => clearInterval(id);
+    }
+  }, [hasListing, hasRide, hasDrop, hasApproved, rating]);
 
   return (
     <StyledSafeAreaView
@@ -116,6 +129,10 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           setHasRide={setHasRide}
           hasDrop={hasDrop}
           setHasDrop={setHasDrop}
+          hasApproved={hasApproved}
+          setHasApproved={setHasApproved}
+          rating={rating}
+          setRating={setRating}
         />
       </ScrollView>
     </StyledSafeAreaView>

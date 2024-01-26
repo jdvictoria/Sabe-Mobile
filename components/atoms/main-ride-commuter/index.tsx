@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -19,18 +19,14 @@ function MainRideCommuter({
   hasRequest,
   hasRide,
   hasDrop,
+  hasApproved,
   handleCancel,
   handleDropoff,
+  handleEnd,
   rating,
   setRating,
-  endStep,
-  setEndStep,
 }: any) {
   const sans = styledText();
-
-  const handleStep = () => {
-    setEndStep(endStep + 1);
-  };
 
   return (
     <StyledCol
@@ -57,20 +53,43 @@ function MainRideCommuter({
         )}
         {!hasRequest && hasRide && (
           <StyledCol>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              Ride Ongoing
-            </StyledText18>
-            {!hasDrop ? (
-              <StyledRow style={{marginTop: 20}}>
-                <ButtonNegative
-                  onClick={handleDropoff}
-                  text={'Request Dropoff'}
-                />
-              </StyledRow>
-            ) : (
+            {!hasDrop && !hasApproved && (
+              <>
+                <StyledText18
+                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  Ride Ongoing
+                </StyledText18>
+                <StyledRow style={{marginTop: 20}}>
+                  <ButtonNegative
+                    onClick={handleDropoff}
+                    text={'Request Dropoff'}
+                  />
+                </StyledRow>
+              </>
+            )}
+            {hasDrop && (
               <StyledRow style={{marginTop: 10}}>
                 <ButtonNeutral text={'Reviewing Request'} />
               </StyledRow>
+            )}
+            {hasApproved && (
+              <>
+                <StyledText18
+                  style={[
+                    sans.bold,
+                    {color: '#042F40', marginTop: 5, marginBottom: 10},
+                  ]}>
+                  Rate your driver!
+                </StyledText18>
+                <StarRating
+                  onRatingEnd={handleEnd}
+                  enableSwiping={true}
+                  enableHalfStar={false}
+                  rating={rating}
+                  onChange={setRating}
+                  color={'#FFB800'}
+                />
+              </>
             )}
           </StyledCol>
         )}

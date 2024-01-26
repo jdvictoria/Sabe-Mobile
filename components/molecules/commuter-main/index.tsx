@@ -22,6 +22,7 @@ function CommuterMain({
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
   const [hasDrop, setHasDrop] = useState(false);
+  const [hasApproved, setHasApproved] = useState(false);
 
   const [endStep, setEndStep] = useState(1);
   const [rating, setRating] = useState(0);
@@ -91,7 +92,7 @@ function CommuterMain({
 
       await driverRef.update({
         bookingDropoff: true,
-        dropOffUID: userUID,
+        dropoffUID: userUID,
       });
 
       await commuterRef.update({
@@ -116,7 +117,6 @@ function CommuterMain({
       // @ts-ignore
       const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
       const newPassengerCount = currentPassengerCount - 1;
-
       // @ts-ignore
       const currentTotalRides = driverSnapshot.data().totalRides || 0;
       const newTotalRides = currentTotalRides + 1;
@@ -125,18 +125,18 @@ function CommuterMain({
       const newDriverRating = (currentDriverRating + rating) / newTotalRides;
 
       await driverRef.update({
-        passengerCount: newPassengerCount,
-        bookingOngoing: newPassengerCount !== 0,
         rating: newDriverRating,
-        totalRides: newTotalRides,
       });
 
       await commuterRef.update({
+        dropoffApproved: false,
         bookingOngoing: false,
       });
 
-      setEndStep(1);
       await updateProfile();
+
+      setHasRequest(false);
+      setHasRide(false);
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -169,6 +169,13 @@ function CommuterMain({
           clearInterval(intervalId);
         } else {
           setHasDrop(false);
+        }
+
+        if (data.dropoffApproved) {
+          setHasApproved(true);
+          clearInterval(intervalId);
+        } else {
+          setHasApproved(false);
         }
       } else {
         console.log('Document does not exist');
@@ -218,8 +225,10 @@ function CommuterMain({
           hasRide={hasRide}
           hasRequest={hasRequest}
           hasDrop={hasDrop}
+          hasApproved={hasApproved}
           handleCancel={handleCancel}
           handleDropoff={handleDropoff}
+          handleEnd={handleEnd}
           rating={rating}
           setRating={setRating}
           endStep={endStep}
