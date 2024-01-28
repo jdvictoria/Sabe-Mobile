@@ -165,7 +165,7 @@ function BookingsCard({
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            {rating}
+            {rating.toFixed(2)}
           </StyledText14>
           <StyledText14
             style={[

@@ -351,7 +351,7 @@ function MainRideDriver({
               labelOne={'Type'}
               dataOne={requesteeData.type}
               labelTwo={'Rating'}
-              dataTwo={requesteeData.rating}
+              dataTwo={requesteeData.rating.toFixed(2)}
             />
             <StyledRow style={{marginTop: 10}}>
               <ButtonReject onClick={handleReject} />
