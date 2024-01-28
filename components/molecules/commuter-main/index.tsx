@@ -135,6 +135,7 @@ function CommuterMain({
 
       setHasRequest(false);
       setHasRide(false);
+      setRating(0);
     } catch (error) {
       console.error('Error updating document:', error);
     }
