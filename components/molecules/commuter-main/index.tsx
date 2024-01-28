@@ -107,11 +107,11 @@ function CommuterMain({
 
   const handleEnd = async () => {
     try {
+      const driverRef = firestore().collection('Users').doc(driverUID);
       const driverSnapshot = await firestore()
-        .collection('Bookings')
+        .collection('Users')
         .doc(driverUID)
         .get();
-      const driverRef = firestore().collection('Users').doc(driverUID);
       const commuterRef = firestore().collection('Users').doc(userUID);
 
       // @ts-ignore
