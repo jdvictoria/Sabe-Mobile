@@ -107,16 +107,13 @@ function CommuterMain({
 
   const handleEnd = async () => {
     try {
-      const driverRef = firestore().collection('Bookings').doc(driverUID);
       const driverSnapshot = await firestore()
         .collection('Bookings')
         .doc(driverUID)
         .get();
+      const driverRef = firestore().collection('Users').doc(driverUID);
       const commuterRef = firestore().collection('Users').doc(userUID);
 
-      // @ts-ignore
-      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
-      const newPassengerCount = currentPassengerCount - 1;
       // @ts-ignore
       const currentTotalRides = driverSnapshot.data().totalRides || 0;
       const newTotalRides = currentTotalRides + 1;
@@ -126,6 +123,7 @@ function CommuterMain({
 
       await driverRef.update({
         rating: newDriverRating,
+        totalRides: newTotalRides,
       });
 
       await commuterRef.update({

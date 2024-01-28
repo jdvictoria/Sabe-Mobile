@@ -204,14 +204,10 @@ function MainRideDriver({
       // @ts-ignore
       const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
       const newPassengerCount = currentPassengerCount - 1;
-      // @ts-ignore
-      const currentTotalRides = driverSnapshot.data().totalRides || 0;
-      const newTotalRides = currentTotalRides + 1;
 
       await driverRef.update({
         passengerCount: newPassengerCount,
         bookingOngoing: newPassengerCount !== 0,
-        totalRides: newTotalRides,
         dropoffUID: '',
         dropoffApproved: false,
       });
@@ -221,12 +217,12 @@ function MainRideDriver({
       const newCommuterTotalRides = currentCommuterTotalRides + 1;
       // @ts-ignore
       const currentCommuterRating = commuterSnapshot.data().rating || 0;
-      const newCustomerRating =
+      const newCommuterRating =
         (currentCommuterRating + rating) / newCommuterTotalRides;
 
       await commuterRef.update({
-        rating: newCustomerRating,
-        totalRides: newTotalRides,
+        rating: newCommuterRating,
+        totalRides: newCommuterTotalRides,
       });
 
       setHasDrop(false);
