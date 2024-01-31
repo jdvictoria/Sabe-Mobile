@@ -83,6 +83,10 @@ function BookingsCard({
         paddingBottom: 12.5,
         backgroundColor: '#fff',
         borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
       }}>
       <StyledRow
         style={{

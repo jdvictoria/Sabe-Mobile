@@ -27,6 +27,7 @@ import CommuterBookings from '../../molecules/commuter-bookings';
 
 import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
+import DriverProfile from '../../molecules/driver-profile';
 
 // @ts-ignore
 function HomeStack({
@@ -163,7 +164,13 @@ function HomeStack({
               <HomeProfileAlt width={20} height={20} />
             ),
         }}>
-        {props => <CommuterProfile {...props} />}
+        {props =>
+          profile.type === 'driver' ? (
+            <DriverProfile {...props} />
+          ) : (
+            <CommuterProfile {...props} />
+          )
+        }
       </Tabs.Screen>
     </Tabs.Navigator>
   );
