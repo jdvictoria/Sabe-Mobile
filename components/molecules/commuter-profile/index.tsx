@@ -45,7 +45,8 @@ function CommuterProfile({navigation}) {
           backgroundColor: '#e7e7e7',
           borderTopLeftRadius: 50,
           borderTopRightRadius: 50,
-        }}>
+        }}
+        scrollEnabled={false}>
         <StyledCol style={{width: '100%', marginTop: 25}}>
           <StyledCol>
             <StyledTouchableCol
