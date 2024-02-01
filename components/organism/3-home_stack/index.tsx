@@ -166,9 +166,9 @@ function HomeStack({
         }}>
         {props =>
           profile.type === 'driver' ? (
-            <DriverProfile {...props} profile={profile} />
+            <DriverProfile {...props} userUID={userUID} profile={profile} />
           ) : (
-            <CommuterProfile {...props} profile={profile} />
+            <CommuterProfile {...props} userUID={userUID} profile={profile} />
           )
         }
       </Tabs.Screen>

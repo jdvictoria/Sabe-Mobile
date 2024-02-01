@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {Dimensions, Image, ScrollView} from 'react-native';
 
 import {
   StyledCol,
@@ -9,20 +9,65 @@ import {
 } from '../../../styles/container';
 import {styledText, StyledText14, StyledText18} from '../../../styles/text';
 
+import {launchImageLibrary} from 'react-native-image-picker';
+
 // @ts-ignore
 import Rating from '../../../assets/icons/rating.svg';
 // @ts-ignore
 import Edit from '../../../assets/icons/edit.svg';
+// @ts-ignore
+import Person from '../../../assets/icons/person.svg';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonSettings from '../../atoms/button-settings';
+
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 // @ts-ignore
-function DriverProfile({navigation, profile}) {
+function DriverProfile({navigation, userUID, profile}) {
   const sans = styledText();
 
   const [isHovered, setIsHovered] = useState(false);
+
+  const uploadPicture = async imageUri => {
+    try {
+      // Upload image to Firebase Storage
+      const fileName =
+        profile.name + '-' + imageUri.substring(imageUri.lastIndexOf('/') + 1);
+      const storageRef = storage().ref(`commuters/${fileName}`);
+      const task = storageRef.putFile(imageUri);
+      const downloadURL = await task.then(() => storageRef.getDownloadURL());
+
+      const userRef = firestore().collection('Users').doc(userUID);
+
+      await userRef.update({
+        profPic: downloadURL,
+      });
+    } catch (error) {
+      console.log('Upload Failed');
+    }
+  };
+
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        uploadPicture(imageUri);
+      }
+    });
+  };
 
   return (
     <StyledSafeAreaView
@@ -66,8 +111,27 @@ function DriverProfile({navigation, profile}) {
                 shadowRadius: 4,
               }}
               onPressIn={() => setIsHovered(true)}
-              onPressOut={() => setIsHovered(false)}>
-              {isHovered && <Edit width={25} height={25} />}
+              onPressOut={() => setIsHovered(false)}
+              onPress={openImagePicker}>
+              {profile.profPic ? (
+                <Image
+                  style={{
+                    width: 100,
+                    height: 100,
+                    marginTop: 5,
+                    marginBottom: 5,
+                    borderWidth: 2,
+                    borderRadius: 50,
+                    borderColor: '#042f40',
+                  }}
+                  source={{uri: profile.profPic}}
+                />
+              ) : (
+                <Person width={50} height={50} />
+              )}
+              {isHovered && (
+                <Edit width={25} height={25} style={{position: 'absolute'}} />
+              )}
             </StyledTouchableCol>
             <StyledText18
               style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
