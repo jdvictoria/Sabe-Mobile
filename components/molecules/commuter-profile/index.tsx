@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {
@@ -11,13 +11,17 @@ import {styledText, StyledText14, StyledText18} from '../../../styles/text';
 
 // @ts-ignore
 import Rating from '../../../assets/icons/rating.svg';
+// @ts-ignore
+import Edit from '../../../assets/icons/edit.svg';
 
 import HomeHeader from '../../atoms/home-header';
 import ButtonSettings from '../../atoms/button-settings';
 
 // @ts-ignore
-function CommuterProfile({navigation}) {
+function CommuterProfile({navigation, profile}) {
   const sans = styledText();
+
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <StyledSafeAreaView
@@ -60,13 +64,16 @@ function CommuterProfile({navigation}) {
                 shadowOpacity: 0.2,
                 shadowRadius: 4,
               }}
-            />
+              onPressIn={() => setIsHovered(true)}
+              onPressOut={() => setIsHovered(false)}>
+              {isHovered && <Edit width={25} height={25} />}
+            </StyledTouchableCol>
             <StyledText18
               style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
-              Joshua Arlo Victoria
+              {profile.name}
             </StyledText18>
             <StyledText14 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              09556736262 | vjoshuaarlo12@gmail.com
+              {profile.contact} | {profile.email}
             </StyledText14>
             <StyledRow style={{marginTop: 10}}>
               <Rating width={30} height={30} />
@@ -75,7 +82,7 @@ function CommuterProfile({navigation}) {
                   sans.bold,
                   {color: '#042F40', marginLeft: 5, marginTop: 1.5},
                 ]}>
-                4.5
+                {profile.rating.toFixed(2)}
               </StyledText18>
             </StyledRow>
           </StyledCol>
