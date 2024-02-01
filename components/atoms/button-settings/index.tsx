@@ -3,7 +3,7 @@ import React from 'react';
 import {styledText, StyledText18} from '../../../styles/text';
 import {StyledTouchableCol} from '../../../styles/container';
 
-function ButtonSettings({setting}: any) {
+function ButtonSettings({setting, onClick}: any) {
   const sans = styledText();
 
   return (
@@ -19,7 +19,8 @@ function ButtonSettings({setting}: any) {
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.2,
         shadowRadius: 4,
-      }}>
+      }}
+      onPress={onClick}>
       <StyledText18 style={[sans.regular, {color: '#042F40'}]}>
         {setting}
       </StyledText18>
