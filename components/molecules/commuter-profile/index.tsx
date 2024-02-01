@@ -25,7 +25,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
 // @ts-ignore
-function CommuterProfile({navigation, userUID, profile}) {
+function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
   const sans = styledText();
 
   const [isHovered, setIsHovered] = useState(false);

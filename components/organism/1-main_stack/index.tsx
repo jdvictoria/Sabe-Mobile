@@ -10,6 +10,7 @@ import BookingsDetail from '../../molecules/bookings-detail';
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
 import AdminStack from '../4-admin_stack';
+import firestore from '@react-native-firebase/firestore';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -25,7 +26,24 @@ function MainStack() {
   const [riderProfile, setRiderProfile] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
-  // Driver Hooks
+  const refetchProfile = async () => {
+    try {
+      const userDocument = await firestore()
+        .collection('Users')
+        .doc(userUID)
+        .get();
+
+      if (userDocument.exists) {
+        const userData = userDocument.data();
+        // @ts-ignore
+        setProfile(userData);
+      } else {
+        console.log('Document does not exist');
+      }
+    } catch (error) {
+      console.log('Error Fetching Profile');
+    }
+  };
 
   return (
     <NavigationContainer>
@@ -52,6 +70,7 @@ function MainStack() {
                 driverUID={driverUID}
                 profile={profile}
                 setProfile={setProfile}
+                refetchProfile={refetchProfile}
                 setDriverUID={setDriverUID}
                 riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}

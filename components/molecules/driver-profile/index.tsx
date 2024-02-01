@@ -25,7 +25,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
 // @ts-ignore
-function DriverProfile({navigation, userUID, profile}) {
+function DriverProfile({navigation, userUID, profile, refetchProfile}) {
   const sans = styledText();
 
   const [isHovered, setIsHovered] = useState(false);
@@ -44,6 +44,8 @@ function DriverProfile({navigation, userUID, profile}) {
       await userRef.update({
         profPic: downloadURL,
       });
+
+      refetchProfile();
     } catch (error) {
       console.log('Upload Failed');
     }

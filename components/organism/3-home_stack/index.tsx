@@ -37,6 +37,7 @@ function HomeStack({
   setRedirect,
   profile,
   setProfile,
+  refetchProfile,
   setDriverUID,
   setRiderProfile,
 }: any) {
@@ -166,9 +167,19 @@ function HomeStack({
         }}>
         {props =>
           profile.type === 'driver' ? (
-            <DriverProfile {...props} userUID={userUID} profile={profile} />
+            <DriverProfile
+              {...props}
+              userUID={userUID}
+              profile={profile}
+              refetchProfile={refetchProfile}
+            />
           ) : (
-            <CommuterProfile {...props} userUID={userUID} profile={profile} />
+            <CommuterProfile
+              {...props}
+              userUID={userUID}
+              profile={profile}
+              refetchProfile={refetchProfile}
+            />
           )
         }
       </Tabs.Screen>
