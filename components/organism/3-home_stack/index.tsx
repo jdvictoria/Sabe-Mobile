@@ -22,12 +22,10 @@ import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 import GetLocation from 'react-native-get-location';
 
 import CommuterMain from '../../molecules/commuter-main';
-import CommuterProfile from '../../molecules/commuter-profile';
 import CommuterBookings from '../../molecules/commuter-bookings';
-
 import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
-import DriverProfile from '../../molecules/driver-profile';
+import UserProfile from '../../molecules/user-profile';
 
 // @ts-ignore
 function HomeStack({
@@ -165,23 +163,14 @@ function HomeStack({
               <HomeProfileAlt width={20} height={20} />
             ),
         }}>
-        {props =>
-          profile.type === 'driver' ? (
-            <DriverProfile
-              {...props}
-              userUID={userUID}
-              profile={profile}
-              refetchProfile={refetchProfile}
-            />
-          ) : (
-            <CommuterProfile
-              {...props}
-              userUID={userUID}
-              profile={profile}
-              refetchProfile={refetchProfile}
-            />
-          )
-        }
+        {props => (
+          <UserProfile
+            {...props}
+            userUID={userUID}
+            profile={profile}
+            refetchProfile={refetchProfile}
+          />
+        )}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

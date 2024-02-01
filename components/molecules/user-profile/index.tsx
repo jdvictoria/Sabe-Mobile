@@ -26,7 +26,7 @@ import storage from '@react-native-firebase/storage';
 import ModalInfo from '../../atoms/modal-info';
 
 // @ts-ignore
-function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
+function UserProfile({navigation, userUID, profile, refetchProfile}) {
   const sans = styledText();
 
   const [faqModalVisible, setFaqModalVisible] = useState(false);
@@ -203,4 +203,4 @@ function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
   );
 }
 
-export default CommuterProfile;
+export default UserProfile;
