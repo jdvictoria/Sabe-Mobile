@@ -171,7 +171,6 @@ function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
                 setting={'Frequently Asked Questions'}
                 onClick={handleFaqModalOpen}
               />
-              <ButtonSettings setting={'Share To Friends'} />
               <ButtonSettings setting={'Contact Support'} />
               <ButtonSettings
                 setting={'About Us'}
