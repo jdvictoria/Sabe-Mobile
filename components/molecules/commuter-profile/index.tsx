@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, Image, Modal, ScrollView} from 'react-native';
+import {Dimensions, Image, ScrollView} from 'react-native';
 
 import {
   StyledCol,
@@ -10,6 +10,7 @@ import {
 import {styledText, StyledText14, StyledText18} from '../../../styles/text';
 
 import {launchImageLibrary} from 'react-native-image-picker';
+import email from 'react-native-email';
 
 // @ts-ignore
 import Rating from '../../../assets/icons/rating.svg';
@@ -37,6 +38,11 @@ function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
 
   const handleAboutModalOpen = () => {
     setAboutModalVisible(prevState => !prevState);
+  };
+
+  const handleEmail = () => {
+    const to = ['2020101221@dhvsu.edu.ph'];
+    email(to, {}).catch(console.error);
   };
 
   const [isHovered, setIsHovered] = useState(false);
@@ -171,7 +177,10 @@ function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
                 setting={'Frequently Asked Questions'}
                 onClick={handleFaqModalOpen}
               />
-              <ButtonSettings setting={'Contact Support'} />
+              <ButtonSettings
+                setting={'Contact Support'}
+                onClick={handleEmail}
+              />
               <ButtonSettings
                 setting={'About Us'}
                 onClick={handleAboutModalOpen}
