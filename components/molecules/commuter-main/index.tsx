@@ -19,6 +19,8 @@ function CommuterMain({
   setRiderProfile,
   position,
 }: any) {
+  const [driverData, setDriverData] = useState([]);
+
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
   const [hasDrop, setHasDrop] = useState(false);
@@ -143,8 +145,16 @@ function CommuterMain({
 
   const getRequest = async () => {
     try {
+      const driverRef = firestore().collection('Users').doc(driverUID);
+      const driverSnapshot = await driverRef.get();
       const docRef = firestore().collection('Users').doc(userUID);
       const docSnapshot = await docRef.get();
+
+      if (driverSnapshot.exists) {
+        const data = driverSnapshot.data();
+
+        setDriverData(data);
+      }
 
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
@@ -221,6 +231,7 @@ function CommuterMain({
         }}>
         <MainMap position={position} />
         <MainRideCommuter
+          driverData={driverData}
           hasRide={hasRide}
           hasRequest={hasRequest}
           hasDrop={hasDrop}

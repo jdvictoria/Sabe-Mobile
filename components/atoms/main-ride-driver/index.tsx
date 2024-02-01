@@ -17,6 +17,7 @@ import ListingOne from '../listing-one';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
+import {Image} from 'react-native';
 
 // @ts-ignore
 function MainRideDriver({
@@ -111,14 +112,10 @@ function MainRideDriver({
 
   const handleViewDrop = async () => {
     try {
-      const driverRef = firestore().collection('Bookings').doc(userUID);
       const driverSnapshot = await firestore()
         .collection('Bookings')
         .doc(userUID)
         .get();
-      const commuterRef = firestore()
-        .collection('Users')
-        .doc(driverSnapshot.data().dropoffUID);
       const commuterSnapshot = await firestore()
         .collection('Users')
         .doc(driverSnapshot.data().dropoffUID)
@@ -252,11 +249,11 @@ function MainRideDriver({
         shadowRadius: 4,
       }}>
       <StyledCol style={{marginTop: 0}}>
-        <SabeLogo width={50} height={50} />
         {hasRide && (
           <StyledCol>
             {!hasDrop && !hasApproved && (
               <>
+                <SabeLogo width={75} height={75} />
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
@@ -265,6 +262,22 @@ function MainRideDriver({
             )}
             {hasDrop && (
               <>
+                {dropeeData.profPic ? (
+                  <Image
+                    style={{
+                      width: 75,
+                      height: 75,
+                      marginTop: 10,
+                      borderRadius: 50,
+                      borderWidth: 2,
+                      borderRadius: 50,
+                      borderColor: '#042f40',
+                    }}
+                    source={{uri: dropeeData.profPic}}
+                  />
+                ) : (
+                  <SabeLogo width={75} height={75} />
+                )}
                 <StyledRow>
                   <StyledText18
                     style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
@@ -298,7 +311,11 @@ function MainRideDriver({
                       labelOne={'Type'}
                       dataOne={dropeeData.type}
                       labelTwo={'Rating'}
-                      dataTwo={dropeeData.rating}
+                      dataTwo={
+                        dropeeData.rating
+                          ? dropeeData.rating.toFixed(2)
+                          : dropeeData.rating
+                      }
                     />
                     <StyledRow style={{marginTop: 10}}>
                       <ButtonReject onClick={handleCancelDrop} />
@@ -331,6 +348,22 @@ function MainRideDriver({
         )}
         {hasRequest && (
           <StyledCol>
+            {requesteeData.profPic ? (
+              <Image
+                style={{
+                  width: 75,
+                  height: 75,
+                  marginTop: 10,
+                  borderRadius: 50,
+                  borderWidth: 2,
+                  borderRadius: 50,
+                  borderColor: '#042f40',
+                }}
+                source={{uri: requesteeData.profPic}}
+              />
+            ) : (
+              <SabeLogo width={75} height={75} />
+            )}
             <StyledRow>
               <StyledText18
                 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
@@ -355,7 +388,11 @@ function MainRideDriver({
               labelOne={'Type'}
               dataOne={requesteeData.type}
               labelTwo={'Rating'}
-              dataTwo={requesteeData.rating.toFixed(2)}
+              dataTwo={
+                requesteeData.rating
+                  ? requesteeData.rating.toFixed(2)
+                  : requesteeData.rating
+              }
             />
             <StyledRow style={{marginTop: 10}}>
               <ButtonReject onClick={handleReject} />
@@ -364,22 +401,26 @@ function MainRideDriver({
           </StyledCol>
         )}
         {!hasRide && (!hasRequest || requesteeData.length === 0) && (
-          <StyledRow>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              {hasListing
-                ? 'Waiting for commuter request'
-                : 'You have no active listing'}
-            </StyledText18>
-            {hasListing && (
-              <AnimatedEllipsis
-                style={{
-                  color: '#042F40',
-                  fontSize: 26,
-                  letterSpacing: -2.5,
-                }}
-              />
-            )}
-          </StyledRow>
+          <StyledCol>
+            <SabeLogo width={75} height={75} />
+            <StyledRow>
+              <StyledText18
+                style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                {hasListing
+                  ? 'Waiting for commuter request'
+                  : 'You have no active listing'}
+              </StyledText18>
+              {hasListing && (
+                <AnimatedEllipsis
+                  style={{
+                    color: '#042F40',
+                    fontSize: 26,
+                    letterSpacing: -2.5,
+                  }}
+                />
+              )}
+            </StyledRow>
+          </StyledCol>
         )}
       </StyledCol>
     </StyledCol>

@@ -13,9 +13,11 @@ import ButtonNeutral from '../button-neutral';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
+import {Image} from 'react-native';
 
 // @ts-ignore
 function MainRideCommuter({
+  driverData,
   hasRequest,
   hasRide,
   hasDrop,
@@ -47,18 +49,22 @@ function MainRideCommuter({
         shadowRadius: 4,
       }}>
       <StyledCol style={{marginTop: hasRequest ? 15 : 0}}>
-        <SabeLogo width={50} height={50} />
         {!hasRequest && !hasRide && (
-          <StyledRow>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              You have no ongoing ride
-            </StyledText18>
-          </StyledRow>
+          <>
+            <SabeLogo width={75} height={75} />
+            <StyledRow>
+              <StyledText18
+                style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                You have no ongoing ride
+              </StyledText18>
+            </StyledRow>
+          </>
         )}
         {!hasRequest && hasRide && (
           <StyledCol>
             {!hasDrop && !hasApproved && (
               <>
+                <SabeLogo width={75} height={75} />
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
@@ -72,9 +78,12 @@ function MainRideCommuter({
               </>
             )}
             {hasDrop && (
-              <StyledRow style={{marginTop: 10}}>
-                <ButtonNeutral text={'Reviewing Request'} />
-              </StyledRow>
+              <>
+                <SabeLogo width={75} height={75} />
+                <StyledRow style={{marginTop: 10}}>
+                  <ButtonNeutral text={'Reviewing Request'} />
+                </StyledRow>
+              </>
             )}
             {hasApproved && (
               <>
@@ -99,6 +108,20 @@ function MainRideCommuter({
         )}
         {!hasRide && hasRequest && (
           <StyledCol>
+            {driverData.profPic ? (
+              <Image
+                style={{
+                  width: 75,
+                  height: 75,
+                  borderRadius: 50,
+                  borderWidth: 2,
+                  borderColor: '#042f40',
+                }}
+                source={{uri: driverData.profPic}}
+              />
+            ) : (
+              <SabeLogo width={75} height={75} />
+            )}
             <StyledRow>
               <StyledText18
                 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>

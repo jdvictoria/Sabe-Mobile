@@ -44,6 +44,8 @@ function CommuterProfile({navigation, userUID, profile, refetchProfile}) {
       await userRef.update({
         profPic: downloadURL,
       });
+
+      refetchProfile();
     } catch (error) {
       console.log('Upload Failed');
     }
