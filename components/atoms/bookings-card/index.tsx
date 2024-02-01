@@ -22,6 +22,7 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 import firestore from '@react-native-firebase/firestore';
+import {Image} from 'react-native';
 
 // @ts-ignore
 function BookingsCard({
@@ -34,6 +35,7 @@ function BookingsCard({
 }: any) {
   const sans = styledText();
 
+  const [image, setImage] = useState('');
   const [rating, setRating] = useState(0);
   const [totalRides, setTotalRides] = useState(0);
 
@@ -47,13 +49,15 @@ function BookingsCard({
     navigation.navigate('BookingsDetail');
   };
 
-  const getRating = async () => {
+  const getUpdatedProfile = async () => {
     try {
       const driverSnapshot = await firestore()
         .collection('Users')
         .doc(riderId)
         .get();
 
+      // @ts-ignore
+      setImage(driverSnapshot.data().profPic);
       // @ts-ignore
       setRating(driverSnapshot.data().rating);
       // @ts-ignore
@@ -65,7 +69,7 @@ function BookingsCard({
 
   useEffect(() => {
     const id = setInterval(() => {
-      getRating();
+      getUpdatedProfile();
     }, 1000);
     setIntervalId(id);
     return () => clearInterval(id);
@@ -94,7 +98,20 @@ function BookingsCard({
           justifyContent: 'space-between',
         }}>
         <StyledRow>
-          <SabeLogo width={25} height={25} />
+          {image ? (
+            <Image
+              style={{
+                width: 30,
+                height: 30,
+                borderWidth: 2,
+                borderRadius: 50,
+                borderColor: '#042f40',
+              }}
+              source={{uri: image}}
+            />
+          ) : (
+            <SabeLogo width={32.5} height={32.5} />
+          )}
           <StyledCol
             style={{
               paddingLeft: 10,
