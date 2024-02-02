@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -17,9 +18,7 @@ import ListingOne from '../listing-one';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
-import {Image} from 'react-native';
 
-// @ts-ignore
 function MainRideDriver({
   userUID,
   hasListing,

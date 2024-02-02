@@ -1,4 +1,5 @@
 import React from 'react';
+import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -13,9 +14,7 @@ import ButtonNeutral from '../button-neutral';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
-import {Image} from 'react-native';
 
-// @ts-ignore
 function MainRideCommuter({
   driverData,
   hasRequest,

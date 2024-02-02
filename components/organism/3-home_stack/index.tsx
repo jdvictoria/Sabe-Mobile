@@ -26,6 +26,7 @@ import CommuterBookings from '../../molecules/commuter-bookings';
 import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
 import UserProfile from '../../molecules/user-profile';
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function HomeStack({
@@ -69,8 +70,33 @@ function HomeStack({
   });
 
   // Driver Hooks
+  const [create, setCreate] = useState(false);
+
   const [hasListing, setHasListing] = useState(false);
   const [booking, setBooking] = useState([]);
+
+  useEffect(() => {
+    if (profile.type === 'driver') {
+      const checkListing = async () => {
+        try {
+          const docRef = firestore().collection('Bookings').doc(userUID);
+          const docSnapshot = await docRef.get();
+
+          if (docSnapshot.exists) {
+            // @ts-ignore
+            setBooking(docSnapshot.data());
+            setHasListing(true);
+          } else {
+            setHasListing(false);
+          }
+        } catch (error) {
+          console.error('Error checking listing:', error);
+        }
+      };
+
+      checkListing();
+    }
+  }, [create]);
 
   return (
     <Tabs.Navigator
@@ -101,10 +127,11 @@ function HomeStack({
               {...props}
               profile={profile}
               userUID={userUID}
+              create={create}
+              setCreate={setCreate}
               hasListing={hasListing}
               setHasListing={setHasListing}
               booking={booking}
-              setBooking={setBooking}
             />
           ) : (
             <CommuterBookings
