@@ -41,31 +41,40 @@ function DriverMain({navigation, userUID, hasListing, position}) {
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
 
+        // @ts-ignore
         if (data.bookingRequest) {
+          // @ts-ignore
           setRequesteeData(data.bookerProfile);
           setHasRequest(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setRequesteeData([]);
           setHasRequest(false);
         }
 
+        // @ts-ignore
         if (data.bookingOngoing) {
           setHasRide(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRide(false);
         }
 
+        // @ts-ignore
         if (data.bookingDropoff) {
           setHasDrop(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasDrop(false);
         }
 
+        // @ts-ignore
         if (data.dropoffApproved) {
           setHasApproved(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasApproved(false);
@@ -83,6 +92,8 @@ function DriverMain({navigation, userUID, hasListing, position}) {
       const id = setInterval(() => {
         getRequest();
       }, 1000);
+
+      // @ts-ignore
       setIntervalId(id);
 
       return () => clearInterval(id);
@@ -102,6 +113,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         fromProfile={false}
       />
       <ScrollView
+        // @ts-ignore
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
