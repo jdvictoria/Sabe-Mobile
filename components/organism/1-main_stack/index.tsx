@@ -1,19 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import NetInfo from '@react-native-community/netinfo';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
-import Fallback from '../../molecules/fallback';
 import BookingsDetail from '../../molecules/bookings-detail';
+import FallbackUnverified from '../../molecules/fallback-unverified';
+import FallbackInternet from '../../molecules/fallback-internet';
 
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
 import AdminStack from '../4-admin_stack';
+
 import firestore from '@react-native-firebase/firestore';
 
 function MainStack() {
   const Stack = createStackNavigator();
+
+  const [connection, setConnection] = useState(false);
 
   // Global
   const [userUID, setUserUID] = useState('');
@@ -45,6 +50,22 @@ function MainStack() {
     }
   };
 
+  useEffect(() => {
+    NetInfo.fetch().then(state => {
+      const conn = state.isConnected;
+      setConnection(conn);
+    });
+
+    const intervalId = setInterval(() => {
+      NetInfo.fetch().then(state => {
+        const conn = state.isConnected;
+        setConnection(conn);
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -61,13 +82,16 @@ function MainStack() {
         <Stack.Screen name="HomeStack">
           {props =>
             // @ts-ignore
-            profile.isVerified && profile.isVerified !== undefined ? (
+            connection ? (
+              <FallbackInternet />
+            ) : profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
-                redirect={redirect}
-                setRedirect={setRedirect}
+                setConnection={setConnection}
                 userUID={userUID}
                 driverUID={driverUID}
+                redirect={redirect}
+                setRedirect={setRedirect}
                 profile={profile}
                 setProfile={setProfile}
                 refetchProfile={refetchProfile}
@@ -76,7 +100,7 @@ function MainStack() {
                 setRiderProfile={setRiderProfile}
               />
             ) : (
-              <Fallback {...props} />
+              <FallbackUnverified {...props} />
             )
           }
         </Stack.Screen>

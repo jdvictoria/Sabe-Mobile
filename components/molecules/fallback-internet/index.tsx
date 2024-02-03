@@ -1,30 +1,15 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
 import {styledText, StyledText16, StyledText60} from '../../../styles/text';
 
-import auth from '@react-native-firebase/auth';
-
 // @ts-ignore
 import HomeLogoDark from '../../../assets/icons/home-dark.svg';
+import ButtonPositive from '../../atoms/button-positive';
 
 // @ts-ignore
-function Fallback({navigation}) {
+function FallbackUnverified() {
   const sans = styledText();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      auth()
-        .signOut()
-        .then(() => console.log('User signed out!'));
-
-      navigation.navigate('AuthStack');
-      // navigation.navigate('HomeStack');
-    }, 5000);
-
-    // Clear the timeout on component unmount
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <StyledSafeAreaView style={{backgroundColor: '#f3f3f3'}}>
@@ -38,11 +23,11 @@ function Fallback({navigation}) {
       </StyledCol>
       <StyledCol>
         <StyledText16 style={[sans.regular, {color: '#03314B'}]}>
-          🚧 Ongoing Verification. Try Again. 🚧
+          🚧 Weak or No Internet Connection. 🚧
         </StyledText16>
       </StyledCol>
     </StyledSafeAreaView>
   );
 }
 
-export default Fallback;
+export default FallbackUnverified;

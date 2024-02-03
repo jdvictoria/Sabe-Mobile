@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import NetInfo from '@react-native-community/netinfo';
 
 import {
   AnimatedTabBarNavigator,
@@ -30,6 +31,7 @@ import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function HomeStack({
+  setConnection,
   userUID,
   driverUID,
   redirect,
@@ -41,6 +43,22 @@ function HomeStack({
   setRiderProfile,
 }: any) {
   const Tabs = AnimatedTabBarNavigator();
+
+  useEffect(() => {
+    NetInfo.fetch().then(state => {
+      const conn = state.isConnected;
+      setConnection(conn);
+    });
+
+    const intervalId = setInterval(() => {
+      NetInfo.fetch().then(state => {
+        const conn = state.isConnected;
+        setConnection(conn);
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  });
 
   useEffect(() => {
     GetLocation.getCurrentPosition({
