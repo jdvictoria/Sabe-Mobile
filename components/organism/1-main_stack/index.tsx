@@ -18,7 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 function MainStack() {
   const Stack = createStackNavigator();
 
-  const [connection, setConnection] = useState(false);
+  const [connection, setConnection] = useState(true);
 
   // Global
   const [userUID, setUserUID] = useState('');
@@ -50,23 +50,6 @@ function MainStack() {
     }
   };
 
-  useEffect(() => {
-    NetInfo.fetch().then(state => {
-      const conn = state.isConnected;
-      setConnection(conn);
-    });
-
-    const intervalId = setInterval(() => {
-      NetInfo.fetch().then(state => {
-        const conn = state.isConnected;
-        setConnection(conn);
-      });
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  console.log(connection);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -84,11 +67,10 @@ function MainStack() {
           {props =>
             // @ts-ignore
             connection ? (
-              <FallbackInternet setConnection={setConnection} />
+              <FallbackInternet />
             ) : profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
-                setConnection={setConnection}
                 userUID={userUID}
                 driverUID={driverUID}
                 redirect={redirect}
