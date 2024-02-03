@@ -81,6 +81,8 @@ function MainRideDriver({
         .doc(driverSnapshot.data().bookerUID);
 
       // @ts-ignore
+      const currentRoute = driverSnapshot.data().route;
+      // @ts-ignore
       const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
       const newPassengerCount = currentPassengerCount + 1;
 
@@ -99,6 +101,7 @@ function MainRideDriver({
       await commuterRef.update({
         bookingRequest: false,
         bookingOngoing: true,
+        route: currentRoute,
       });
 
       setHasRequest(false);
@@ -172,6 +175,7 @@ function MainRideDriver({
       await commuterRef.update({
         bookingDropoff: false,
         dropoffApproved: true,
+        route: [],
       });
 
       setHasDrop(false);
