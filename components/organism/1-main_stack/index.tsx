@@ -66,6 +66,7 @@ function MainStack() {
     return () => clearInterval(intervalId);
   }, []);
 
+  console.log(connection);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -82,8 +83,8 @@ function MainStack() {
         <Stack.Screen name="HomeStack">
           {props =>
             // @ts-ignore
-            !connection ? (
-              <FallbackInternet />
+            connection ? (
+              <FallbackInternet setConnection={setConnection} />
             ) : profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
                 {...props}
