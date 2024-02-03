@@ -6,7 +6,7 @@ import {StyledCol} from '../../../styles/container';
 import {Dimensions} from 'react-native';
 
 // @ts-ignore
-function MainMap({position}) {
+function MainMapDriver({position}) {
   return (
     <StyledCol
       style={{
@@ -36,4 +36,4 @@ function MainMap({position}) {
   );
 }
 
-export default MainMap;
+export default MainMapDriver;

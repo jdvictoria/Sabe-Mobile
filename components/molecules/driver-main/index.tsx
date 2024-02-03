@@ -4,7 +4,7 @@ import {Dimensions, ScrollView} from 'react-native';
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
-import MainMap from '../../atoms/main-map';
+import MainMapDriver from '../../atoms/main-map-commuter';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
 import firestore from '@react-native-firebase/firestore';
@@ -115,7 +115,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMap position={position} />
+        <MainMapDriver position={position} />
         <MainRideDriver
           userUID={userUID}
           hasListing={hasListing}

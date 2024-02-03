@@ -4,8 +4,9 @@ import {Dimensions, ScrollView} from 'react-native';
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
-import MainMap from '../../atoms/main-map';
+import MainMapCommuter from '../../atoms/main-map-commuter';
 import MainRideCommuter from '../../atoms/main-ride-commuter';
+
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
@@ -229,7 +230,7 @@ function CommuterMain({
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMap position={position} />
+        <MainMapCommuter position={position} />
         <MainRideCommuter
           driverData={driverData}
           hasRide={hasRide}
