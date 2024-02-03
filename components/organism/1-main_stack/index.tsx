@@ -82,7 +82,7 @@ function MainStack() {
         <Stack.Screen name="HomeStack">
           {props =>
             // @ts-ignore
-            connection ? (
+            !connection ? (
               <FallbackInternet />
             ) : profile.isVerified && profile.isVerified !== undefined ? (
               <HomeStack
