@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import NetInfo from '@react-native-community/netinfo';
+import React, {useState} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -19,6 +18,7 @@ function MainStack() {
   const Stack = createStackNavigator();
 
   const [connection, setConnection] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Global
   const [userUID, setUserUID] = useState('');
@@ -61,16 +61,26 @@ function MainStack() {
           {props => <Loading {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
-          {() => <AuthStack setProfile={setProfile} setUserUID={setUserUID} />}
+          {() => (
+            <AuthStack
+              setProfile={setProfile}
+              setUserUID={setUserUID}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          )}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
           {props =>
             // @ts-ignore
             !connection ? (
               <FallbackInternet />
-            ) : profile.isVerified && profile.isVerified !== undefined ? (
+            ) : profile.isVerified &&
+              profile.isVerified !== undefined &&
+              isLoggedIn ? (
               <HomeStack
                 {...props}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
                 userUID={userUID}
                 driverUID={driverUID}
                 redirect={redirect}

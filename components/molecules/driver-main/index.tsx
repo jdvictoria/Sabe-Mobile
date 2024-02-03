@@ -10,7 +10,7 @@ import MainRideDriver from '../../atoms/main-ride-driver';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function DriverMain({navigation, userUID, hasListing, position}) {
+function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
 
@@ -88,7 +88,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
   };
 
   useEffect(() => {
-    if (rating === null) {
+    if (rating === null && isLoggedIn) {
       const id = setInterval(() => {
         getRequest();
       }, 1000);

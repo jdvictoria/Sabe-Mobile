@@ -33,8 +33,7 @@ import * as Progress from 'react-native-progress';
 import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-// @ts-ignore
-function AuthSignin({navigation, setProfile, setUserUID}) {
+function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
   const sans = styledText();
 
   const handleChangeMode = () => {
@@ -66,7 +65,6 @@ function AuthSignin({navigation, setProfile, setUserUID}) {
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
         if (firebase.auth().currentUser?.emailVerified) {
-          // Fetch additional user data from Firestore
           const userDocument = await firestore()
             .collection('Users')
             .doc(firebase.auth().currentUser?.uid)
@@ -74,8 +72,10 @@ function AuthSignin({navigation, setProfile, setUserUID}) {
           if (userDocument.exists) {
             const userData = userDocument.data();
             setUserUID(firebase.auth().currentUser?.uid);
+            setIsLoggedIn(true);
             setProfile(userData);
 
+            // @ts-ignore
             if (userData.type === 'admin') {
               navigation.navigate('AdminStack');
             } else {

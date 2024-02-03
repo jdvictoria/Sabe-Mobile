@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import NetInfo from '@react-native-community/netinfo';
 
 import {
   AnimatedTabBarNavigator,
@@ -20,17 +19,19 @@ import HomeProfileLogo from '../../../assets/icons/home-profile.svg';
 // @ts-ignore
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
-import GetLocation from 'react-native-get-location';
-
 import CommuterMain from '../../molecules/commuter-main';
 import CommuterBookings from '../../molecules/commuter-bookings';
 import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
 import UserProfile from '../../molecules/user-profile';
+
+import GetLocation from 'react-native-get-location';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function HomeStack({
+  isLoggedIn,
+  setIsLoggedIn,
   userUID,
   driverUID,
   redirect,
@@ -161,6 +162,7 @@ function HomeStack({
           profile.type === 'driver' ? (
             <DriverMain
               {...props}
+              isLoggedIn={isLoggedIn}
               userUID={userUID}
               hasListing={hasListing}
               position={position}
@@ -168,6 +170,7 @@ function HomeStack({
           ) : (
             <CommuterMain
               {...props}
+              isLoggedIn={isLoggedIn}
               userUID={userUID}
               driverUID={driverUID}
               redirect={redirect}
@@ -194,6 +197,7 @@ function HomeStack({
         {props => (
           <UserProfile
             {...props}
+            setIsLoggedIn={setIsLoggedIn}
             userUID={userUID}
             profile={profile}
             refetchProfile={refetchProfile}

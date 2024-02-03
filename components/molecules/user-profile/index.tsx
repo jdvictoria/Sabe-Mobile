@@ -9,8 +9,9 @@ import {
 } from '../../../styles/container';
 import {styledText, StyledText14, StyledText18} from '../../../styles/text';
 
-import {launchImageLibrary} from 'react-native-image-picker';
-import email from 'react-native-email';
+import HomeHeader from '../../atoms/home-header';
+import ModalInfo from '../../atoms/modal-info';
+import ButtonSettings from '../../atoms/button-settings';
 
 // @ts-ignore
 import Rating from '../../../assets/icons/rating.svg';
@@ -18,15 +19,20 @@ import Rating from '../../../assets/icons/rating.svg';
 import Edit from '../../../assets/icons/edit.svg';
 // @ts-ignore
 import Person from '../../../assets/icons/person.svg';
-import HomeHeader from '../../atoms/home-header';
-import ButtonSettings from '../../atoms/button-settings';
+
+import email from 'react-native-email';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import ModalInfo from '../../atoms/modal-info';
 
-// @ts-ignore
-function UserProfile({navigation, userUID, profile, refetchProfile}) {
+function UserProfile({
+  navigation,
+  userUID,
+  profile,
+  refetchProfile,
+  setIsLoggedIn,
+}: any) {
   const sans = styledText();
 
   const [faqModalVisible, setFaqModalVisible] = useState(false);
@@ -96,6 +102,7 @@ function UserProfile({navigation, userUID, profile, refetchProfile}) {
           backgroundColor: '#042F40',
         }}>
         <HomeHeader
+          setIsLoggedIn={setIsLoggedIn}
           navigation={navigation}
           title={'Profile'}
           main={true}

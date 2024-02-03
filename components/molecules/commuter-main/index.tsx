@@ -12,6 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 // @ts-ignore
 function CommuterMain({
   navigation,
+  isLoggedIn,
   userUID,
   driverUID,
   redirect,
@@ -197,11 +198,16 @@ function CommuterMain({
   };
 
   useEffect(() => {
-    const id = setInterval(() => {
-      getRequest();
-    }, 1000);
-    setIntervalId(id);
-    return () => clearInterval(id);
+    console.log(isLoggedIn);
+
+    if (isLoggedIn) {
+      console.log('still fetched');
+      const id = setInterval(() => {
+        getRequest();
+      }, 1000);
+      setIntervalId(id);
+      return () => clearInterval(id);
+    }
   }, [hasRequest, hasRide, hasDrop]);
 
   return (

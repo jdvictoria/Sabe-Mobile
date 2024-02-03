@@ -5,8 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AuthSignUp from '../../molecules/auth-signup';
 import AuthSignIn from '../../molecules/auth-signin';
 
-// @ts-ignore
-function AuthStack({setProfile, setUserUID}) {
+function AuthStack({setProfile, setUserUID, setIsLoggedIn}: any) {
   const Stack = createStackNavigator();
 
   return (
@@ -24,6 +23,7 @@ function AuthStack({setProfile, setUserUID}) {
             {...props}
             setProfile={setProfile}
             setUserUID={setUserUID}
+            setIsLoggedIn={setIsLoggedIn}
           />
         )}
       </Stack.Screen>
