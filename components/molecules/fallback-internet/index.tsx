@@ -5,7 +5,6 @@ import {styledText, StyledText16, StyledText60} from '../../../styles/text';
 
 // @ts-ignore
 import HomeLogoDark from '../../../assets/icons/home-dark.svg';
-import ButtonPositive from '../../atoms/button-positive';
 
 // @ts-ignore
 function FallbackUnverified() {
