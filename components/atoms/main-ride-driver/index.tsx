@@ -263,7 +263,7 @@ function MainRideDriver({
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                <StyledCol style={{width: '100%', marginRight: 50}}>
+                <StyledCol style={{width: '100%', marginRight: 55}}>
                   <BookingCardLower routes={routeData} />
                 </StyledCol>
               </>
