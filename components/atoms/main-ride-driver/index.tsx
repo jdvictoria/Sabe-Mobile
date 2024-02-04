@@ -225,11 +225,13 @@ function MainRideDriver({
       const currentCommuterTotalRides = commuterSnapshot.data().totalRides || 0;
       const newCommuterTotalRides = currentCommuterTotalRides + 1;
       // @ts-ignore
-      const currentCommuterRating = commuterSnapshot.data().rating || 0;
-      const newCommuterRating =
-        (currentCommuterRating + rating) / newCommuterTotalRides;
+      const currentScore = commuterSnapshot.data().score || 0;
+      const newScore = currentScore + rating;
+      // @ts-ignore
+      const newCommuterRating = newScore / newCommuterTotalRides;
 
       await commuterRef.update({
+        score: newScore,
         rating: newCommuterRating,
         totalRides: newCommuterTotalRides,
       });
