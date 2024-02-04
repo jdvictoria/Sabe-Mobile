@@ -254,6 +254,7 @@ function CommuterMain({
         />
         <MainRideCommuter
           driverData={driverData}
+          routeData={routeData}
           hasRide={hasRide}
           hasRequest={hasRequest}
           hasDrop={hasDrop}

@@ -18,8 +18,10 @@ import ListingOne from '../listing-one';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
+import BookingCardLower from '../booking-card-lower';
 
 function MainRideDriver({
+  routeData,
   userUID,
   hasListing,
   requesteeData,
@@ -261,6 +263,9 @@ function MainRideDriver({
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
+                <StyledCol style={{width: '100%', marginRight: 50}}>
+                  <BookingCardLower routes={routeData} />
+                </StyledCol>
               </>
             )}
             {hasDrop && (
@@ -273,7 +278,6 @@ function MainRideDriver({
                       marginTop: 10,
                       borderRadius: 50,
                       borderWidth: 2,
-                      borderRadius: 50,
                       borderColor: '#042f40',
                     }}
                     source={{uri: dropeeData.profPic}}

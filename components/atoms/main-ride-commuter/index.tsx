@@ -14,9 +14,11 @@ import ButtonNeutral from '../button-neutral';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
+import BookingCardLower from '../booking-card-lower';
 
 function MainRideCommuter({
   driverData,
+  routeData,
   hasRequest,
   hasRide,
   hasDrop,
@@ -68,6 +70,9 @@ function MainRideCommuter({
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
+                <StyledCol style={{width: '100%', marginRight: 50}}>
+                  <BookingCardLower routes={routeData} />
+                </StyledCol>
                 <StyledRow style={{marginTop: 10}}>
                   <ButtonNegative
                     onClick={handleDropoff}
