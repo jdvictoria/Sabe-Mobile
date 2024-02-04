@@ -68,7 +68,7 @@ function MainRideCommuter({
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                <StyledRow style={{marginTop: 20}}>
+                <StyledRow style={{marginTop: 10}}>
                   <ButtonNegative
                     onClick={handleDropoff}
                     text={'Request Dropoff'}

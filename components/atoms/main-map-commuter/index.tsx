@@ -41,7 +41,7 @@ function MainMapDriver({position, hasRide}: any) {
       }}>
       <MapView
         ref={handleRef}
-        userInterfaceStyle={'dark'}
+        userInterfaceStyle={'light'}
         style={{
           justifyContent: 'center',
           alignItems: 'center',
