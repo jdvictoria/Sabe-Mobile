@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, Image, ScrollView} from 'react-native';
+import {Dimensions, Image, RefreshControl, ScrollView} from 'react-native';
 
 import {
   StyledCol,
@@ -34,6 +34,16 @@ function UserProfile({
   setIsLoggedIn,
 }: any) {
   const sans = styledText();
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      refetchProfile();
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   const [faqModalVisible, setFaqModalVisible] = useState(false);
   const [aboutModalVisible, setAboutModalVisible] = useState(false);
@@ -122,8 +132,8 @@ function UserProfile({
             backgroundColor: '#e7e7e7',
             borderTopLeftRadius: 50,
             borderTopRightRadius: 50,
-          }}
-          scrollEnabled={false}>
+          }}>
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           <StyledCol style={{width: '100%', marginTop: 25}}>
             <StyledCol>
               <StyledTouchableCol
