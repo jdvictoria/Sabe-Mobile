@@ -9,12 +9,14 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 import ButtonNegative from '../button-negative';
 import ButtonNeutral from '../button-neutral';
+import BookingCardLower from '../booking-card-lower';
+import ListingOne from '../listing-one';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
-import BookingCardLower from '../booking-card-lower';
+import ListingTwo from '../listing-two';
 
 function MainRideCommuter({
   driverData,
@@ -70,7 +72,30 @@ function MainRideCommuter({
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                <StyledCol style={{width: '100%', marginRight: 55}}>
+                <StyledCol
+                  style={{width: '100%', marginLeft: 40, marginTop: 10}}>
+                  <ListingOne label={'Email'} data={driverData.email} />
+                  <ListingTwo
+                    labelOne={'Rider'}
+                    dataOne={driverData.name}
+                    labelTwo={'Contact'}
+                    dataTwo={driverData.contact}
+                  />
+                  <ListingTwo
+                    labelOne={'Car Make'}
+                    dataOne={driverData.carMake}
+                    labelTwo={'Car Series'}
+                    dataTwo={driverData.carSeries}
+                  />
+                  <ListingTwo
+                    labelOne={'Car Color'}
+                    dataOne={driverData.carColor}
+                    labelTwo={'Plate Number'}
+                    dataTwo={driverData.carPlate}
+                  />
+                </StyledCol>
+                <StyledCol
+                  style={{width: '100%', marginRight: 55, marginTop: 10}}>
                   <BookingCardLower routes={routeData} />
                 </StyledCol>
                 <StyledRow style={{marginTop: 10}}>
