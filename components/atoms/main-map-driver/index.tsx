@@ -24,6 +24,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
   };
 
   const handleRef = (ref: MapView | null) => {
+    // @ts-ignore
     mapRef.current = ref;
 
     if (!mapRef.current || !enableRef) {
@@ -50,6 +51,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
 
   const enableHandleRef = () => {
     if (mapRef.current) {
+      // @ts-ignore
       mapRef.current.setNativeProps({
         scrollEnabled: true,
         zoomEnabled: true,
