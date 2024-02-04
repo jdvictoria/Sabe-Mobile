@@ -15,10 +15,10 @@ import ButtonReject from '../button-reject';
 import ButtonPositive from '../button-positive';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
+import BookingCardLower from '../booking-card-lower';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
-import BookingCardLower from '../booking-card-lower';
 
 function MainRideDriver({
   routeData,
