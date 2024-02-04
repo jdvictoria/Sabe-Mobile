@@ -13,16 +13,26 @@ import Pin from '../../../assets/icons/pin.svg';
 
 function MainMapDriver({position, hasRide, routeData}: any) {
   const mapRef = useRef(null);
+  const [enableRef, setEnableRef] = useState(true);
+  const [onDrag, setDrag] = useState(false);
 
-  const handleRef = (ref: null) => {
+  const handleDragStart = () => {
+    setDrag(true);
+  };
+
+  const handleDragEnd = () => {
+    setDrag(false);
+  };
+
+  const handleRef = (ref: MapView | null) => {
     mapRef.current = ref;
 
-    if (!mapRef.current) {
+    if (!mapRef.current || !enableRef) {
       return;
     }
 
     requestAnimationFrame(() => {
-      if (!mapRef.current) {
+      if (!mapRef.current || !enableRef) {
         return;
       }
 
@@ -38,6 +48,35 @@ function MainMapDriver({position, hasRide, routeData}: any) {
       );
     });
   };
+
+  const enableHandleRef = () => {
+    if (mapRef.current) {
+      mapRef.current.setNativeProps({
+        scrollEnabled: true,
+        zoomEnabled: true,
+        pitchEnabled: true,
+        rotateEnabled: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (!onDrag) {
+      // If onDrag is false, wait for 5 seconds and then enable the handleRef
+      const timeoutId = setTimeout(() => {
+        enableHandleRef();
+        setEnableRef(true);
+      }, 4000);
+
+      return () => {
+        // Cleanup the timeout when onDrag changes or component unmounts
+        clearTimeout(timeoutId);
+      };
+    } else {
+      // If onDrag is true, disable the handleRef
+      setEnableRef(false);
+    }
+  }, [onDrag]);
 
   const [locationsData, setLocationsData] = useState(null);
 
@@ -93,6 +132,8 @@ function MainMapDriver({position, hasRide, routeData}: any) {
       }}>
       <MapView
         ref={handleRef}
+        onRegionChangeComplete={handleDragEnd}
+        onPanDrag={handleDragStart}
         userInterfaceStyle={'dark'}
         style={{
           justifyContent: 'center',
