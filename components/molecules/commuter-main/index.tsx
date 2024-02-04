@@ -35,6 +35,23 @@ function CommuterMain({
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      setDriverData([]);
+      setRouteData(null);
+
+      setHasRequest(false);
+      setHasRide(false);
+      setHasDrop(false);
+      setHasApproved(false);
+
+      setEndStep(1);
+      setRating(0);
+
+      setIntervalId(null);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     if (redirect) {
       // @ts-ignore
       scrollViewRef.current.scrollToEnd({animated: true});
@@ -205,7 +222,7 @@ function CommuterMain({
         // Do something when the document does not exist
       }
     } catch (error) {
-      console.error('Error checking listing:', error);
+      // console.error('Error checking listing:', error);
     }
   };
 

@@ -25,6 +25,23 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      setRequesteeData([]);
+      setDropeeData([]);
+      setRouteData(null);
+
+      setHasRequest(false);
+      setHasRide(false);
+      setHasDrop(false);
+      setHasApproved(false);
+
+      setRating(null);
+
+      setIntervalId(null);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     if (hasRequest) {
       navigation.navigate('Home');
       // @ts-ignore
@@ -86,12 +103,12 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
         console.log('Document does not exist');
       }
     } catch (error) {
-      console.error('Error checking listing:', error);
+      // console.error('Error checking listing:', error);
     }
   };
 
   useEffect(() => {
-    if (rating === null && isLoggedIn) {
+    if (rating === null) {
       const id = setInterval(() => {
         getRequest();
       }, 1000);
