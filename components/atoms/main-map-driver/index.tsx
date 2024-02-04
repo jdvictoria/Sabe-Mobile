@@ -5,8 +5,7 @@ import {Dimensions} from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
 
-import MapView from 'react-native-maps';
-import {Marker} from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 
 // @ts-ignore
 import Pin from '../../../assets/icons/pin.svg';

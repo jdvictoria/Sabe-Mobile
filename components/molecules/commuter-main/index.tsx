@@ -22,6 +22,7 @@ function CommuterMain({
   position,
 }: any) {
   const [driverData, setDriverData] = useState([]);
+  const [routeData, setRouteData] = useState(null);
 
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
@@ -173,6 +174,8 @@ function CommuterMain({
 
         // @ts-ignore
         if (data.bookingOngoing) {
+          // @ts-ignore
+          setRouteData(data.route);
           setHasRide(true);
           // @ts-ignore
           clearInterval(intervalId);
@@ -244,7 +247,11 @@ function CommuterMain({
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMapCommuter position={position} hasRide={hasRide} />
+        <MainMapCommuter
+          position={position}
+          hasRide={hasRide}
+          routeData={routeData}
+        />
         <MainRideCommuter
           driverData={driverData}
           hasRide={hasRide}

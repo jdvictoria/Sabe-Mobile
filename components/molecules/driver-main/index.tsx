@@ -56,6 +56,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
 
         // @ts-ignore
         if (data.bookingOngoing) {
+          // @ts-ignore
           setRouteData(data.route);
           setHasRide(true);
           // @ts-ignore
