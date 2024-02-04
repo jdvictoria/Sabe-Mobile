@@ -134,7 +134,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
         ref={handleRef}
         onRegionChangeComplete={handleDragEnd}
         onPanDrag={handleDragStart}
-        userInterfaceStyle={'dark'}
+        userInterfaceStyle={'light'}
         style={{
           justifyContent: 'center',
           alignItems: 'center',
@@ -163,7 +163,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
                 }}
                 title={locationName}
                 tappable={false}>
-                <Pin width={40} height={40} />
+                <Pin width={30} height={30} />
               </Marker>
             ),
           )}
