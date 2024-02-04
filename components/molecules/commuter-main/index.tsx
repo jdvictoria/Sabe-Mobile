@@ -35,7 +35,7 @@ function CommuterMain({
 
   useEffect(() => {
     if (redirect) {
-      // Scroll to the bottom when redirect is true
+      // @ts-ignore
       scrollViewRef.current.scrollToEnd({animated: true});
       // Reset the redirect state to false after scrolling
       setRedirect(false);
@@ -155,35 +155,44 @@ function CommuterMain({
       if (driverSnapshot.exists) {
         const data = driverSnapshot.data();
 
+        // @ts-ignore
         setDriverData(data);
       }
 
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
 
+        // @ts-ignore
         if (data.bookingRequest) {
           setHasRequest(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRequest(false);
         }
 
+        // @ts-ignore
         if (data.bookingOngoing) {
           setHasRide(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRide(false);
         }
 
+        // @ts-ignore
         if (data.bookingDropoff) {
           setHasDrop(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasDrop(false);
         }
 
+        // @ts-ignore
         if (data.dropoffApproved) {
           setHasApproved(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasApproved(false);
@@ -198,13 +207,11 @@ function CommuterMain({
   };
 
   useEffect(() => {
-    console.log(isLoggedIn);
-
     if (isLoggedIn) {
-      console.log('still fetched');
       const id = setInterval(() => {
         getRequest();
       }, 1000);
+      // @ts-ignore
       setIntervalId(id);
       return () => clearInterval(id);
     }
@@ -223,6 +230,7 @@ function CommuterMain({
         fromProfile={false}
       />
       <ScrollView
+        // @ts-ignore
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -236,7 +244,7 @@ function CommuterMain({
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMapCommuter position={position} />
+        <MainMapCommuter position={position} hasRide={hasRide} />
         <MainRideCommuter
           driverData={driverData}
           hasRide={hasRide}

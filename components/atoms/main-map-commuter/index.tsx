@@ -5,8 +5,7 @@ import {Dimensions} from 'react-native';
 
 import MapView from 'react-native-maps';
 
-// @ts-ignore
-function MainMapDriver({position}) {
+function MainMapDriver({position, hasRide}: any) {
   const mapRef = useRef(null);
 
   const handleRef = ref => {
@@ -21,6 +20,7 @@ function MainMapDriver({position}) {
         return;
       }
 
+      // @ts-ignore
       mapRef.current.animateToRegion(
         {
           latitude: position.latitude,
@@ -32,11 +32,6 @@ function MainMapDriver({position}) {
       );
     });
   };
-
-  useEffect(() => {
-    // Do any additional setup or logic after the component mounts
-    // You can use mapRef.current here
-  }, []);
 
   return (
     <StyledCol

@@ -4,7 +4,7 @@ import {Dimensions, ScrollView} from 'react-native';
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
-import MainMapDriver from '../../atoms/main-map-commuter';
+import MainMapDriver from '../../atoms/main-map-driver';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
 import firestore from '@react-native-firebase/firestore';
@@ -13,6 +13,7 @@ import firestore from '@react-native-firebase/firestore';
 function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
+  const [routeData, setRouteData] = useState(null);
 
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
@@ -55,6 +56,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
 
         // @ts-ignore
         if (data.bookingOngoing) {
+          setRouteData(data.route);
           setHasRide(true);
           // @ts-ignore
           clearInterval(intervalId);
@@ -127,7 +129,11 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMapDriver position={position} />
+        <MainMapDriver
+          position={position}
+          hasRide={hasRide}
+          routeData={routeData}
+        />
         <MainRideDriver
           userUID={userUID}
           hasListing={hasListing}
