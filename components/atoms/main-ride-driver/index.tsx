@@ -169,9 +169,16 @@ function MainRideDriver({
         .collection('Users')
         .doc(driverSnapshot.data().dropoffUID);
 
+      const updatedPassengers = driverSnapshot
+        .data()
+        .bookingPassengers.filter(
+          passenger => passenger !== driverSnapshot.data().dropoffUID,
+        );
+
       await driverRef.update({
         bookingDropoff: false,
         dropoffApproved: true,
+        bookingPassengers: updatedPassengers,
       });
 
       await commuterRef.update({
@@ -263,9 +270,12 @@ function MainRideDriver({
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                <StyledCol style={{width: '100%', marginRight: 55}}>
-                  <BookingCardLower routes={routeData} />
-                </StyledCol>
+                {routeData && (
+                  <StyledCol
+                    style={{width: '100%', marginRight: 55, marginTop: 10}}>
+                    <BookingCardLower routes={routeData} />
+                  </StyledCol>
+                )}
               </>
             )}
             {hasDrop && (
@@ -363,7 +373,6 @@ function MainRideDriver({
                   marginTop: 10,
                   borderRadius: 50,
                   borderWidth: 2,
-                  borderRadius: 50,
                   borderColor: '#042f40',
                 }}
                 source={{uri: requesteeData.profPic}}

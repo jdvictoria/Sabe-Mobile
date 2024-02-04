@@ -16,6 +16,7 @@ import ListingOne from '../listing-one';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
+
 import ListingTwo from '../listing-two';
 
 function MainRideCommuter({
@@ -94,10 +95,12 @@ function MainRideCommuter({
                     dataTwo={driverData.carPlate}
                   />
                 </StyledCol>
-                <StyledCol
-                  style={{width: '100%', marginRight: 55, marginTop: 10}}>
-                  <BookingCardLower routes={routeData} />
-                </StyledCol>
+                {routeData && (
+                  <StyledCol
+                    style={{width: '100%', marginRight: 55, marginTop: 10}}>
+                    <BookingCardLower routes={routeData} />
+                  </StyledCol>
+                )}
                 <StyledRow style={{marginTop: 10}}>
                   <ButtonNegative
                     onClick={handleDropoff}
