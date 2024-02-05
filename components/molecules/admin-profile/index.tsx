@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, Image, RefreshControl, ScrollView} from 'react-native';
 
 import {
@@ -22,6 +22,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ButtonSettings from '../../atoms/button-settings';
 import ModalInfo from '../../atoms/modal-info';
+import StatisticsUsers from '../../atoms/statistics-users';
 
 function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
   const sans = styledText();
@@ -32,18 +33,15 @@ function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
     setRefreshing(true);
     setTimeout(() => {
       refetchProfile();
+      fetchDrivers();
+      fetchCommuters();
       setRefreshing(false);
     }, 2000);
   }, []);
 
   const [isHovered, setIsHovered] = useState(false);
 
-  const [faqModalVisible, setFaqModalVisible] = useState(false);
   const [aboutModalVisible, setAboutModalVisible] = useState(false);
-
-  const handleFaqModalOpen = () => {
-    setFaqModalVisible(prevState => !prevState);
-  };
 
   const handleAboutModalOpen = () => {
     setAboutModalVisible(prevState => !prevState);
@@ -98,6 +96,65 @@ function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
   const handleLogout = () => {
     console.log('logout');
   };
+
+  // Firebase
+  const [driversTotal, setDriversTotal] = useState(0);
+  const [driversUnverified, setDriversUnverified] = useState(0);
+  const [driversVerified, setDriversVerified] = useState(0);
+
+  const fetchDrivers = async () => {
+    try {
+      const querySnapshot = await firestore()
+        .collection('Users')
+        .where('type', '==', 'driver')
+        .get();
+
+      const docs = querySnapshot.docs;
+      const docIds = docs.map(doc => doc.id);
+
+      const unverifiedCount = docs.filter(doc => !doc.data().isVerified).length;
+      const verifiedCount = docs.filter(doc => doc.data().isVerified).length;
+      const totalDrivers = unverifiedCount + verifiedCount;
+
+      setDriversUnverified(unverifiedCount);
+      setDriversVerified(verifiedCount);
+      setDriversTotal(totalDrivers);
+    } catch (error) {
+      console.error('Error fetching commuters: ', error);
+    }
+  };
+
+  const [commutersTotal, setCommutersTotal] = useState(0);
+  const [commutersUnverified, setCommutersUnverified] = useState(0);
+  const [commutersVerified, setCommutersVerified] = useState(0);
+
+  const fetchCommuters = async () => {
+    try {
+      const querySnapshot = await firestore()
+        .collection('Users')
+        .where('type', '==', 'commuter')
+        .get();
+
+      const docs = querySnapshot.docs;
+      const docIds = docs.map(doc => doc.id);
+
+      const unverifiedCount = docs.filter(doc => !doc.data().isVerified).length;
+      const verifiedCount = docs.filter(doc => doc.data().isVerified).length;
+      const totalCommuters = unverifiedCount + verifiedCount;
+
+      setCommutersUnverified(unverifiedCount);
+      setCommutersVerified(verifiedCount);
+      setCommutersTotal(totalCommuters);
+    } catch (error) {
+      console.error('Error fetching commuters: ', error);
+    }
+  };
+
+  useEffect(() => {
+    // @ts-ignore
+    fetchDrivers();
+    fetchCommuters();
+  }, [userUID]);
 
   return (
     <>
@@ -187,51 +244,22 @@ function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
                 style={{
                   justifyContent: 'space-between',
                   width: '85%',
-                  marginTop: 10,
                 }}>
-                <StyledCol style={{width: '50%'}}>
-                  <StyledText18
-                    style={[sans.bold, {color: '#042F40', marginBottom: 10}]}>
-                    Drivers
-                  </StyledText18>
-                  <StyledText14
-                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Total: 0
-                  </StyledText14>
-                  <StyledText14
-                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Verified: 0
-                  </StyledText14>
-                  <StyledText14
-                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Unverified: 0
-                  </StyledText14>
-                </StyledCol>
-                <StyledCol style={{width: '50%'}}>
-                  <StyledText18
-                    style={[sans.bold, {color: '#042F40', marginBottom: 10}]}>
-                    Commuters
-                  </StyledText18>
-                  <StyledText14
-                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Total: 0
-                  </StyledText14>
-                  <StyledText14
-                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Verified: 0
-                  </StyledText14>
-                  <StyledText14
-                    style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-                    Unverified: 0
-                  </StyledText14>
-                </StyledCol>
+                <StatisticsUsers
+                  type={'Drivers'}
+                  total={driversTotal}
+                  verified={driversVerified}
+                  unverified={driversUnverified}
+                />
+                <StatisticsUsers
+                  type={'Commuters'}
+                  total={commutersTotal}
+                  verified={commutersVerified}
+                  unverified={commutersUnverified}
+                />
               </StyledRow>
             </StyledCol>
             <StyledCol style={{width: '100%', marginTop: 10}}>
-              <ButtonSettings
-                setting={'Frequently Asked Questions'}
-                onClick={handleFaqModalOpen}
-              />
               <ButtonSettings
                 setting={'About Us'}
                 onClick={handleAboutModalOpen}
@@ -241,11 +269,6 @@ function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
           </StyledCol>
         </ScrollView>
       </StyledSafeAreaView>
-      <ModalInfo
-        visible={faqModalVisible}
-        setVisible={setFaqModalVisible}
-        section={'Frequently Asked Questions'}
-      />
       <ModalInfo
         visible={aboutModalVisible}
         setVisible={setAboutModalVisible}

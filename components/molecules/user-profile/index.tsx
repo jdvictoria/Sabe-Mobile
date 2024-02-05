@@ -19,6 +19,8 @@ import Rating from '../../../assets/icons/rating.svg';
 import Edit from '../../../assets/icons/edit.svg';
 // @ts-ignore
 import Person from '../../../assets/icons/person.svg';
+// @ts-ignore
+import Rides from '../../../assets/icons/home-dark.svg';
 
 import email from 'react-native-email';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -141,9 +143,9 @@ function UserProfile({
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           <StyledCol
             style={{
-              justifyContent: 'space-between',
+              justifyContent: 'space-evenly',
               width: '100%',
-              height: Dimensions.get('window').height * 0.7,
+              height: 500,
               marginTop: 25,
             }}>
             <StyledCol>
@@ -189,15 +191,27 @@ function UserProfile({
                 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                 {profile.contact} | {profile.email}
               </StyledText14>
-              <StyledRow style={{marginTop: 10}}>
-                <Rating width={30} height={30} />
-                <StyledText18
-                  style={[
-                    sans.bold,
-                    {color: '#042F40', marginLeft: 5, marginTop: 1.5},
-                  ]}>
-                  {profile.rating.toFixed(2)}
-                </StyledText18>
+              <StyledRow>
+                <StyledRow style={{marginTop: 10, marginRight: 10}}>
+                  <Rides width={30} height={30} />
+                  <StyledText18
+                    style={[
+                      sans.bold,
+                      {color: '#042F40', marginLeft: 5, marginTop: 1.5},
+                    ]}>
+                    {profile.totalRides}
+                  </StyledText18>
+                </StyledRow>
+                <StyledRow style={{marginLeft: 10, marginTop: 10}}>
+                  <Rating width={30} height={30} />
+                  <StyledText18
+                    style={[
+                      sans.bold,
+                      {color: '#042F40', marginLeft: 5, marginTop: 1.5},
+                    ]}>
+                    {profile.rating.toFixed(2)}
+                  </StyledText18>
+                </StyledRow>
               </StyledRow>
             </StyledCol>
             <StyledCol style={{width: '100%', marginTop: 10}}>
