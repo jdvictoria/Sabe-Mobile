@@ -2,14 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
+import {styledText, StyledText18} from '../../../styles/text';
 
 import HomeHeader from '../../atoms/home-header';
 import DetailsCardDriver from '../../atoms/details-card-driver';
+
+// @ts-ignore
+import Sabe from '../../../assets/icons/home-dark.svg';
 
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function AdminDrivers({navigation, userUID}) {
+  const sans = styledText();
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [drivers, setDrivers] = useState([]);
@@ -97,16 +103,27 @@ function AdminDrivers({navigation, userUID}) {
           borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        {drivers.map((driver, index) => (
-          <DetailsCardDriver
-            key={index}
-            // @ts-ignore
-            id={driver.id}
-            // @ts-ignore
-            data={driver.data}
-            onApprove={handleApprove}
-          />
-        ))}
+        {drivers.length > 0 ? (
+          drivers.map((driver, index) => (
+            <DetailsCardDriver
+              key={index}
+              // @ts-ignore
+              id={driver.id}
+              // @ts-ignore
+              data={driver.data}
+              // @ts-ignore
+              onApprove={() => handleApprove(driver.id)}
+            />
+          ))
+        ) : (
+          <StyledCol style={{marginTop: 50}}>
+            <Sabe width={100} height={100} />
+            <StyledText18
+              style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
+              No Verification Requests
+            </StyledText18>
+          </StyledCol>
+        )}
         <StyledCol style={{width: '100%', height: 100}} />
       </ScrollView>
     </StyledSafeAreaView>

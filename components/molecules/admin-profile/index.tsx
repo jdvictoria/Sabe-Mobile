@@ -9,7 +9,10 @@ import {
 } from '../../../styles/container';
 import {styledText, StyledText14, StyledText18} from '../../../styles/text';
 
+import ModalInfo from '../../atoms/modal-info';
 import HomeHeader from '../../atoms/home-header';
+import ButtonSettings from '../../atoms/button-settings';
+import StatisticsUsers from '../../atoms/statistics-users';
 
 // @ts-ignore
 import Person from '../../../assets/icons/person.svg';
@@ -20,9 +23,6 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import ButtonSettings from '../../atoms/button-settings';
-import ModalInfo from '../../atoms/modal-info';
-import StatisticsUsers from '../../atoms/statistics-users';
 
 function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
   const sans = styledText();

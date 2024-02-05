@@ -2,14 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
+import {styledText, StyledText18} from '../../../styles/text';
 
 import HomeHeader from '../../atoms/home-header';
+import DetailsCardCommuter from '../../atoms/details-card-commuter';
 
 import firestore from '@react-native-firebase/firestore';
-import DetailsCardCommuter from '../../atoms/details-card-commuter';
+import Sabe from '../../../assets/icons/home-dark.svg';
 
 // @ts-ignore
 function AdminCommuters({navigation, userUID}) {
+  const sans = styledText();
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [commuters, setCommuters] = useState([]);
@@ -101,16 +105,26 @@ function AdminCommuters({navigation, userUID}) {
           borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        {commuters.map((commuter, index) => (
-          <DetailsCardCommuter
-            key={index}
-            // @ts-ignore
-            id={commuter.id}
-            // @ts-ignore
-            data={commuter.data}
-            onApprove={handleApprove}
-          />
-        ))}
+        {commuters.length > 0 ? (
+          commuters.map((commuter, index) => (
+            <DetailsCardCommuter
+              key={index}
+              // @ts-ignore
+              id={commuter.id}
+              // @ts-ignore
+              data={commuter.data}
+              onApprove={handleApprove}
+            />
+          ))
+        ) : (
+          <StyledCol style={{marginTop: 50}}>
+            <Sabe width={100} height={100} />
+            <StyledText18
+              style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
+              No Verification Requests
+            </StyledText18>
+          </StyledCol>
+        )}
         <StyledCol style={{width: '100%', height: 100}} />
       </ScrollView>
     </StyledSafeAreaView>
