@@ -23,8 +23,7 @@ import HomeProfile from '../../../assets/icons/home-profile.svg';
 // @ts-ignore
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
-// @ts-ignore
-function AdminStack({navigation, userUID}) {
+function AdminStack({navigation, userUID, profile, refetchProfile}: any) {
   const Tabs = AnimatedTabBarNavigator();
 
   return (
@@ -64,7 +63,14 @@ function AdminStack({navigation, userUID}) {
               <HomeProfileAlt width={20} height={20} />
             ),
         }}>
-        {props => <AdminProfile {...props} />}
+        {props => (
+          <AdminProfile
+            {...props}
+            userUID={userUID}
+            profile={profile}
+            refetchProfile={refetchProfile}
+          />
+        )}
       </Tabs.Screen>
 
       <Tabs.Screen

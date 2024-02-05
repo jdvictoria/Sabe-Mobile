@@ -28,10 +28,10 @@ import storage from '@react-native-firebase/storage';
 
 function UserProfile({
   navigation,
+  setIsLoggedIn,
   userUID,
   profile,
   refetchProfile,
-  setIsLoggedIn,
 }: any) {
   const sans = styledText();
 
@@ -63,6 +63,7 @@ function UserProfile({
 
   const [isHovered, setIsHovered] = useState(false);
 
+  // @ts-ignore
   const uploadPicture = async imageUri => {
     try {
       // Upload image to Firebase Storage
@@ -92,12 +93,16 @@ function UserProfile({
       maxWidth: 2000,
     };
 
+    // @ts-ignore
     launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
+        // @ts-ignore
       } else if (response.error) {
+        // @ts-ignore
         console.log('Image picker error: ', response.error);
       } else {
+        // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         uploadPicture(imageUri);
       }
