@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -15,9 +16,10 @@ import AdminStack from '../4-admin_stack';
 import firestore from '@react-native-firebase/firestore';
 
 function MainStack() {
+  const netInfo = useNetInfo();
+
   const Stack = createStackNavigator();
 
-  const [connection, setConnection] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Global
@@ -72,7 +74,7 @@ function MainStack() {
         <Stack.Screen name="HomeStack">
           {props =>
             // @ts-ignore
-            !connection ? (
+            !netInfo.isConnected ? (
               <FallbackInternet />
             ) : profile.isVerified &&
               profile.isVerified !== undefined &&
@@ -98,7 +100,14 @@ function MainStack() {
           }
         </Stack.Screen>
         <Stack.Screen name="AdminStack">
-          {props => <AdminStack {...props} userUID={userUID} />}
+          {props =>
+            // @ts-ignore
+            !netInfo.isConnected ? (
+              <FallbackInternet />
+            ) : (
+              <AdminStack {...props} userUID={userUID} />
+            )
+          }
         </Stack.Screen>
         <Stack.Screen name="BookingsDetail">
           {props => (
