@@ -105,7 +105,13 @@ function MainStack() {
             !netInfo.isConnected ? (
               <FallbackInternet />
             ) : (
-              <AdminStack {...props} userUID={userUID} />
+              <AdminStack
+                {...props}
+                setIsLoggedIn={setIsLoggedIn}
+                userUID={userUID}
+                profile={profile}
+                refetchProfile={refetchProfile}
+              />
             )
           }
         </Stack.Screen>

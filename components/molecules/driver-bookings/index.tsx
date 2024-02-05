@@ -114,7 +114,7 @@ function DriverBookings({
     <StyledSafeAreaView
       style={{
         justifyContent: 'flex-start',
-        backgroundColor: '#f3f3f3',
+        backgroundColor: '#042F40',
       }}>
       <HomeHeader
         navigation={navigation}
@@ -164,8 +164,10 @@ function DriverBookings({
           position: 'absolute',
           bottom: 0,
           width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height * 0.9,
+          height: Dimensions.get('window').height * 0.89,
           backgroundColor: '#e7e7e7',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
         }}
       />
     </StyledSafeAreaView>

@@ -23,8 +23,7 @@ import HomeProfile from '../../../assets/icons/home-profile.svg';
 // @ts-ignore
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
-// @ts-ignore
-function AdminStack({navigation, userUID}) {
+function AdminStack({setIsLoggedIn, userUID, profile, refetchProfile}: any) {
   const Tabs = AnimatedTabBarNavigator();
 
   return (
@@ -42,6 +41,7 @@ function AdminStack({navigation, userUID}) {
       <Tabs.Screen
         name={'Bookings'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <AdminDriver width={27.5} height={27.5} />
@@ -55,6 +55,7 @@ function AdminStack({navigation, userUID}) {
       <Tabs.Screen
         name={'AdminProfile'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeProfile width={20} height={20} />
@@ -62,12 +63,21 @@ function AdminStack({navigation, userUID}) {
               <HomeProfileAlt width={20} height={20} />
             ),
         }}>
-        {props => <AdminProfile {...props} />}
+        {props => (
+          <AdminProfile
+            {...props}
+            setIsLoggedIn={setIsLoggedIn}
+            userUID={userUID}
+            profile={profile}
+            refetchProfile={refetchProfile}
+          />
+        )}
       </Tabs.Screen>
 
       <Tabs.Screen
         name={'AdminCommuters'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <AdminStudent width={20} height={20} />
