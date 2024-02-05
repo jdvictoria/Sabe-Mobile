@@ -17,11 +17,13 @@ function AdminCommuters({navigation, userUID}) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
+      // @ts-ignore
       fetchCommuters().then(data => setCommuters(data));
       setRefreshing(false);
     }, 2000);
   }, []);
 
+  // @ts-ignore
   const handleApprove = async commuterId => {
     try {
       // Update the isVerified property in Firestore
@@ -32,6 +34,7 @@ function AdminCommuters({navigation, userUID}) {
 
       // Update the state to reflect the changes
       const updatedCommuters = await fetchCommuters();
+      // @ts-ignore
       setCommuters(updatedCommuters);
     } catch (error) {
       console.error('Error updating isVerified: ', error);
@@ -66,6 +69,7 @@ function AdminCommuters({navigation, userUID}) {
   };
 
   useEffect(() => {
+    // @ts-ignore
     fetchCommuters().then(data => setCommuters(data));
   }, [userUID]);
 
@@ -91,14 +95,18 @@ function AdminCommuters({navigation, userUID}) {
           position: 'absolute',
           bottom: 0,
           width: '100%',
-          height: Dimensions.get('window').height * 0.9,
+          height: Dimensions.get('window').height * 0.89,
           backgroundColor: '#e7e7e7',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {commuters.map((commuter, index) => (
           <DetailsCardCommuter
             key={index}
+            // @ts-ignore
             id={commuter.id}
+            // @ts-ignore
             data={commuter.data}
             onApprove={handleApprove}
           />

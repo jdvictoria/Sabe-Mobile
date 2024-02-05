@@ -130,11 +130,17 @@ function UserProfile({
             width: '100%',
             height: Dimensions.get('window').height * 0.89,
             backgroundColor: '#e7e7e7',
-            borderTopLeftRadius: 50,
-            borderTopRightRadius: 50,
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
           }}>
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          <StyledCol style={{width: '100%', marginTop: 25}}>
+          <StyledCol
+            style={{
+              justifyContent: 'space-between',
+              width: '100%',
+              height: Dimensions.get('window').height * 0.7,
+              marginTop: 25,
+            }}>
             <StyledCol>
               <StyledTouchableCol
                 style={{

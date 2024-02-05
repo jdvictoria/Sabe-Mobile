@@ -17,11 +17,13 @@ function AdminDrivers({navigation, userUID}) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
+      // @ts-ignore
       fetchDrivers().then(data => setDrivers(data));
       setRefreshing(false);
     }, 2000);
   }, []);
 
+  // @ts-ignore
   const handleApprove = async driverId => {
     try {
       // Update the isVerified property in Firestore
@@ -32,6 +34,7 @@ function AdminDrivers({navigation, userUID}) {
 
       // Update the state to reflect the changes
       const updatedCommuters = await fetchDrivers();
+      // @ts-ignore
       setDrivers(updatedCommuters);
     } catch (error) {
       console.error('Error updating isVerified: ', error);
@@ -67,6 +70,7 @@ function AdminDrivers({navigation, userUID}) {
   };
 
   useEffect(() => {
+    // @ts-ignore
     fetchDrivers().then(data => setDrivers(data));
   }, [userUID]);
 
@@ -87,14 +91,18 @@ function AdminDrivers({navigation, userUID}) {
           position: 'absolute',
           bottom: 0,
           width: '100%',
-          height: Dimensions.get('window').height * 0.9,
+          height: Dimensions.get('window').height * 0.89,
           backgroundColor: '#e7e7e7',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {drivers.map((driver, index) => (
           <DetailsCardDriver
             key={index}
+            // @ts-ignore
             id={driver.id}
+            // @ts-ignore
             data={driver.data}
             onApprove={handleApprove}
           />

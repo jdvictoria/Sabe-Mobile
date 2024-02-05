@@ -42,6 +42,7 @@ function AdminStack({navigation, userUID}) {
       <Tabs.Screen
         name={'Bookings'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <AdminDriver width={27.5} height={27.5} />
@@ -55,6 +56,7 @@ function AdminStack({navigation, userUID}) {
       <Tabs.Screen
         name={'AdminProfile'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <HomeProfile width={20} height={20} />
@@ -68,6 +70,7 @@ function AdminStack({navigation, userUID}) {
       <Tabs.Screen
         name={'AdminCommuters'}
         options={{
+          // @ts-ignore
           tabBarIcon: ({focused}) =>
             focused ? (
               <AdminStudent width={20} height={20} />
