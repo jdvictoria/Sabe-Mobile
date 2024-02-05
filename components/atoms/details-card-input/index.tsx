@@ -202,7 +202,7 @@ function DetailsCardInput({
                   sans.bold,
                   {color: '#042F40', alignSelf: 'flex-start'},
                 ]}>
-                {profile.phone}
+                {profile.contact}
               </StyledText16>
             </StyledCol>
           </StyledRow>

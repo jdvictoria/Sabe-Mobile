@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   StyledCol,
@@ -21,6 +21,8 @@ import RatingLogo from '../../../assets/icons/rating.svg';
 import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import CapacityLogo from '../../../assets/icons/capacity.svg';
+import firestore from '@react-native-firebase/firestore';
+import {Image} from 'react-native';
 
 // @ts-ignore
 function BookingsCard({
@@ -30,8 +32,14 @@ function BookingsCard({
   riderData,
   setDriverUID,
   setRiderProfile,
-}) {
+}: any) {
   const sans = styledText();
+
+  const [image, setImage] = useState('');
+  const [rating, setRating] = useState(0);
+  const [totalRides, setTotalRides] = useState(0);
+
+  const [intervalId, setIntervalId] = useState(null);
 
   const pickRider = () => {
     if (!profile.bookingRequest) {
@@ -40,6 +48,32 @@ function BookingsCard({
     }
     navigation.navigate('BookingsDetail');
   };
+
+  const getUpdatedProfile = async () => {
+    try {
+      const driverSnapshot = await firestore()
+        .collection('Users')
+        .doc(riderId)
+        .get();
+
+      // @ts-ignore
+      setImage(driverSnapshot.data().profPic);
+      // @ts-ignore
+      setRating(driverSnapshot.data().rating);
+      // @ts-ignore
+      setTotalRides(driverSnapshot.data().totalRides);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      getUpdatedProfile();
+    }, 1000);
+    setIntervalId(id);
+    return () => clearInterval(id);
+  }, [riderId]);
 
   return (
     <StyledCol
@@ -53,6 +87,10 @@ function BookingsCard({
         paddingBottom: 12.5,
         backgroundColor: '#fff',
         borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
       }}>
       <StyledRow
         style={{
@@ -60,7 +98,20 @@ function BookingsCard({
           justifyContent: 'space-between',
         }}>
         <StyledRow>
-          <SabeLogo width={25} height={25} />
+          {image ? (
+            <Image
+              style={{
+                width: 30,
+                height: 30,
+                borderWidth: 2,
+                borderRadius: 50,
+                borderColor: '#042f40',
+              }}
+              source={{uri: image}}
+            />
+          ) : (
+            <SabeLogo width={32.5} height={32.5} />
+          )}
           <StyledCol
             style={{
               paddingLeft: 10,
@@ -135,14 +186,14 @@ function BookingsCard({
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            {riderData.rating}
+            {rating.toFixed(2)}
           </StyledText14>
           <StyledText14
             style={[
               sans.regular,
               {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
             ]}>
-            ( {riderData.totalRides} )
+            ( {totalRides} )
           </StyledText14>
         </StyledRow>
         <StyledRow style={{paddingTop: 2}}>

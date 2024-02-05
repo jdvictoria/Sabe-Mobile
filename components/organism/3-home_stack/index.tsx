@@ -19,23 +19,26 @@ import HomeProfileLogo from '../../../assets/icons/home-profile.svg';
 // @ts-ignore
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
-import GetLocation from 'react-native-get-location';
-
 import CommuterMain from '../../molecules/commuter-main';
-import CommuterProfile from '../../molecules/commuter-profile';
 import CommuterBookings from '../../molecules/commuter-bookings';
-
 import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
+import UserProfile from '../../molecules/user-profile';
+
+import GetLocation from 'react-native-get-location';
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function HomeStack({
+  isLoggedIn,
+  setIsLoggedIn,
   userUID,
   driverUID,
   redirect,
   setRedirect,
   profile,
   setProfile,
+  refetchProfile,
   setDriverUID,
   setRiderProfile,
 }: any) {
@@ -69,8 +72,33 @@ function HomeStack({
   });
 
   // Driver Hooks
+  const [create, setCreate] = useState(false);
+
   const [hasListing, setHasListing] = useState(false);
   const [booking, setBooking] = useState([]);
+
+  useEffect(() => {
+    if (profile.type === 'driver') {
+      const checkListing = async () => {
+        try {
+          const docRef = firestore().collection('Bookings').doc(userUID);
+          const docSnapshot = await docRef.get();
+
+          if (docSnapshot.exists) {
+            // @ts-ignore
+            setBooking(docSnapshot.data());
+            setHasListing(true);
+          } else {
+            setHasListing(false);
+          }
+        } catch (error) {
+          console.error('Error checking listing:', error);
+        }
+      };
+
+      checkListing();
+    }
+  }, [create]);
 
   return (
     <Tabs.Navigator
@@ -101,10 +129,11 @@ function HomeStack({
               {...props}
               profile={profile}
               userUID={userUID}
+              create={create}
+              setCreate={setCreate}
               hasListing={hasListing}
               setHasListing={setHasListing}
               booking={booking}
-              setBooking={setBooking}
             />
           ) : (
             <CommuterBookings
@@ -133,6 +162,7 @@ function HomeStack({
           profile.type === 'driver' ? (
             <DriverMain
               {...props}
+              isLoggedIn={isLoggedIn}
               userUID={userUID}
               hasListing={hasListing}
               position={position}
@@ -140,6 +170,7 @@ function HomeStack({
           ) : (
             <CommuterMain
               {...props}
+              isLoggedIn={isLoggedIn}
               userUID={userUID}
               driverUID={driverUID}
               redirect={redirect}
@@ -163,7 +194,15 @@ function HomeStack({
               <HomeProfileAlt width={20} height={20} />
             ),
         }}>
-        {props => <CommuterProfile {...props} />}
+        {props => (
+          <UserProfile
+            {...props}
+            setIsLoggedIn={setIsLoggedIn}
+            userUID={userUID}
+            profile={profile}
+            refetchProfile={refetchProfile}
+          />
+        )}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

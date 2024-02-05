@@ -30,7 +30,14 @@ function BookingCardLower({routes}) {
                 },
               ]}>
               {index + 1}
-              {index === 0 ? 'st' : index === 1 ? 'nd' : 'th'} stop
+              {index === 0
+                ? 'st'
+                : index === 1
+                ? 'nd'
+                : index === 2
+                ? 'rd'
+                : 'th'}{' '}
+              stop
             </StyledText14>
             <StyledText16
               style={[

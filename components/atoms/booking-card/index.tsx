@@ -4,9 +4,7 @@ import {StyledCol} from '../../../styles/container';
 import {
   styledText,
   StyledText14,
-  StyledText16,
   StyledText18,
-  StyledText20,
   StyledText26,
 } from '../../../styles/text';
 

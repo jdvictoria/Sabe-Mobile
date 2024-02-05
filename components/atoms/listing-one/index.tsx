@@ -13,7 +13,7 @@ function ListingOne({label, data}) {
       style={{
         justifyContent: 'flex-start',
         width: Dimensions.get('window').width * 0.75,
-        marginTop: 10,
+        marginTop: 5,
       }}>
       <StyledText14
         style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>

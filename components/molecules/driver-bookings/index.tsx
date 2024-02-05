@@ -19,33 +19,13 @@ function DriverBookings({
   navigation,
   userUID,
   profile,
+  create,
+  setCreate,
   hasListing,
   setHasListing,
   booking,
-  setBooking,
 }: any) {
-  const [create, setCreate] = useState(false);
-
-  useEffect(() => {
-    const checkListing = async () => {
-      try {
-        const docRef = firestore().collection('Bookings').doc(userUID);
-        const docSnapshot = await docRef.get();
-
-        if (docSnapshot.exists) {
-          // @ts-ignore
-          setBooking(docSnapshot.data());
-          setHasListing(true);
-        } else {
-          setHasListing(false);
-        }
-      } catch (error) {
-        console.error('Error checking listing:', error);
-      }
-    };
-
-    checkListing();
-  }, [create]);
+  useEffect(() => {}, [create]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -110,7 +90,7 @@ function DriverBookings({
             carMake: profile.carMake,
             carSeries: profile.carSeries,
             carPlate: profile.carPlate,
-            contact: profile.phone,
+            contact: profile.contact,
             email: profile.email,
             fare: Number(fare),
             passengerCount: 0,
