@@ -107,6 +107,7 @@ function MainStack() {
             ) : (
               <AdminStack
                 {...props}
+                setIsLoggedIn={setIsLoggedIn}
                 userUID={userUID}
                 profile={profile}
                 refetchProfile={refetchProfile}

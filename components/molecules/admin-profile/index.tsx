@@ -23,8 +23,15 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 
-function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
+function AdminProfile({
+  navigation,
+  setIsLoggedIn,
+  userUID,
+  profile,
+  refetchProfile,
+}: any) {
   const sans = styledText();
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -94,7 +101,11 @@ function AdminProfile({navigation, userUID, profile, refetchProfile}: any) {
   };
 
   const handleLogout = () => {
-    console.log('logout');
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+    setIsLoggedIn(false);
+    navigation.navigate('AuthStack');
   };
 
   // Firebase
