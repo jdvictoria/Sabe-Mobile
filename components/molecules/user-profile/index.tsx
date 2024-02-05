@@ -19,6 +19,8 @@ import Rating from '../../../assets/icons/rating.svg';
 import Edit from '../../../assets/icons/edit.svg';
 // @ts-ignore
 import Person from '../../../assets/icons/person.svg';
+// @ts-ignore
+import Rides from '../../../assets/icons/home-dark.svg';
 
 import email from 'react-native-email';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -28,10 +30,10 @@ import storage from '@react-native-firebase/storage';
 
 function UserProfile({
   navigation,
+  setIsLoggedIn,
   userUID,
   profile,
   refetchProfile,
-  setIsLoggedIn,
 }: any) {
   const sans = styledText();
 
@@ -63,6 +65,7 @@ function UserProfile({
 
   const [isHovered, setIsHovered] = useState(false);
 
+  // @ts-ignore
   const uploadPicture = async imageUri => {
     try {
       // Upload image to Firebase Storage
@@ -92,12 +95,16 @@ function UserProfile({
       maxWidth: 2000,
     };
 
+    // @ts-ignore
     launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
+        // @ts-ignore
       } else if (response.error) {
+        // @ts-ignore
         console.log('Image picker error: ', response.error);
       } else {
+        // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         uploadPicture(imageUri);
       }
@@ -130,11 +137,17 @@ function UserProfile({
             width: '100%',
             height: Dimensions.get('window').height * 0.89,
             backgroundColor: '#e7e7e7',
-            borderTopLeftRadius: 50,
-            borderTopRightRadius: 50,
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
           }}>
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          <StyledCol style={{width: '100%', marginTop: 25}}>
+          <StyledCol
+            style={{
+              justifyContent: 'space-evenly',
+              width: '100%',
+              height: 500,
+              marginTop: 25,
+            }}>
             <StyledCol>
               <StyledTouchableCol
                 style={{
@@ -178,15 +191,27 @@ function UserProfile({
                 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                 {profile.contact} | {profile.email}
               </StyledText14>
-              <StyledRow style={{marginTop: 10}}>
-                <Rating width={30} height={30} />
-                <StyledText18
-                  style={[
-                    sans.bold,
-                    {color: '#042F40', marginLeft: 5, marginTop: 1.5},
-                  ]}>
-                  {profile.rating.toFixed(2)}
-                </StyledText18>
+              <StyledRow>
+                <StyledRow style={{marginTop: 10, marginRight: 10}}>
+                  <Rides width={30} height={30} />
+                  <StyledText18
+                    style={[
+                      sans.bold,
+                      {color: '#042F40', marginLeft: 5, marginTop: 1.5},
+                    ]}>
+                    {profile.totalRides}
+                  </StyledText18>
+                </StyledRow>
+                <StyledRow style={{marginLeft: 10, marginTop: 10}}>
+                  <Rating width={30} height={30} />
+                  <StyledText18
+                    style={[
+                      sans.bold,
+                      {color: '#042F40', marginLeft: 5, marginTop: 1.5},
+                    ]}>
+                    {profile.rating.toFixed(2)}
+                  </StyledText18>
+                </StyledRow>
               </StyledRow>
             </StyledCol>
             <StyledCol style={{width: '100%', marginTop: 10}}>

@@ -23,6 +23,7 @@ function CommuterBookings({
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
+      // @ts-ignore
       getBookings().then(data => setRiders(data));
       setRefreshing(false);
     }, 2000);
@@ -44,13 +45,15 @@ function CommuterBookings({
   };
 
   useEffect(() => {
+    // @ts-ignore
     getBookings().then(data => setRiders(data));
   }, [userUID]);
 
   return (
     <StyledSafeAreaView
       style={{
-        backgroundColor: '#f3f3f3',
+        justifyContent: 'flex-start',
+        backgroundColor: '#042F40',
       }}>
       <HomeHeader
         navigation={navigation}
@@ -68,8 +71,10 @@ function CommuterBookings({
           position: 'absolute',
           bottom: 0,
           width: '100%',
-          height: Dimensions.get('window').height * 0.9,
+          height: Dimensions.get('window').height * 0.89,
           backgroundColor: '#e7e7e7',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {riders.map((rider, index) => (
@@ -77,7 +82,9 @@ function CommuterBookings({
             key={index}
             navigation={navigation}
             profile={profile}
+            // @ts-ignore
             riderId={rider.id}
+            // @ts-ignore
             riderData={rider.data}
             setDriverUID={setDriverUID}
             setRiderProfile={setRiderProfile}

@@ -27,10 +27,7 @@ function ModalInfo({visible, setVisible, section}: any) {
           position: 'absolute',
           bottom: 0,
           width: Dimensions.get('window').width,
-          height:
-            section === 'About Us'
-              ? Dimensions.get('window').height * 0.48
-              : Dimensions.get('window').height * 0.575,
+          height: section === 'About Us' ? 325 : 400,
           backgroundColor: '#ffffffff',
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,

@@ -264,8 +264,10 @@ function CommuterMain({
           position: 'absolute',
           bottom: 0,
           width: '100%',
-          height: Dimensions.get('window').height * 0.9,
+          height: Dimensions.get('window').height * 0.89,
           backgroundColor: '#e7e7e7',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
         }}>
         <MainMapCommuter
           position={position}
