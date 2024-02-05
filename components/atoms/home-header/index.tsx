@@ -15,8 +15,13 @@ import Logout from '../../../assets/icons/logout.svg';
 
 import auth from '@react-native-firebase/auth';
 
-// @ts-ignore
-function HomeHeader({navigation, title, main, fromProfile}) {
+function HomeHeader({
+  navigation,
+  setIsLoggedIn,
+  title,
+  main,
+  fromProfile,
+}: any) {
   const sans = styledText();
 
   const handleBack = () => {
@@ -29,6 +34,7 @@ function HomeHeader({navigation, title, main, fromProfile}) {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
+    setIsLoggedIn(false);
     navigation.navigate('AuthStack');
   };
 

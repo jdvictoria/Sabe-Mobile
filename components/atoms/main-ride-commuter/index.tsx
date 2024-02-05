@@ -1,4 +1,5 @@
 import React from 'react';
+import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -8,14 +9,19 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 import ButtonNegative from '../button-negative';
 import ButtonNeutral from '../button-neutral';
+import BookingCardLower from '../booking-card-lower';
+import ListingOne from '../listing-one';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
 
-// @ts-ignore
+import ListingTwo from '../listing-two';
+
 function MainRideCommuter({
+  driverData,
+  routeData,
   hasRequest,
   hasRide,
   hasDrop,
@@ -41,25 +47,61 @@ function MainRideCommuter({
         paddingBottom: 12.5,
         backgroundColor: '#fff',
         borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
       }}>
       <StyledCol style={{marginTop: hasRequest ? 15 : 0}}>
-        <SabeLogo width={50} height={50} />
         {!hasRequest && !hasRide && (
-          <StyledRow>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              You have no ongoing ride
-            </StyledText18>
-          </StyledRow>
+          <>
+            <SabeLogo width={75} height={75} />
+            <StyledRow>
+              <StyledText18
+                style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                You have no ongoing ride
+              </StyledText18>
+            </StyledRow>
+          </>
         )}
         {!hasRequest && hasRide && (
           <StyledCol>
             {!hasDrop && !hasApproved && (
               <>
+                <SabeLogo width={75} height={75} />
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                <StyledRow style={{marginTop: 20}}>
+                <StyledCol
+                  style={{width: '100%', marginLeft: 40, marginTop: 10}}>
+                  <ListingOne label={'Email'} data={driverData.email} />
+                  <ListingTwo
+                    labelOne={'Rider'}
+                    dataOne={driverData.name}
+                    labelTwo={'Contact'}
+                    dataTwo={driverData.contact}
+                  />
+                  <ListingTwo
+                    labelOne={'Car Make'}
+                    dataOne={driverData.carMake}
+                    labelTwo={'Car Series'}
+                    dataTwo={driverData.carSeries}
+                  />
+                  <ListingTwo
+                    labelOne={'Car Color'}
+                    dataOne={driverData.carColor}
+                    labelTwo={'Plate Number'}
+                    dataTwo={driverData.carPlate}
+                  />
+                </StyledCol>
+                {routeData && (
+                  <StyledCol
+                    style={{width: '100%', marginRight: 55, marginTop: 10}}>
+                    <BookingCardLower routes={routeData} />
+                  </StyledCol>
+                )}
+                <StyledRow style={{marginTop: 10}}>
                   <ButtonNegative
                     onClick={handleDropoff}
                     text={'Request Dropoff'}
@@ -68,9 +110,12 @@ function MainRideCommuter({
               </>
             )}
             {hasDrop && (
-              <StyledRow style={{marginTop: 10}}>
-                <ButtonNeutral text={'Reviewing Request'} />
-              </StyledRow>
+              <>
+                <SabeLogo width={75} height={75} />
+                <StyledRow style={{marginTop: 10}}>
+                  <ButtonNeutral text={'Reviewing Request'} />
+                </StyledRow>
+              </>
             )}
             {hasApproved && (
               <>
@@ -95,6 +140,20 @@ function MainRideCommuter({
         )}
         {!hasRide && hasRequest && (
           <StyledCol>
+            {driverData.profPic ? (
+              <Image
+                style={{
+                  width: 75,
+                  height: 75,
+                  borderRadius: 50,
+                  borderWidth: 2,
+                  borderColor: '#042f40',
+                }}
+                source={{uri: driverData.profPic}}
+              />
+            ) : (
+              <SabeLogo width={75} height={75} />
+            )}
             <StyledRow>
               <StyledText18
                 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
@@ -14,12 +15,13 @@ import ButtonReject from '../button-reject';
 import ButtonPositive from '../button-positive';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
+import BookingCardLower from '../booking-card-lower';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
 
-// @ts-ignore
 function MainRideDriver({
+  routeData,
   userUID,
   hasListing,
   requesteeData,
@@ -81,6 +83,8 @@ function MainRideDriver({
         .doc(driverSnapshot.data().bookerUID);
 
       // @ts-ignore
+      const currentRoute = driverSnapshot.data().route;
+      // @ts-ignore
       const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
       const newPassengerCount = currentPassengerCount + 1;
 
@@ -99,6 +103,7 @@ function MainRideDriver({
       await commuterRef.update({
         bookingRequest: false,
         bookingOngoing: true,
+        route: currentRoute,
       });
 
       setHasRequest(false);
@@ -111,14 +116,10 @@ function MainRideDriver({
 
   const handleViewDrop = async () => {
     try {
-      const driverRef = firestore().collection('Bookings').doc(userUID);
       const driverSnapshot = await firestore()
         .collection('Bookings')
         .doc(userUID)
         .get();
-      const commuterRef = firestore()
-        .collection('Users')
-        .doc(driverSnapshot.data().dropoffUID);
       const commuterSnapshot = await firestore()
         .collection('Users')
         .doc(driverSnapshot.data().dropoffUID)
@@ -168,14 +169,22 @@ function MainRideDriver({
         .collection('Users')
         .doc(driverSnapshot.data().dropoffUID);
 
+      const updatedPassengers = driverSnapshot
+        .data()
+        .bookingPassengers.filter(
+          passenger => passenger !== driverSnapshot.data().dropoffUID,
+        );
+
       await driverRef.update({
         bookingDropoff: false,
         dropoffApproved: true,
+        bookingPassengers: updatedPassengers,
       });
 
       await commuterRef.update({
         bookingDropoff: false,
         dropoffApproved: true,
+        route: [],
       });
 
       setHasDrop(false);
@@ -204,14 +213,10 @@ function MainRideDriver({
       // @ts-ignore
       const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
       const newPassengerCount = currentPassengerCount - 1;
-      // @ts-ignore
-      const currentTotalRides = driverSnapshot.data().totalRides || 0;
-      const newTotalRides = currentTotalRides + 1;
 
       await driverRef.update({
         passengerCount: newPassengerCount,
         bookingOngoing: newPassengerCount !== 0,
-        totalRides: newTotalRides,
         dropoffUID: '',
         dropoffApproved: false,
       });
@@ -220,13 +225,15 @@ function MainRideDriver({
       const currentCommuterTotalRides = commuterSnapshot.data().totalRides || 0;
       const newCommuterTotalRides = currentCommuterTotalRides + 1;
       // @ts-ignore
-      const currentCommuterRating = commuterSnapshot.data().rating || 0;
-      const newCustomerRating =
-        (currentCommuterRating + rating) / newCommuterTotalRides;
+      const currentScore = commuterSnapshot.data().score || 0;
+      const newScore = currentScore + rating;
+      // @ts-ignore
+      const newCommuterRating = newScore / newCommuterTotalRides;
 
       await commuterRef.update({
-        rating: newCustomerRating,
-        totalRides: newTotalRides,
+        score: newScore,
+        rating: newCommuterRating,
+        totalRides: newCommuterTotalRides,
       });
 
       setHasDrop(false);
@@ -250,21 +257,46 @@ function MainRideDriver({
         paddingBottom: 12.5,
         backgroundColor: '#fff',
         borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
       }}>
       <StyledCol style={{marginTop: 0}}>
-        <SabeLogo width={50} height={50} />
         {hasRide && (
           <StyledCol>
             {!hasDrop && !hasApproved && (
               <>
+                <SabeLogo width={75} height={75} />
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
+                {routeData && (
+                  <StyledCol
+                    style={{width: '100%', marginRight: 55, marginTop: 10}}>
+                    <BookingCardLower routes={routeData} />
+                  </StyledCol>
+                )}
               </>
             )}
             {hasDrop && (
               <>
+                {dropeeData.profPic ? (
+                  <Image
+                    style={{
+                      width: 75,
+                      height: 75,
+                      marginTop: 10,
+                      borderRadius: 50,
+                      borderWidth: 2,
+                      borderColor: '#042f40',
+                    }}
+                    source={{uri: dropeeData.profPic}}
+                  />
+                ) : (
+                  <SabeLogo width={75} height={75} />
+                )}
                 <StyledRow>
                   <StyledText18
                     style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
@@ -298,7 +330,11 @@ function MainRideDriver({
                       labelOne={'Type'}
                       dataOne={dropeeData.type}
                       labelTwo={'Rating'}
-                      dataTwo={dropeeData.rating}
+                      dataTwo={
+                        dropeeData.rating
+                          ? dropeeData.rating.toFixed(2)
+                          : dropeeData.rating
+                      }
                     />
                     <StyledRow style={{marginTop: 10}}>
                       <ButtonReject onClick={handleCancelDrop} />
@@ -331,6 +367,21 @@ function MainRideDriver({
         )}
         {hasRequest && (
           <StyledCol>
+            {requesteeData.profPic ? (
+              <Image
+                style={{
+                  width: 75,
+                  height: 75,
+                  marginTop: 10,
+                  borderRadius: 50,
+                  borderWidth: 2,
+                  borderColor: '#042f40',
+                }}
+                source={{uri: requesteeData.profPic}}
+              />
+            ) : (
+              <SabeLogo width={75} height={75} />
+            )}
             <StyledRow>
               <StyledText18
                 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
@@ -355,7 +406,11 @@ function MainRideDriver({
               labelOne={'Type'}
               dataOne={requesteeData.type}
               labelTwo={'Rating'}
-              dataTwo={requesteeData.rating}
+              dataTwo={
+                requesteeData.rating
+                  ? requesteeData.rating.toFixed(2)
+                  : requesteeData.rating
+              }
             />
             <StyledRow style={{marginTop: 10}}>
               <ButtonReject onClick={handleReject} />
@@ -364,22 +419,26 @@ function MainRideDriver({
           </StyledCol>
         )}
         {!hasRide && (!hasRequest || requesteeData.length === 0) && (
-          <StyledRow>
-            <StyledText18 style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
-              {hasListing
-                ? 'Waiting for commuter request'
-                : 'You have no active listing'}
-            </StyledText18>
-            {hasListing && (
-              <AnimatedEllipsis
-                style={{
-                  color: '#042F40',
-                  fontSize: 26,
-                  letterSpacing: -2.5,
-                }}
-              />
-            )}
-          </StyledRow>
+          <StyledCol>
+            <SabeLogo width={75} height={75} />
+            <StyledRow>
+              <StyledText18
+                style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                {hasListing
+                  ? 'Waiting for commuter request'
+                  : 'You have no active listing'}
+              </StyledText18>
+              {hasListing && (
+                <AnimatedEllipsis
+                  style={{
+                    color: '#042F40',
+                    fontSize: 26,
+                    letterSpacing: -2.5,
+                  }}
+                />
+              )}
+            </StyledRow>
+          </StyledCol>
         )}
       </StyledCol>
     </StyledCol>

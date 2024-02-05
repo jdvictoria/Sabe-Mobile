@@ -9,7 +9,7 @@ import auth from '@react-native-firebase/auth';
 import HomeLogoDark from '../../../assets/icons/home-dark.svg';
 
 // @ts-ignore
-function Fallback({navigation}) {
+function FallbackUnverified({navigation}) {
   const sans = styledText();
 
   useEffect(() => {
@@ -45,4 +45,4 @@ function Fallback({navigation}) {
   );
 }
 
-export default Fallback;
+export default FallbackUnverified;

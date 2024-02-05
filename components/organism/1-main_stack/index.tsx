@@ -4,15 +4,21 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
-import Fallback from '../../molecules/fallback';
 import BookingsDetail from '../../molecules/bookings-detail';
+import FallbackUnverified from '../../molecules/fallback-unverified';
+import FallbackInternet from '../../molecules/fallback-internet';
 
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
 import AdminStack from '../4-admin_stack';
 
+import firestore from '@react-native-firebase/firestore';
+
 function MainStack() {
   const Stack = createStackNavigator();
+
+  const [connection, setConnection] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Global
   const [userUID, setUserUID] = useState('');
@@ -25,7 +31,24 @@ function MainStack() {
   const [riderProfile, setRiderProfile] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
-  // Driver Hooks
+  const refetchProfile = async () => {
+    try {
+      const userDocument = await firestore()
+        .collection('Users')
+        .doc(userUID)
+        .get();
+
+      if (userDocument.exists) {
+        const userData = userDocument.data();
+        // @ts-ignore
+        setProfile(userData);
+      } else {
+        console.log('Document does not exist');
+      }
+    } catch (error) {
+      console.log('Error Fetching Profile');
+    }
+  };
 
   return (
     <NavigationContainer>
@@ -38,26 +61,39 @@ function MainStack() {
           {props => <Loading {...props} />}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
-          {() => <AuthStack setProfile={setProfile} setUserUID={setUserUID} />}
+          {() => (
+            <AuthStack
+              setProfile={setProfile}
+              setUserUID={setUserUID}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          )}
         </Stack.Screen>
         <Stack.Screen name="HomeStack">
           {props =>
             // @ts-ignore
-            profile.isVerified && profile.isVerified !== undefined ? (
+            !connection ? (
+              <FallbackInternet />
+            ) : profile.isVerified &&
+              profile.isVerified !== undefined &&
+              isLoggedIn ? (
               <HomeStack
                 {...props}
-                redirect={redirect}
-                setRedirect={setRedirect}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
                 userUID={userUID}
                 driverUID={driverUID}
+                redirect={redirect}
+                setRedirect={setRedirect}
                 profile={profile}
                 setProfile={setProfile}
+                refetchProfile={refetchProfile}
                 setDriverUID={setDriverUID}
                 riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}
               />
             ) : (
-              <Fallback {...props} />
+              <FallbackUnverified {...props} />
             )
           }
         </Stack.Screen>

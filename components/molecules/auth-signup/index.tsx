@@ -125,6 +125,7 @@ function AuthSignUp({navigation}) {
           name: name,
           email: email,
           contact: phone,
+          score: 0,
           rating: 0,
           schoolIDUrl: downloadURL,
           isVerified: false,

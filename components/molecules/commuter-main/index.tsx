@@ -4,13 +4,15 @@ import {Dimensions, ScrollView} from 'react-native';
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
-import MainMap from '../../atoms/main-map';
+import MainMapCommuter from '../../atoms/main-map-commuter';
 import MainRideCommuter from '../../atoms/main-ride-commuter';
+
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function CommuterMain({
   navigation,
+  isLoggedIn,
   userUID,
   driverUID,
   redirect,
@@ -19,6 +21,9 @@ function CommuterMain({
   setRiderProfile,
   position,
 }: any) {
+  const [driverData, setDriverData] = useState([]);
+  const [routeData, setRouteData] = useState(null);
+
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
   const [hasDrop, setHasDrop] = useState(false);
@@ -30,8 +35,25 @@ function CommuterMain({
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      setDriverData([]);
+      setRouteData(null);
+
+      setHasRequest(false);
+      setHasRide(false);
+      setHasDrop(false);
+      setHasApproved(false);
+
+      setEndStep(1);
+      setRating(0);
+
+      setIntervalId(null);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     if (redirect) {
-      // Scroll to the bottom when redirect is true
+      // @ts-ignore
       scrollViewRef.current.scrollToEnd({animated: true});
       // Reset the redirect state to false after scrolling
       setRedirect(false);
@@ -107,25 +129,26 @@ function CommuterMain({
 
   const handleEnd = async () => {
     try {
-      const driverRef = firestore().collection('Bookings').doc(driverUID);
+      const driverRef = firestore().collection('Users').doc(driverUID);
       const driverSnapshot = await firestore()
-        .collection('Bookings')
+        .collection('Users')
         .doc(driverUID)
         .get();
       const commuterRef = firestore().collection('Users').doc(userUID);
 
       // @ts-ignore
-      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
-      const newPassengerCount = currentPassengerCount - 1;
-      // @ts-ignore
       const currentTotalRides = driverSnapshot.data().totalRides || 0;
       const newTotalRides = currentTotalRides + 1;
       // @ts-ignore
-      const currentDriverRating = driverSnapshot.data().rating || 0;
-      const newDriverRating = (currentDriverRating + rating) / newTotalRides;
+      const currentScore = driverSnapshot.data().score || 0;
+      const newScore = currentScore + rating;
+      // @ts-ignore
+      const newDriverRating = newScore / newTotalRides;
 
       await driverRef.update({
+        score: newScore,
         rating: newDriverRating,
+        totalRides: newTotalRides,
       });
 
       await commuterRef.update({
@@ -137,6 +160,7 @@ function CommuterMain({
 
       setHasRequest(false);
       setHasRide(false);
+      setRating(0);
     } catch (error) {
       console.error('Error updating document:', error);
     }
@@ -144,35 +168,54 @@ function CommuterMain({
 
   const getRequest = async () => {
     try {
+      const driverRef = firestore().collection('Users').doc(driverUID);
+      const driverSnapshot = await driverRef.get();
       const docRef = firestore().collection('Users').doc(userUID);
       const docSnapshot = await docRef.get();
+
+      if (driverSnapshot.exists) {
+        const data = driverSnapshot.data();
+
+        // @ts-ignore
+        setDriverData(data);
+      }
 
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
 
+        // @ts-ignore
         if (data.bookingRequest) {
           setHasRequest(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRequest(false);
         }
 
+        // @ts-ignore
         if (data.bookingOngoing) {
+          // @ts-ignore
+          setRouteData(data.route);
           setHasRide(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRide(false);
         }
 
+        // @ts-ignore
         if (data.bookingDropoff) {
           setHasDrop(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasDrop(false);
         }
 
+        // @ts-ignore
         if (data.dropoffApproved) {
           setHasApproved(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasApproved(false);
@@ -182,16 +225,19 @@ function CommuterMain({
         // Do something when the document does not exist
       }
     } catch (error) {
-      console.error('Error checking listing:', error);
+      // console.error('Error checking listing:', error);
     }
   };
 
   useEffect(() => {
-    const id = setInterval(() => {
-      getRequest();
-    }, 1000);
-    setIntervalId(id);
-    return () => clearInterval(id);
+    if (isLoggedIn) {
+      const id = setInterval(() => {
+        getRequest();
+      }, 1000);
+      // @ts-ignore
+      setIntervalId(id);
+      return () => clearInterval(id);
+    }
   }, [hasRequest, hasRide, hasDrop]);
 
   return (
@@ -207,6 +253,7 @@ function CommuterMain({
         fromProfile={false}
       />
       <ScrollView
+        // @ts-ignore
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -220,8 +267,14 @@ function CommuterMain({
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMap position={position} />
+        <MainMapCommuter
+          position={position}
+          hasRide={hasRide}
+          routeData={routeData}
+        />
         <MainRideCommuter
+          driverData={driverData}
+          routeData={routeData}
           hasRide={hasRide}
           hasRequest={hasRequest}
           hasDrop={hasDrop}

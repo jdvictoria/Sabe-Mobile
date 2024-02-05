@@ -4,15 +4,16 @@ import {Dimensions, ScrollView} from 'react-native';
 import {StyledSafeAreaView} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
-import MainMap from '../../atoms/main-map';
+import MainMapDriver from '../../atoms/main-map-driver';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function DriverMain({navigation, userUID, hasListing, position}) {
+function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
+  const [routeData, setRouteData] = useState(null);
 
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
@@ -22,6 +23,23 @@ function DriverMain({navigation, userUID, hasListing, position}) {
   const [rating, setRating] = useState(null);
 
   const [intervalId, setIntervalId] = useState(null);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setRequesteeData([]);
+      setDropeeData([]);
+      setRouteData(null);
+
+      setHasRequest(false);
+      setHasRide(false);
+      setHasDrop(false);
+      setHasApproved(false);
+
+      setRating(null);
+
+      setIntervalId(null);
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (hasRequest) {
@@ -41,31 +59,42 @@ function DriverMain({navigation, userUID, hasListing, position}) {
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
 
+        // @ts-ignore
         if (data.bookingRequest) {
+          // @ts-ignore
           setRequesteeData(data.bookerProfile);
           setHasRequest(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setRequesteeData([]);
           setHasRequest(false);
         }
 
+        // @ts-ignore
         if (data.bookingOngoing) {
+          // @ts-ignore
+          setRouteData(data.route);
           setHasRide(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRide(false);
         }
 
+        // @ts-ignore
         if (data.bookingDropoff) {
           setHasDrop(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasDrop(false);
         }
 
+        // @ts-ignore
         if (data.dropoffApproved) {
           setHasApproved(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasApproved(false);
@@ -74,7 +103,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         console.log('Document does not exist');
       }
     } catch (error) {
-      console.error('Error checking listing:', error);
+      // console.error('Error checking listing:', error);
     }
   };
 
@@ -83,6 +112,8 @@ function DriverMain({navigation, userUID, hasListing, position}) {
       const id = setInterval(() => {
         getRequest();
       }, 1000);
+
+      // @ts-ignore
       setIntervalId(id);
 
       return () => clearInterval(id);
@@ -102,6 +133,7 @@ function DriverMain({navigation, userUID, hasListing, position}) {
         fromProfile={false}
       />
       <ScrollView
+        // @ts-ignore
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -115,8 +147,13 @@ function DriverMain({navigation, userUID, hasListing, position}) {
           height: Dimensions.get('window').height * 0.9,
           backgroundColor: '#e7e7e7',
         }}>
-        <MainMap position={position} />
+        <MainMapDriver
+          position={position}
+          hasRide={hasRide}
+          routeData={routeData}
+        />
         <MainRideDriver
+          routeData={routeData}
           userUID={userUID}
           hasListing={hasListing}
           requesteeData={requesteeData}
