@@ -45,23 +45,30 @@ function HomeStack({
   const Tabs = AnimatedTabBarNavigator();
 
   useEffect(() => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 60000,
-    })
-      .then(location => {
-        // console.log(location);
-        setPosition({
-          latitude: location.latitude,
-          longitude: location.longitude * -1,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005,
-        });
+    const updateLocation = () => {
+      GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 1000,
       })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
+        .then(location => {
+          setPosition({
+            latitude: location.latitude,
+            longitude: location.longitude * -1,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          });
+        })
+        .catch(error => {
+          const {code, message} = error;
+          console.warn(code, message);
+        });
+    };
+
+    updateLocation();
+
+    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const [position, setPosition] = useState({
