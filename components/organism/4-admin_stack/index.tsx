@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   AnimatedTabBarNavigator,
@@ -23,8 +23,105 @@ import HomeProfile from '../../../assets/icons/home-profile.svg';
 // @ts-ignore
 import HomeProfileAlt from '../../../assets/icons/home-profile-alt.svg';
 
+import firestore from '@react-native-firebase/firestore';
+
+import notifee from '@notifee/react-native';
+
 function AdminStack({setIsLoggedIn, userUID, profile, refetchProfile}: any) {
   const Tabs = AnimatedTabBarNavigator();
+
+  const [drivers, setDrivers] = useState([]);
+  const [commuters, setCommuters] = useState([]);
+
+  const fetchCommuters = async () => {
+    try {
+      const querySnapshot = await firestore()
+        .collection('Users')
+        .where('type', '==', 'commuter')
+        .where('isVerified', '==', false)
+        .get();
+
+      const docIds = querySnapshot.docs.map(doc => doc.id);
+
+      const commutersDetails = await Promise.all(
+        docIds.map(async commuterId => {
+          const commuterDoc = await firestore()
+            .collection('Users')
+            .doc(commuterId)
+            .get();
+
+          // @ts-ignore
+          if (commuterDoc.data().isNotified === false) {
+            await notifee.displayNotification({
+              title: 'Commuter Verification Request',
+              // @ts-ignore
+              body: commuterDoc.data().name + ' is asking for verification.',
+            });
+
+            await firestore()
+              .collection('Users')
+              .doc(commuterId)
+              .update({isNotified: true});
+          }
+          return {id: commuterId, data: commuterDoc.data()};
+        }),
+      );
+
+      return commutersDetails;
+    } catch (error) {
+      console.error('Error fetching commuters: ', error);
+      return [];
+    }
+  };
+
+  const fetchDrivers = async () => {
+    try {
+      const querySnapshot = await firestore()
+        .collection('Users')
+        .where('type', '==', 'driver')
+        .where('isVerified', '==', false)
+        .get();
+
+      const docIds = querySnapshot.docs.map(doc => doc.id);
+      // console.log('Drivers Document IDs: ', docIds);
+
+      const driversDetails = await Promise.all(
+        docIds.map(async driverId => {
+          const driverDoc = await firestore()
+            .collection('Users')
+            .doc(driverId)
+            .get();
+
+          // @ts-ignore
+          if (driverDoc.data().isNotified === false) {
+            await notifee.displayNotification({
+              title: 'Driver Verification Request',
+              // @ts-ignore
+              body: driverDoc.data().name + ' is asking for verification.',
+            });
+
+            await firestore()
+              .collection('Users')
+              .doc(driverId)
+              .update({isNotified: true});
+          }
+          return {id: driverId, data: driverDoc.data()};
+        }),
+      );
+
+      // @ts-ignore
+      return driversDetails;
+    } catch (error) {
+      console.error('Error fetching commuters: ', error);
+    }
+  };
+
+  useEffect(() => {
+    // @ts-ignore
+    fetchDrivers().then(data => setDrivers(data));
+    // @ts-ignore
+    fetchCommuters().then(data => setCommuters(data));
+  }, [userUID]);
 
   return (
     <Tabs.Navigator
@@ -49,7 +146,14 @@ function AdminStack({setIsLoggedIn, userUID, profile, refetchProfile}: any) {
               <AdminDriverAlt width={27.5} height={27.5} />
             ),
         }}>
-        {props => <AdminDrivers {...props} userUID={userUID} />}
+        {props => (
+          <AdminDrivers
+            {...props}
+            drivers={drivers}
+            setDrivers={setDrivers}
+            fetchDrivers={fetchDrivers}
+          />
+        )}
       </Tabs.Screen>
 
       <Tabs.Screen
@@ -70,6 +174,10 @@ function AdminStack({setIsLoggedIn, userUID, profile, refetchProfile}: any) {
             userUID={userUID}
             profile={profile}
             refetchProfile={refetchProfile}
+            setDrivers={setDrivers}
+            fetchDrivers={fetchDrivers}
+            setCommuters={setCommuters}
+            fetchCommuters={fetchCommuters}
           />
         )}
       </Tabs.Screen>
@@ -85,7 +193,14 @@ function AdminStack({setIsLoggedIn, userUID, profile, refetchProfile}: any) {
               <AdminStudentAlt width={20} height={20} />
             ),
         }}>
-        {props => <AdminCommuters {...props} userUID={userUID} />}
+        {props => (
+          <AdminCommuters
+            {...props}
+            commuters={commuters}
+            setCommuters={setCommuters}
+            fetchCommuters={fetchCommuters}
+          />
+        )}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

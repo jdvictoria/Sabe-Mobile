@@ -3,8 +3,7 @@ import React from 'react';
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 
-// @ts-ignore
-function BookingCardLower({routes}) {
+function BookingCardLower({routes}: any) {
   const sans = styledText();
 
   return (

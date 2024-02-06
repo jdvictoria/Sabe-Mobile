@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
@@ -16,6 +16,7 @@ import ButtonPositive from '../button-positive';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
 import BookingCardLower from '../booking-card-lower';
+import BookingCardPassengers from '../booking-card-passengers';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
@@ -28,6 +29,7 @@ function MainRideDriver({
   setRequesteeData,
   dropeeData,
   setDropeeData,
+  passengersData,
   hasRequest,
   setHasRequest,
   hasRide,
@@ -42,6 +44,8 @@ function MainRideDriver({
   const sans = styledText();
 
   const [dropStep, setDropStep] = useState(1);
+
+  const [profiles, setProfiles] = useState([]);
 
   const handleReject = async () => {
     try {
@@ -244,6 +248,28 @@ function MainRideDriver({
     }
   };
 
+  const fetchProfiles = async () => {
+    try {
+      const profilesRef = firestore().collection('Users');
+
+      const profilesPromises = passengersData.map(async uid => {
+        const profileDoc = await profilesRef.doc(uid).get();
+        return profileDoc.data();
+      });
+
+      const profiles = await Promise.all(profilesPromises);
+      setProfiles(profiles);
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (passengersData && passengersData.length > 0) {
+      fetchProfiles();
+    }
+  }, [passengersData]);
+
   return (
     <StyledCol
       style={{
@@ -262,23 +288,31 @@ function MainRideDriver({
         shadowOpacity: 0.2,
         shadowRadius: 4,
       }}>
-      <StyledCol style={{marginTop: 0}}>
+      <StyledCol style={{width: '100%', marginTop: 0}}>
         {hasRide && (
-          <StyledCol>
+          <StyledCol style={{width: '100%'}}>
             {!hasDrop && !hasApproved && (
-              <>
+              <StyledCol style={{width: '100%'}}>
                 <SabeLogo width={75} height={75} />
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                {routeData && (
+                {profiles.length > 0 && (
                   <StyledCol
-                    style={{width: '100%', marginRight: 55, marginTop: 10}}>
+                    style={{
+                      width: '100%',
+                      marginTop: 10,
+                    }}>
+                    <BookingCardPassengers profiles={profiles} />
+                  </StyledCol>
+                )}
+                {routeData && (
+                  <StyledCol style={{width: '100%', marginTop: 10}}>
                     <BookingCardLower routes={routeData} />
                   </StyledCol>
                 )}
-              </>
+              </StyledCol>
             )}
             {hasDrop && (
               <>

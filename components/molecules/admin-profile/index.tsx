@@ -31,6 +31,10 @@ function AdminProfile({
   userUID,
   profile,
   refetchProfile,
+  setDrivers,
+  fetchDrivers,
+  setCommuters,
+  fetchCommuters,
 }: any) {
   const sans = styledText();
 
@@ -40,8 +44,10 @@ function AdminProfile({
     setRefreshing(true);
     setTimeout(() => {
       refetchProfile();
-      fetchDrivers();
-      fetchCommuters();
+      fetchDrivers().then(data => setDrivers(data));
+      fetchCommuters().then(data => setCommuters(data));
+      fetchTotalDrivers();
+      fetchTotalCommuters();
       setRefreshing(false);
     }, 2000);
   }, []);
@@ -113,7 +119,7 @@ function AdminProfile({
   const [driversUnverified, setDriversUnverified] = useState(0);
   const [driversVerified, setDriversVerified] = useState(0);
 
-  const fetchDrivers = async () => {
+  const fetchTotalDrivers = async () => {
     try {
       const querySnapshot = await firestore()
         .collection('Users')
@@ -121,7 +127,7 @@ function AdminProfile({
         .get();
 
       const docs = querySnapshot.docs;
-      const docIds = docs.map(doc => doc.id);
+      // const docIds = docs.map(doc => doc.id);
 
       const unverifiedCount = docs.filter(doc => !doc.data().isVerified).length;
       const verifiedCount = docs.filter(doc => doc.data().isVerified).length;
@@ -139,7 +145,7 @@ function AdminProfile({
   const [commutersUnverified, setCommutersUnverified] = useState(0);
   const [commutersVerified, setCommutersVerified] = useState(0);
 
-  const fetchCommuters = async () => {
+  const fetchTotalCommuters = async () => {
     try {
       const querySnapshot = await firestore()
         .collection('Users')
@@ -147,7 +153,7 @@ function AdminProfile({
         .get();
 
       const docs = querySnapshot.docs;
-      const docIds = docs.map(doc => doc.id);
+      // const docIds = docs.map(doc => doc.id);
 
       const unverifiedCount = docs.filter(doc => !doc.data().isVerified).length;
       const verifiedCount = docs.filter(doc => doc.data().isVerified).length;
@@ -163,8 +169,8 @@ function AdminProfile({
 
   useEffect(() => {
     // @ts-ignore
-    fetchDrivers();
-    fetchCommuters();
+    fetchTotalDrivers();
+    fetchTotalCommuters();
   }, [userUID]);
 
   return (
