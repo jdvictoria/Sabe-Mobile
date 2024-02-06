@@ -1,5 +1,4 @@
 import React from 'react';
-import {Image} from 'react-native';
 
 import {StyledCol, StyledTouchableCol} from '../../../styles/container';
 
@@ -8,11 +7,11 @@ import ListingTwo from '../listing-two';
 
 // @ts-ignore
 import Write from '../../../assets/icons/message-write.svg';
+import {Image} from 'react-native';
 
-function BookingCardPassengers({profiles}: any) {
-  // @ts-ignore
-  return profiles.map((profile, index) => (
-    <StyledCol key={index} style={{width: '100%'}}>
+function BookingCardRider({profile}: any) {
+  return (
+    <StyledCol>
       <StyledCol>
         {profile.profPic && (
           <Image
@@ -33,20 +32,26 @@ function BookingCardPassengers({profiles}: any) {
       <StyledCol style={{marginLeft: 40}}>
         <ListingOne label={'Email'} data={profile.email} />
         <ListingTwo
-          labelOne={'Commuter'}
+          labelOne={'Rider'}
           dataOne={profile.name}
           labelTwo={'Contact'}
           dataTwo={profile.contact}
         />
         <ListingTwo
-          labelOne={'Total Rides'}
-          dataOne={profile.totalRides}
-          labelTwo={'Rating'}
-          dataTwo={profile.rating}
+          labelOne={'Car Make'}
+          dataOne={profile.carMake}
+          labelTwo={'Car Series'}
+          dataTwo={profile.carSeries}
+        />
+        <ListingTwo
+          labelOne={'Car Color'}
+          dataOne={profile.carColor}
+          labelTwo={'Plate Number'}
+          dataTwo={profile.carPlate}
         />
       </StyledCol>
     </StyledCol>
-  ));
+  );
 }
 
-export default BookingCardPassengers;
+export default BookingCardRider;

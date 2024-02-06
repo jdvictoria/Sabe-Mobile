@@ -18,6 +18,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 import StarRating from 'react-native-star-rating-widget';
 
 import ListingTwo from '../listing-two';
+import BookingCardRider from '../booking-card-rider';
 
 function MainRideCommuter({
   driverData,
@@ -52,7 +53,7 @@ function MainRideCommuter({
         shadowOpacity: 0.2,
         shadowRadius: 4,
       }}>
-      <StyledCol style={{marginTop: hasRequest ? 15 : 0}}>
+      <StyledCol style={{width: '100%', marginTop: hasRequest ? 15 : 0}}>
         {!hasRequest && !hasRide && (
           <>
             <SabeLogo width={75} height={75} />
@@ -65,39 +66,21 @@ function MainRideCommuter({
           </>
         )}
         {!hasRequest && hasRide && (
-          <StyledCol>
+          <StyledCol style={{width: '100%'}}>
             {!hasDrop && !hasApproved && (
-              <>
+              <StyledCol style={{width: '100%'}}>
                 <SabeLogo width={75} height={75} />
                 <StyledText18
                   style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
                   Ride Ongoing
                 </StyledText18>
-                <StyledCol
-                  style={{width: '100%', marginLeft: 40, marginTop: 10}}>
-                  <ListingOne label={'Email'} data={driverData.email} />
-                  <ListingTwo
-                    labelOne={'Rider'}
-                    dataOne={driverData.name}
-                    labelTwo={'Contact'}
-                    dataTwo={driverData.contact}
-                  />
-                  <ListingTwo
-                    labelOne={'Car Make'}
-                    dataOne={driverData.carMake}
-                    labelTwo={'Car Series'}
-                    dataTwo={driverData.carSeries}
-                  />
-                  <ListingTwo
-                    labelOne={'Car Color'}
-                    dataOne={driverData.carColor}
-                    labelTwo={'Plate Number'}
-                    dataTwo={driverData.carPlate}
-                  />
-                </StyledCol>
+                {driverData && (
+                  <StyledCol style={{width: '100%', marginTop: 10}}>
+                    <BookingCardRider profile={driverData} />
+                  </StyledCol>
+                )}
                 {routeData && (
-                  <StyledCol
-                    style={{width: '100%', marginRight: 55, marginTop: 10}}>
+                  <StyledCol style={{width: '100%', marginTop: 10}}>
                     <BookingCardLower routes={routeData} />
                   </StyledCol>
                 )}
@@ -107,7 +90,7 @@ function MainRideCommuter({
                     text={'Request Dropoff'}
                   />
                 </StyledRow>
-              </>
+              </StyledCol>
             )}
             {hasDrop && (
               <>
