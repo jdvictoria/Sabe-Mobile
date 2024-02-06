@@ -42,7 +42,7 @@ function BookingCardPassengers({profiles}: any) {
           labelOne={'Total Rides'}
           dataOne={profile.totalRides}
           labelTwo={'Rating'}
-          dataTwo={profile.rating}
+          dataTwo={profile.rating.toFixed(2)}
         />
       </StyledCol>
     </StyledCol>
