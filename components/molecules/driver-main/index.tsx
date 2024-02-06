@@ -7,10 +7,46 @@ import HomeHeader from '../../atoms/home-header';
 import MainMapDriver from '../../atoms/main-map-driver';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
+import GetLocation from 'react-native-get-location';
+
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
-function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
+function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
+  useEffect(() => {
+    const updateLocation = () => {
+      GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 1000,
+      })
+        .then(location => {
+          setPosition({
+            latitude: location.latitude,
+            longitude: location.longitude * -1,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          });
+        })
+        .catch(error => {
+          const {code, message} = error;
+          console.warn(code, message);
+        });
+    };
+
+    updateLocation();
+
+    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const [position, setPosition] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
+
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
   const [routeData, setRouteData] = useState(null);

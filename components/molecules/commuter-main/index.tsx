@@ -7,6 +7,8 @@ import HomeHeader from '../../atoms/home-header';
 import MainMapCommuter from '../../atoms/main-map-commuter';
 import MainRideCommuter from '../../atoms/main-ride-commuter';
 
+import GetLocation from 'react-native-get-location';
+
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
@@ -19,8 +21,41 @@ function CommuterMain({
   setRedirect,
   setProfile,
   setRiderProfile,
-  position,
 }: any) {
+  useEffect(() => {
+    const updateLocation = () => {
+      GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 1000,
+      })
+        .then(location => {
+          setPosition({
+            latitude: location.latitude,
+            longitude: location.longitude * -1,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          });
+        })
+        .catch(error => {
+          const {code, message} = error;
+          console.warn(code, message);
+        });
+    };
+
+    updateLocation();
+
+    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const [position, setPosition] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
+
   const [driverData, setDriverData] = useState([]);
   const [routeData, setRouteData] = useState(null);
 

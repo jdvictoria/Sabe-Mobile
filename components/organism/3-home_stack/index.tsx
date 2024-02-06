@@ -25,7 +25,6 @@ import DriverMain from '../../molecules/driver-main';
 import DriverBookings from '../../molecules/driver-bookings';
 import UserProfile from '../../molecules/user-profile';
 
-import GetLocation from 'react-native-get-location';
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
@@ -43,40 +42,6 @@ function HomeStack({
   setRiderProfile,
 }: any) {
   const Tabs = AnimatedTabBarNavigator();
-
-  useEffect(() => {
-    const updateLocation = () => {
-      GetLocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 1000,
-      })
-        .then(location => {
-          setPosition({
-            latitude: location.latitude,
-            longitude: location.longitude * -1,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          });
-        })
-        .catch(error => {
-          const {code, message} = error;
-          console.warn(code, message);
-        });
-    };
-
-    updateLocation();
-
-    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const [position, setPosition] = useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: 0.005,
-    longitudeDelta: 0.005,
-  });
 
   // Driver Hooks
   const [create, setCreate] = useState(false);
@@ -172,7 +137,6 @@ function HomeStack({
               isLoggedIn={isLoggedIn}
               userUID={userUID}
               hasListing={hasListing}
-              position={position}
             />
           ) : (
             <CommuterMain
@@ -184,7 +148,6 @@ function HomeStack({
               setRedirect={setRedirect}
               setProfile={setProfile}
               setRiderProfile={setRiderProfile}
-              position={position}
             />
           )
         }
