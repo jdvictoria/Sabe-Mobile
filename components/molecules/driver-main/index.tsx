@@ -7,13 +7,52 @@ import HomeHeader from '../../atoms/home-header';
 import MainMapDriver from '../../atoms/main-map-driver';
 import MainRideDriver from '../../atoms/main-ride-driver';
 
+import GetLocation from 'react-native-get-location';
+
 import firestore from '@react-native-firebase/firestore';
 
+import notifee from '@notifee/react-native';
+
 // @ts-ignore
-function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
+function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
+  useEffect(() => {
+    const updateLocation = () => {
+      GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 1000,
+      })
+        .then(location => {
+          setPosition({
+            latitude: location.latitude,
+            longitude: location.longitude * -1,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          });
+        })
+        .catch(error => {
+          const {code, message} = error;
+          // console.warn(code, message);
+        });
+    };
+
+    updateLocation();
+
+    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const [position, setPosition] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
+
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
   const [routeData, setRouteData] = useState(null);
+  const [passengersData, setPassengersData] = useState(null);
 
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
@@ -29,6 +68,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
       setRequesteeData([]);
       setDropeeData([]);
       setRouteData(null);
+      setPassengersData(null);
 
       setHasRequest(false);
       setHasRide(false);
@@ -75,6 +115,8 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
         if (data.bookingOngoing) {
           // @ts-ignore
           setRouteData(data.route);
+          // @ts-ignore
+          setPassengersData(data.bookingPassengers);
           setHasRide(true);
           // @ts-ignore
           clearInterval(intervalId);
@@ -120,6 +162,40 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
     }
   }, [hasListing, hasRide, hasDrop, hasApproved, rating]);
 
+  useEffect(() => {
+    const requestNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Commuter Booking Request',
+        // @ts-ignore
+        body: 'A commuter is asking for your ride.',
+      });
+
+      console.log('user requesting');
+    };
+
+    const rideNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Commuter Booking Accepted',
+        body: 'You now have an ongoing ride.',
+      });
+    };
+
+    const dropNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Commuter Drop Request',
+        body: 'A commuter is asking for a dropoff.',
+      });
+    };
+
+    if (hasRequest) {
+      requestNotification();
+    } else if (hasRide && !hasDrop) {
+      rideNotification();
+    } else if (hasDrop && hasRide) {
+      dropNotification();
+    }
+  }, [hasRequest, hasRide, hasDrop]);
+
   return (
     <StyledSafeAreaView
       style={{
@@ -160,8 +236,9 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing, position}) {
           hasListing={hasListing}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
-          setDropeeData={setDropeeData}
           dropeeData={dropeeData}
+          setDropeeData={setDropeeData}
+          passengersData={passengersData}
           hasRequest={hasRequest}
           setHasRequest={setHasRequest}
           hasRide={hasRide}

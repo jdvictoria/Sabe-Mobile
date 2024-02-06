@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
@@ -7,16 +7,16 @@ import {styledText, StyledText18} from '../../../styles/text';
 import HomeHeader from '../../atoms/home-header';
 import DetailsCardCommuter from '../../atoms/details-card-commuter';
 
-import firestore from '@react-native-firebase/firestore';
+// @ts-ignore
 import Sabe from '../../../assets/icons/home-dark.svg';
 
+import firestore from '@react-native-firebase/firestore';
+
 // @ts-ignore
-function AdminCommuters({navigation, userUID}) {
+function AdminCommuters({navigation, commuters, setCommuters, fetchCommuters}) {
   const sans = styledText();
 
   const [refreshing, setRefreshing] = React.useState(false);
-
-  const [commuters, setCommuters] = useState([]);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -44,38 +44,6 @@ function AdminCommuters({navigation, userUID}) {
       console.error('Error updating isVerified: ', error);
     }
   };
-
-  const fetchCommuters = async () => {
-    try {
-      const querySnapshot = await firestore()
-        .collection('Users')
-        .where('type', '==', 'commuter')
-        .where('isVerified', '==', false)
-        .get();
-
-      const docIds = querySnapshot.docs.map(doc => doc.id);
-
-      const commutersDetails = await Promise.all(
-        docIds.map(async commuterId => {
-          const commuterDoc = await firestore()
-            .collection('Users')
-            .doc(commuterId)
-            .get();
-          return {id: commuterId, data: commuterDoc.data()};
-        }),
-      );
-
-      return commutersDetails;
-    } catch (error) {
-      console.error('Error fetching commuters: ', error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    // @ts-ignore
-    fetchCommuters().then(data => setCommuters(data));
-  }, [userUID]);
 
   return (
     <StyledSafeAreaView

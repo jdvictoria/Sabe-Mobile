@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 
 import {StyledSafeAreaView} from '../../../styles/container';
@@ -7,7 +7,11 @@ import HomeHeader from '../../atoms/home-header';
 import MainMapCommuter from '../../atoms/main-map-commuter';
 import MainRideCommuter from '../../atoms/main-ride-commuter';
 
+import GetLocation from 'react-native-get-location';
+
 import firestore from '@react-native-firebase/firestore';
+
+import notifee from '@notifee/react-native';
 
 // @ts-ignore
 function CommuterMain({
@@ -19,15 +23,50 @@ function CommuterMain({
   setRedirect,
   setProfile,
   setRiderProfile,
-  position,
 }: any) {
+  useEffect(() => {
+    const updateLocation = () => {
+      GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 1000,
+      })
+        .then(location => {
+          setPosition({
+            latitude: location.latitude,
+            longitude: location.longitude * -1,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          });
+        })
+        .catch(error => {
+          const {code, message} = error;
+          // console.warn(code, message);
+        });
+    };
+
+    updateLocation();
+
+    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const [position, setPosition] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
+
   const [driverData, setDriverData] = useState([]);
   const [routeData, setRouteData] = useState(null);
 
+  const isInitialRender = useRef(true);
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
   const [hasDrop, setHasDrop] = useState(false);
   const [hasApproved, setHasApproved] = useState(false);
+  const [hasCancelled, setHasCancelled] = useState(false);
 
   const [endStep, setEndStep] = useState(1);
   const [rating, setRating] = useState(0);
@@ -100,6 +139,12 @@ function CommuterMain({
         bookingRequest: false,
       });
 
+      await notifee.displayNotification({
+        title: 'Driver Booking Request',
+        body: 'You cancelled your request.',
+      });
+      setHasCancelled(true);
+
       await updateProfile();
       navigation.navigate('BookingsDetail');
     } catch (error) {
@@ -168,6 +213,7 @@ function CommuterMain({
 
   const getRequest = async () => {
     try {
+      setHasCancelled(false);
       const driverRef = firestore().collection('Users').doc(driverUID);
       const driverSnapshot = await driverRef.get();
       const docRef = firestore().collection('Users').doc(userUID);
@@ -239,6 +285,58 @@ function CommuterMain({
       return () => clearInterval(id);
     }
   }, [hasRequest, hasRide, hasDrop]);
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    const cancelNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Driver Booking Request',
+        body: 'The driver cancelled your request.',
+      });
+    };
+
+    const rideNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Driver Booking Accepted',
+        body: 'You now have an ongoing ride.',
+      });
+    };
+
+    const approveNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Dropoff Request Accepted',
+        body: 'Your dropoff request has been approved.',
+      });
+    };
+
+    if (!hasRequest && hasRide && hasApproved) {
+      console.log('approve');
+      approveNotification();
+    } else if (
+      hasRide &&
+      !hasRequest &&
+      !hasCancelled &&
+      hasDrop &&
+      !hasApproved
+    ) {
+      console.log('hello');
+      rideNotification();
+    } else if (
+      !hasRequest &&
+      !hasCancelled &&
+      !hasRide &&
+      isInitialRender.current
+    ) {
+      console.log(hasRequest);
+      console.log(hasCancelled);
+      console.log(hasRide);
+      cancelNotification();
+    }
+  }, [hasRequest, hasRide, hasDrop, hasApproved, hasCancelled]);
 
   return (
     <StyledSafeAreaView
