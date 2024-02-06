@@ -29,7 +29,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
         })
         .catch(error => {
           const {code, message} = error;
-          console.warn(code, message);
+          // console.warn(code, message);
         });
     };
 
@@ -50,6 +50,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
   const [routeData, setRouteData] = useState(null);
+  const [passengersData, setPassengersData] = useState(null);
 
   const [hasRequest, setHasRequest] = useState(false);
   const [hasRide, setHasRide] = useState(false);
@@ -65,6 +66,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
       setRequesteeData([]);
       setDropeeData([]);
       setRouteData(null);
+      setPassengersData(null);
 
       setHasRequest(false);
       setHasRide(false);
@@ -111,6 +113,8 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
         if (data.bookingOngoing) {
           // @ts-ignore
           setRouteData(data.route);
+          // @ts-ignore
+          setPassengersData(data.bookingPassengers);
           setHasRide(true);
           // @ts-ignore
           clearInterval(intervalId);
@@ -196,8 +200,9 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
           hasListing={hasListing}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
-          setDropeeData={setDropeeData}
           dropeeData={dropeeData}
+          setDropeeData={setDropeeData}
+          passengersData={passengersData}
           hasRequest={hasRequest}
           setHasRequest={setHasRequest}
           hasRide={hasRide}
