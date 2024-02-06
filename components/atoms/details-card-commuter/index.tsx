@@ -157,7 +157,7 @@ function DetailsCardCommuter({id, data, onApprove}) {
                   alignSelf: 'flex-start',
                 },
               ]}>
-              {data.phone}
+              {data.contact}
             </StyledText16>
           </StyledCol>
         </StyledRow>
