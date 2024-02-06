@@ -10,15 +10,12 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 import ButtonNegative from '../button-negative';
 import ButtonNeutral from '../button-neutral';
 import BookingCardLower from '../booking-card-lower';
-import ListingOne from '../listing-one';
+import BookingCardRider from '../booking-card-rider';
 
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
-
-import ListingTwo from '../listing-two';
-import BookingCardRider from '../booking-card-rider';
 
 function MainRideCommuter({
   driverData,

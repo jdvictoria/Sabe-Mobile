@@ -11,6 +11,8 @@ import GetLocation from 'react-native-get-location';
 
 import firestore from '@react-native-firebase/firestore';
 
+import notifee from '@notifee/react-native';
+
 // @ts-ignore
 function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
   useEffect(() => {
@@ -159,6 +161,40 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
       return () => clearInterval(id);
     }
   }, [hasListing, hasRide, hasDrop, hasApproved, rating]);
+
+  useEffect(() => {
+    const requestNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Commuter Booking Request',
+        // @ts-ignore
+        body: 'A commuter is asking for your ride.',
+      });
+
+      console.log('user requesting');
+    };
+
+    const rideNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Commuter Booking Accepted',
+        body: 'You now have an ongoing ride.',
+      });
+    };
+
+    const dropNotification = async () => {
+      await notifee.displayNotification({
+        title: 'Commuter Drop Request',
+        body: 'A commuter is asking for a dropoff.',
+      });
+    };
+
+    if (hasRequest) {
+      requestNotification();
+    } else if (hasRide && !hasDrop) {
+      rideNotification();
+    } else if (hasDrop && hasRide) {
+      dropNotification();
+    }
+  }, [hasRequest, hasRide, hasDrop]);
 
   return (
     <StyledSafeAreaView
