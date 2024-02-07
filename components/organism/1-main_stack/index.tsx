@@ -58,6 +58,7 @@ function MainStack() {
         initialRouteName="Loading"
         screenOptions={{
           headerShown: false,
+          animationEnabled: true,
         }}>
         <Stack.Screen name="Loading">
           {props => <Loading {...props} />}
