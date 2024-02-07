@@ -1,11 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, Platform} from 'react-native';
 
 import {StyledCol} from '../../../styles/container';
-import {Dimensions} from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
 
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {
+  Marker,
+  PROVIDER_DEFAULT,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 
 // @ts-ignore
 import Pin from '../../../assets/icons/pin.svg';
@@ -133,6 +137,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
       }}>
       <MapView
         ref={handleRef}
+        provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
         onRegionChangeComplete={handleDragEnd}
         onPanDrag={handleDragStart}
         userInterfaceStyle={'light'}
@@ -144,6 +149,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
           height: '100%',
         }}
         initialRegion={position}
+        liteMode={false}
         showsUserLocation={true}
         showsMyLocationButton={true}
         followsUserLocation={true}

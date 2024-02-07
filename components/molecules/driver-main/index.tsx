@@ -31,13 +31,13 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
         })
         .catch(error => {
           const {code, message} = error;
-          // console.warn(code, message);
+          console.warn(code, message);
         });
     };
 
     updateLocation();
 
-    const intervalId = setInterval(updateLocation, 1000); // Set your desired interval here (in milliseconds)
+    const intervalId = setInterval(updateLocation, 1000);
 
     return () => clearInterval(intervalId);
   }, []);
