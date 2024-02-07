@@ -1,9 +1,13 @@
 import React, {useRef, useEffect, useState} from 'react';
+import {Dimensions, Platform} from 'react-native';
 
 import {StyledCol} from '../../../styles/container';
-import {Dimensions} from 'react-native';
 
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {
+  Marker,
+  PROVIDER_DEFAULT,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 
 import firestore from '@react-native-firebase/firestore';
 
@@ -133,6 +137,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
       }}>
       <MapView
         ref={handleRef}
+        provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
         onRegionChangeComplete={handleDragEnd}
         onPanDrag={handleDragStart}
         userInterfaceStyle={'light'}
