@@ -28,7 +28,7 @@ import AuthId from '../../atoms/auth-id';
 
 import * as Progress from 'react-native-progress';
 
-import {firebase} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
@@ -101,9 +101,10 @@ function AuthSignUp({navigation}) {
 
     try {
       // Create user using Firebase Authentication
-      const userCredential = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
+      const userCredential = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
 
       // Send email verification
       await userCredential.user?.sendEmailVerification();
@@ -117,19 +118,16 @@ function AuthSignUp({navigation}) {
       const downloadURL = await task.then(() => storageRef.getDownloadURL());
 
       // Add user data to Firestore
-      await firestore()
-        .collection('Users')
-        .doc(firebase.auth().currentUser?.uid)
-        .set({
-          type: 'commuter',
-          name: name,
-          email: email,
-          contact: phone,
-          score: 0,
-          rating: 0,
-          schoolIDUrl: downloadURL,
-          isVerified: false,
-        });
+      await firestore().collection('Users').doc(auth().currentUser?.uid).set({
+        type: 'commuter',
+        name: name,
+        email: email,
+        contact: phone,
+        score: 0,
+        rating: 0,
+        schoolIDUrl: downloadURL,
+        isVerified: false,
+      });
 
       console.log('User added!');
     } catch (error) {
@@ -153,9 +151,10 @@ function AuthSignUp({navigation}) {
 
     try {
       // Create user using Firebase Authentication
-      const userCredential = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
+      const userCredential = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
 
       // Send email verification
       await userCredential.user?.sendEmailVerification();
@@ -175,24 +174,21 @@ function AuthSignUp({navigation}) {
       const downloadURL2 = await task2.then(() => storageRef2.getDownloadURL());
 
       // Add user data to Firestore
-      await firestore()
-        .collection('Users')
-        .doc(firebase.auth().currentUser?.uid)
-        .set({
-          type: 'driver',
-          name: name,
-          email: email,
-          contact: phone,
-          carMake: make,
-          carSeries: series,
-          carColor: color,
-          carPlate: plate,
-          rating: 0,
-          totalRides: 0,
-          regIDUrl: downloadURL1,
-          licenseIDUrl: downloadURL2,
-          isVerified: false,
-        });
+      await firestore().collection('Users').doc(auth().currentUser?.uid).set({
+        type: 'driver',
+        name: name,
+        email: email,
+        contact: phone,
+        carMake: make,
+        carSeries: series,
+        carColor: color,
+        carPlate: plate,
+        rating: 0,
+        totalRides: 0,
+        regIDUrl: downloadURL1,
+        licenseIDUrl: downloadURL2,
+        isVerified: false,
+      });
 
       console.log('User added!');
     } catch (error) {
