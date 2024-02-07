@@ -149,6 +149,7 @@ function MainMapDriver({position, hasRide, routeData}: any) {
           height: '100%',
         }}
         initialRegion={position}
+        liteMode={false}
         showsUserLocation={true}
         showsMyLocationButton={true}
         followsUserLocation={true}
