@@ -81,6 +81,7 @@ function AuthSignUp({navigation}) {
     setStep(1);
   };
 
+  // @ts-ignore
   const alertEmailVerification = navigation =>
     Alert.alert(
       'Email Verification Sent',
@@ -131,9 +132,11 @@ function AuthSignUp({navigation}) {
 
       console.log('User added!');
     } catch (error) {
+      // @ts-ignore
       if (error.code === 'auth/email-already-in-use') {
         alertInvalidEmail();
         setStep(1);
+        // @ts-ignore
       } else if (error.code === 'auth/invalid-email') {
         alertInvalidEmail();
         setStep(1);
@@ -192,9 +195,11 @@ function AuthSignUp({navigation}) {
 
       console.log('User added!');
     } catch (error) {
+      // @ts-ignore
       if (error.code === 'auth/email-already-in-use') {
         alertInvalidEmail();
         setStep(1);
+        // @ts-ignore
       } else if (error.code === 'auth/invalid-email') {
         alertInvalidEmail();
         setStep(1);
