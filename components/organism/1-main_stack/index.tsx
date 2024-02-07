@@ -14,6 +14,7 @@ import HomeStack from '../3-home_stack';
 import AdminStack from '../4-admin_stack';
 
 import firestore from '@react-native-firebase/firestore';
+import {Platform} from 'react-native';
 
 function MainStack() {
   const netInfo = useNetInfo();
@@ -58,6 +59,7 @@ function MainStack() {
         initialRouteName="Loading"
         screenOptions={{
           headerShown: false,
+          animationEnabled: true,
         }}>
         <Stack.Screen name="Loading">
           {props => <Loading {...props} />}

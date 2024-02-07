@@ -30,7 +30,7 @@ import AuthPhone from '../../atoms/auth-phone';
 
 import * as Progress from 'react-native-progress';
 
-import {firebase} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
@@ -46,9 +46,9 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
     setWithEmail(prevState => !prevState);
   };
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('vjoshuaarlo12@gmail.com');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('psyApp12!');
 
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPhone, setIsValidPhone] = useState(false);
@@ -59,19 +59,19 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
   const handleSignIn = async () => {
     setIsLoading(true);
 
-    await firebase.auth().currentUser?.reload();
-    await firebase
-      .auth()
+    await auth().currentUser?.reload();
+    await auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        if (firebase.auth().currentUser?.emailVerified) {
+        if (auth().currentUser?.emailVerified) {
           const userDocument = await firestore()
             .collection('Users')
-            .doc(firebase.auth().currentUser?.uid)
+            .doc(auth().currentUser?.uid)
             .get();
+
           if (userDocument.exists) {
             const userData = userDocument.data();
-            setUserUID(firebase.auth().currentUser?.uid);
+            setUserUID(auth().currentUser?.uid);
             setIsLoggedIn(true);
             setProfile(userData);
 
@@ -85,7 +85,7 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
             console.log('Document does not exist');
           }
         } else {
-          await firebase.auth().currentUser?.sendEmailVerification();
+          await auth().currentUser?.sendEmailVerification();
           alertEmailVerification();
         }
       })
@@ -100,9 +100,8 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
   };
 
   const handleForgotPass = async () => {
-    await firebase.auth().currentUser?.reload();
-    await firebase
-      .auth()
+    await auth().currentUser?.reload();
+    await auth()
       .sendPasswordResetEmail(email)
       .then(async () => {
         alertPasswordReset();
