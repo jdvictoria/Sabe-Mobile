@@ -24,10 +24,6 @@ function MessagesCard({
 }: any) {
   const sans = styledText();
 
-  const handleDelete = () => {
-    console.log('delete');
-  };
-
   const handleChat = () => {
     setCommuterUID(commuterUID);
     navigation.navigate('BookingsChat');
@@ -83,9 +79,7 @@ function MessagesCard({
           </StyledRow>
         </StyledRow>
       </StyledCol>
-      <StyledTouchableRow onPress={handleDelete}>
-        <Trash width={25} height={25} />
-      </StyledTouchableRow>
+      <StyledCol style={{width: 25, height: 25}} />
     </StyledTouchableRow>
   );
 }
