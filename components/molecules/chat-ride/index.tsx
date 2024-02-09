@@ -21,10 +21,6 @@ import firestore from '@react-native-firebase/firestore';
 function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
   const sans = styledText();
 
-  console.log('userUID', userUID);
-  console.log('driverUID', driverUID);
-  console.log('bookingUID', bookingUID);
-
   // @ts-ignore
   const renderMessage = props => {
     return (
@@ -50,8 +46,8 @@ function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
           left: {
             borderWidth: 1,
             borderColor: '#fff',
-            width: 35,
-            height: 35,
+            width: 27.5,
+            height: 27.5,
           },
         }}
       />
@@ -130,6 +126,22 @@ function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
   };
 
   const [messages, setMessages] = useState([]);
+  const [profilePicture, setProfilePicture] = useState('');
+
+  const getProfilePicture = async () => {
+    try {
+      const userRef = await firestore().collection('Users').doc(userUID).get();
+
+      if (userRef.exists) {
+        const data = userRef.data();
+
+        // @ts-ignore
+        setProfilePicture(data.profPic);
+      }
+    } catch (error) {
+      console.log('Error fetching profile picture: ', error);
+    }
+  };
 
   const getAllMessages = async () => {
     const chatid = bookingUID + '-' + driverUID;
@@ -139,35 +151,54 @@ function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
       .collection('messages')
       .orderBy('createdAt', 'desc')
       .get();
-    const allTheMsgs = msgResponse.docs.map(docSanp => {
+    const allTheMsgs = msgResponse.docs.map(docSnap => {
       return {
-        ...docSanp.data(),
-        createdAt: docSanp.data().createdAt.toDate(),
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt.toDate(),
       };
     });
+
+    // @ts-ignore
     setMessages(allTheMsgs);
   };
 
   useEffect(() => {
-    // getAllMessages();
+    getProfilePicture();
+    getAllMessages();
+
+    const intervalId = setInterval(() => {
+      getAllMessages();
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
+  // @ts-ignore
   const onSend = async msgArray => {
     const msg = msgArray[0];
     const usermsg = {
       ...msg,
-      sentBy: 1,
+      sentBy: userUID,
       sentTo: driverUID,
       createdAt: new Date(),
       user: {
-        _id: 1,
+        _id: userUID,
+        avatar:
+          profilePicture !== ''
+            ? profilePicture
+            : 'https://firebasestorage.googleapis.com/v0/b/sabe-d5999.appspot.com/o/images%2Fcar-svgrepo-com.png?alt=media&token=2f39545c-34be-4669-95a5-12bb2195204e',
       },
     };
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, usermsg),
     );
     const chatid = bookingUID + '-' + driverUID;
-    console.log(chatid);
+
+    firestore()
+      .collection('Chats')
+      .doc(chatid)
+      .collection('messages')
+      .add({...usermsg, createdAt: firestore.FieldValue.serverTimestamp()});
   };
 
   return (
