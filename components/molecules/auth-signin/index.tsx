@@ -46,9 +46,9 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
     setWithEmail(prevState => !prevState);
   };
 
-  const [email, setEmail] = useState('vjoshuaarlo12@gmail.com');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('psyApp12!');
+  const [password, setPassword] = useState('');
 
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPhone, setIsValidPhone] = useState(false);
@@ -116,7 +116,7 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
       style={{
         justifyContent: 'space-between',
         backgroundColor: '#f3f3f3',
-        marginTop: 100,
+        marginTop: 75,
         marginBottom: 50,
       }}>
       <StyledCol>

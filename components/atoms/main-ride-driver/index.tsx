@@ -3,6 +3,7 @@ import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
+import {alertEmergencyStop} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import SabeLogo from '../../../assets/icons/home-dark.svg';
@@ -12,6 +13,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import ButtonAccept from '../button-accept';
 import ButtonReject from '../button-reject';
+import ButtonNegative from '../button-negative';
 import ButtonPositive from '../button-positive';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
@@ -22,6 +24,7 @@ import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
 
 function MainRideDriver({
+  navigation,
   routeData,
   userUID,
   hasListing,
@@ -169,6 +172,33 @@ function MainRideDriver({
         .collection('Bookings')
         .doc(userUID)
         .get();
+
+      const userRef = firestore().collection('Users').doc(userUID);
+      const userSnapshot = await userRef.get();
+      // @ts-ignore
+      const messageIDs = userSnapshot.data().chatID;
+
+      console.log(messageIDs);
+
+      for (const messageID of messageIDs) {
+        const chatId = messageID;
+
+        const messagesRef = firestore()
+          .collection('Chats')
+          .doc(chatId)
+          .collection('messages');
+
+        const querySnapshot = await messagesRef.get();
+
+        querySnapshot.forEach(doc => {
+          messagesRef.doc(doc.id).delete();
+        });
+      }
+
+      await userRef.update({
+        chatID: [],
+      });
+
       const commuterRef = firestore()
         .collection('Users')
         .doc(driverSnapshot.data().dropoffUID);
@@ -270,6 +300,18 @@ function MainRideDriver({
     }
   }, [passengersData]);
 
+  const handleChat = () => {
+    navigation.navigate('RideChat');
+  };
+
+  const handleStop = () => {
+    const stopRide = () => {
+      console.log('ride stopped');
+    };
+
+    alertEmergencyStop(stopRide);
+  };
+
   return (
     <StyledCol
       style={{
@@ -295,9 +337,13 @@ function MainRideDriver({
               <StyledCol style={{width: '100%'}}>
                 <SabeLogo width={75} height={75} />
                 <StyledText18
-                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  style={[
+                    sans.bold,
+                    {color: '#042F40', marginTop: 5, marginBottom: 10},
+                  ]}>
                   Ride Ongoing
                 </StyledText18>
+                <ButtonPositive onClick={handleChat} text={'Ride Chat'} />
                 {profiles.length > 0 && (
                   <StyledCol
                     style={{
@@ -312,6 +358,7 @@ function MainRideDriver({
                     <BookingCardLower routes={routeData} />
                   </StyledCol>
                 )}
+                <ButtonNegative onClick={handleStop} text={'Emergency Stop'} />
               </StyledCol>
             )}
             {hasDrop && (

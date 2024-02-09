@@ -4,7 +4,9 @@ import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
 // @ts-ignore
-function ButtonNegative({onClick, text}) {
+import Chat from '../../../assets/icons/chat.svg';
+
+function ButtonNegative({onClick, text}: any) {
   const sans = styledText();
 
   return (
@@ -19,6 +21,9 @@ function ButtonNegative({onClick, text}) {
       }}
       onPress={onClick}>
       <StyledText20 style={[sans.bold, {color: '#fff'}]}>{text}</StyledText20>
+      {text === 'Ride Chat' && (
+        <Chat width={20} height={20} style={{marginLeft: 5}} />
+      )}
     </StyledTouchableRow>
   );
 }

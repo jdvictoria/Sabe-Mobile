@@ -37,6 +37,7 @@ function DriverBookings({
   const [routes, setRoutes] = useState([]);
 
   const handleCreate = () => {
+    // @ts-ignore
     setCreate(prevState => !prevState);
   };
 
@@ -47,6 +48,7 @@ function DriverBookings({
     setTimeEnd('--:-- --');
     setDateJourney('--------');
     setRoutes([]);
+    // @ts-ignore
     setCreate(prevState => !prevState);
   };
 
@@ -55,13 +57,38 @@ function DriverBookings({
       try {
         setIsLoading(true);
         await firestore().collection('Bookings').doc(userUID).delete();
+
+        const driverRef = firestore().collection('Users').doc(userUID);
+        const driverSnapshot = await driverRef.get();
+        // @ts-ignore
+        const messageIDs = driverSnapshot.data().messageIDs;
+
+        for (const messageID of messageIDs) {
+          const chatId = messageID;
+
+          const messagesRef = firestore()
+            .collection('Chats')
+            .doc(chatId)
+            .collection('messages');
+
+          const querySnapshot = await messagesRef.get();
+
+          querySnapshot.forEach(doc => {
+            messagesRef.doc(doc.id).delete();
+          });
+        }
+
+        await driverRef.update({
+          messageIDs: [],
+        });
+
         setHasListing(false);
-        console.log('Document successfully deleted!');
         setIsLoading(false);
       } catch (error) {
         console.error('Error deleting document:', error);
       }
     };
+
     alertDeleteListing(deleteListing);
   };
 
@@ -118,7 +145,7 @@ function DriverBookings({
       }}>
       <HomeHeader
         navigation={navigation}
-        title={'Bookings'}
+        title={'Listing'}
         main={true}
         fromProfile={false}
       />
