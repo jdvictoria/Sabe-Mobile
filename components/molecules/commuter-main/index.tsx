@@ -373,6 +373,7 @@ function CommuterMain({
           routeData={routeData}
         />
         <MainRideCommuter
+          navigation={navigation}
           driverData={driverData}
           routeData={routeData}
           hasRide={hasRide}

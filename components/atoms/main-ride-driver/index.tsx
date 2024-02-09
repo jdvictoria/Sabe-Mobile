@@ -24,6 +24,7 @@ import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
 
 function MainRideDriver({
+  navigation,
   routeData,
   userUID,
   hasListing,
@@ -273,7 +274,7 @@ function MainRideDriver({
   }, [passengersData]);
 
   const handleChat = () => {
-    console.log('chat');
+    navigation.navigate('RideChat');
   };
 
   const handleStop = () => {

@@ -19,6 +19,7 @@ import StarRating from 'react-native-star-rating-widget';
 import ButtonPositive from '../button-positive';
 
 function MainRideCommuter({
+  navigation,
   driverData,
   routeData,
   hasRequest,
@@ -34,7 +35,7 @@ function MainRideCommuter({
   const sans = styledText();
 
   const handleChat = () => {
-    console.log('chat');
+    navigation.navigate('RideChat');
   };
 
   return (

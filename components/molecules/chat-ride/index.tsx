@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
@@ -16,8 +16,14 @@ import {
   Send,
 } from 'react-native-gifted-chat';
 
-function ChatRide({navigation, userUID, driverUID}: any) {
+import firestore from '@react-native-firebase/firestore';
+
+function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
   const sans = styledText();
+
+  console.log('userUID', userUID);
+  console.log('driverUID', driverUID);
+  console.log('bookingUID', bookingUID);
 
   // @ts-ignore
   const renderMessage = props => {
@@ -125,6 +131,27 @@ function ChatRide({navigation, userUID, driverUID}: any) {
 
   const [messages, setMessages] = useState([]);
 
+  const getAllMessages = async () => {
+    const chatid = bookingUID + '-' + driverUID;
+    const msgResponse = await firestore()
+      .collection('Chats')
+      .doc(chatid)
+      .collection('messages')
+      .orderBy('createdAt', 'desc')
+      .get();
+    const allTheMsgs = msgResponse.docs.map(docSanp => {
+      return {
+        ...docSanp.data(),
+        createdAt: docSanp.data().createdAt.toDate(),
+      };
+    });
+    setMessages(allTheMsgs);
+  };
+
+  useEffect(() => {
+    // getAllMessages();
+  }, []);
+
   const onSend = async msgArray => {
     const msg = msgArray[0];
     const usermsg = {
@@ -139,6 +166,8 @@ function ChatRide({navigation, userUID, driverUID}: any) {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, usermsg),
     );
+    const chatid = bookingUID + '-' + driverUID;
+    console.log(chatid);
   };
 
   return (

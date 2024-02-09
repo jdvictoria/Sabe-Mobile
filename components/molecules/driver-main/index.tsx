@@ -231,6 +231,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
           routeData={routeData}
         />
         <MainRideDriver
+          navigation={navigation}
           routeData={routeData}
           userUID={userUID}
           hasListing={hasListing}

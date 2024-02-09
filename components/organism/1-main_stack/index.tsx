@@ -29,6 +29,7 @@ function MainStack() {
 
   // UIDs
   const [driverUID, setDriverUID] = useState('');
+  const [bookingUID, setBookingUID] = useState('');
 
   // Commuter Hooks
   const [profile, setProfile] = useState([]);
@@ -57,8 +58,7 @@ function MainStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        // initialRouteName="Loading"
-        initialRouteName="RideChat"
+        initialRouteName="Loading"
         screenOptions={{
           headerShown: false,
           animationEnabled: true,
@@ -134,7 +134,14 @@ function MainStack() {
           )}
         </Stack.Screen>
         <Stack.Screen name="RideChat">
-          {props => <ChatRide {...props} userUID={userUID} />}
+          {props => (
+            <ChatRide
+              {...props}
+              userUID={userUID}
+              driverUID={driverUID}
+              bookingUID={bookingUID}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

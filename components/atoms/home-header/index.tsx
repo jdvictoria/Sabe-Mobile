@@ -28,7 +28,7 @@ function HomeHeader({
     if (title === 'Booking Detail') {
       navigation.navigate('Bookings');
     } else if (title === 'Ride Chat') {
-      navigation.navigate('');
+      navigation.navigate('Home');
     }
   };
 
