@@ -173,6 +173,7 @@ function ChatBookings({navigation, userUID, commuterUID, driverUID}: any) {
     return () => clearInterval(intervalId);
   }, []);
 
+  // @ts-ignore
   const handleSendId = async chatid => {
     try {
       const driverRef = firestore().collection('Users').doc(driverUID);

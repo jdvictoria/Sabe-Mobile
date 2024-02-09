@@ -23,7 +23,7 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import CapacityLogo from '../../../assets/icons/capacity.svg';
 // @ts-ignore
-import ChatLogo from '../../../assets/icons/chat.svg';
+import ChatLogo from '../../../assets/icons/chat-bookings.svg';
 
 import firestore from '@react-native-firebase/firestore';
 

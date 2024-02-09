@@ -172,6 +172,33 @@ function MainRideDriver({
         .collection('Bookings')
         .doc(userUID)
         .get();
+
+      const userRef = firestore().collection('Users').doc(userUID);
+      const userSnapshot = await userRef.get();
+      // @ts-ignore
+      const messageIDs = userSnapshot.data().chatID;
+
+      console.log(messageIDs);
+
+      for (const messageID of messageIDs) {
+        const chatId = messageID;
+
+        const messagesRef = firestore()
+          .collection('Chats')
+          .doc(chatId)
+          .collection('messages');
+
+        const querySnapshot = await messagesRef.get();
+
+        querySnapshot.forEach(doc => {
+          messagesRef.doc(doc.id).delete();
+        });
+      }
+
+      await userRef.update({
+        chatID: [],
+      });
+
       const commuterRef = firestore()
         .collection('Users')
         .doc(driverSnapshot.data().dropoffUID);
