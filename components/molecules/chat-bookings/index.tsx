@@ -18,7 +18,7 @@ import {
 
 import firestore from '@react-native-firebase/firestore';
 
-function ChatBookings({navigation, userUID, driverUID}: any) {
+function ChatBookings({navigation, userUID, commuterUID, driverUID}: any) {
   const sans = styledText();
 
   // @ts-ignore
@@ -144,7 +144,7 @@ function ChatBookings({navigation, userUID, driverUID}: any) {
   };
 
   const getAllMessages = async () => {
-    const chatid = driverUID + '-' + userUID;
+    const chatid = driverUID + '-' + commuterUID;
     const msgResponse = await firestore()
       .collection('Chats')
       .doc(chatid)
@@ -173,6 +173,24 @@ function ChatBookings({navigation, userUID, driverUID}: any) {
     return () => clearInterval(intervalId);
   }, []);
 
+  const handleSendId = async chatid => {
+    try {
+      const driverRef = firestore().collection('Users').doc(driverUID);
+      const driverSnapshot = await driverRef.get();
+      const messageIDsArray = driverSnapshot.data()?.messageIDs || [];
+
+      if (!messageIDsArray.includes(chatid)) {
+        await driverRef.update({
+          // @ts-ignore
+          messageIDs: firestore.FieldValue.arrayUnion(chatid),
+        });
+        console.log('Chat ID added successfully');
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
   // @ts-ignore
   const onSend = async msgArray => {
     const msg = msgArray[0];
@@ -192,8 +210,9 @@ function ChatBookings({navigation, userUID, driverUID}: any) {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, usermsg),
     );
-    const chatid = driverUID + '-' + userUID;
+    const chatid = driverUID + '-' + commuterUID;
 
+    handleSendId(chatid);
     firestore()
       .collection('Chats')
       .doc(chatid)

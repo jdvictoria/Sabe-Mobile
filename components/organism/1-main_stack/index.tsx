@@ -30,6 +30,7 @@ function MainStack() {
   const [userUID, setUserUID] = useState('');
 
   // UIDs
+  const [commuterUID, setCommuterUID] = useState('');
   const [driverUID, setDriverUID] = useState('');
   const [bookingUID, setBookingUID] = useState('');
 
@@ -100,6 +101,7 @@ function MainStack() {
                 riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}
                 setBookingUID={setBookingUID}
+                setCommuterUID={setCommuterUID}
               />
             ) : (
               <FallbackUnverified {...props} />
@@ -137,11 +139,16 @@ function MainStack() {
           )}
         </Stack.Screen>
         <Stack.Screen name="DriverMessage">
-          {props => <DriverMessages {...props} />}
+          {props => <DriverMessages {...props} userUID={userUID} />}
         </Stack.Screen>
         <Stack.Screen name="BookingsChat">
           {props => (
-            <ChatBookings {...props} userUID={userUID} driverUID={driverUID} />
+            <ChatBookings
+              {...props}
+              userUID={userUID}
+              commuterUID={commuterUID}
+              driverUID={driverUID}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen name="RideChat">

@@ -41,6 +41,7 @@ function HomeStack({
   setDriverUID,
   setRiderProfile,
   setBookingUID,
+  setCommuterUID,
 }: any) {
   const Tabs = AnimatedTabBarNavigator();
 
@@ -152,6 +153,7 @@ function HomeStack({
               setProfile={setProfile}
               setRiderProfile={setRiderProfile}
               setBookingUID={setBookingUID}
+              setCommuterUID={setCommuterUID}
             />
           )
         }

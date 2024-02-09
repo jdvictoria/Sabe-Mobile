@@ -24,7 +24,12 @@ function CommuterMain({
   setProfile,
   setRiderProfile,
   setBookingUID,
+  setCommuterUID,
 }: any) {
+  useEffect(() => {
+    setCommuterUID(userUID);
+  }, [userUID]);
+
   useEffect(() => {
     const updateLocation = () => {
       GetLocation.getCurrentPosition({
