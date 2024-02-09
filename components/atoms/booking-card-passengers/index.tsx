@@ -1,13 +1,10 @@
 import React from 'react';
 import {Image} from 'react-native';
 
-import {StyledCol, StyledTouchableCol} from '../../../styles/container';
+import {StyledCol} from '../../../styles/container';
 
 import ListingOne from '../listing-one';
 import ListingTwo from '../listing-two';
-
-// @ts-ignore
-import Write from '../../../assets/icons/message-write.svg';
 
 function BookingCardPassengers({profiles}: any) {
   // @ts-ignore
@@ -26,9 +23,6 @@ function BookingCardPassengers({profiles}: any) {
             source={{uri: profile.profPic}}
           />
         )}
-        <StyledTouchableCol style={{position: 'absolute', right: -30}}>
-          <Write width={25} height={25} />
-        </StyledTouchableCol>
       </StyledCol>
       <StyledCol style={{marginLeft: 40}}>
         <ListingOne label={'Email'} data={profile.email} />

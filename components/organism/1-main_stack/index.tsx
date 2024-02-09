@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
+
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
+import ChatRide from '../../molecules/chat-ride';
+import ChatBookings from '../../molecules/chat-bookings';
+import DriverMessages from '../../molecules/driver-messages';
 import BookingsDetail from '../../molecules/bookings-detail';
-import FallbackUnverified from '../../molecules/fallback-unverified';
 import FallbackInternet from '../../molecules/fallback-internet';
+import FallbackUnverified from '../../molecules/fallback-unverified';
 
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
@@ -26,7 +30,9 @@ function MainStack() {
   const [userUID, setUserUID] = useState('');
 
   // UIDs
+  const [commuterUID, setCommuterUID] = useState('');
   const [driverUID, setDriverUID] = useState('');
+  const [bookingUID, setBookingUID] = useState('');
 
   // Commuter Hooks
   const [profile, setProfile] = useState([]);
@@ -94,6 +100,8 @@ function MainStack() {
                 setDriverUID={setDriverUID}
                 riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}
+                setBookingUID={setBookingUID}
+                setCommuterUID={setCommuterUID}
               />
             ) : (
               <FallbackUnverified {...props} />
@@ -127,6 +135,35 @@ function MainStack() {
               driverUID={driverUID}
               riderProfile={riderProfile}
               setRiderProfile={setRiderProfile}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="DriverMessage">
+          {props => (
+            <DriverMessages
+              {...props}
+              userUID={userUID}
+              setCommuterUID={setCommuterUID}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="BookingsChat">
+          {props => (
+            <ChatBookings
+              {...props}
+              userUID={userUID}
+              commuterUID={commuterUID}
+              driverUID={driverUID}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="RideChat">
+          {props => (
+            <ChatRide
+              {...props}
+              userUID={userUID}
+              driverUID={driverUID}
+              bookingUID={bookingUID}
             />
           )}
         </Stack.Screen>

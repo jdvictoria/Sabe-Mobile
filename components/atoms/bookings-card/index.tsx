@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Image} from 'react-native';
 
 import {
   StyledCol,
@@ -21,8 +22,10 @@ import RatingLogo from '../../../assets/icons/rating.svg';
 import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import CapacityLogo from '../../../assets/icons/capacity.svg';
+// @ts-ignore
+import ChatLogo from '../../../assets/icons/chat-bookings.svg';
+
 import firestore from '@react-native-firebase/firestore';
-import {Image} from 'react-native';
 
 // @ts-ignore
 function BookingsCard({
@@ -40,6 +43,14 @@ function BookingsCard({
   const [totalRides, setTotalRides] = useState(0);
 
   const [intervalId, setIntervalId] = useState(null);
+
+  const chatRider = () => {
+    if (!profile.bookingRequest) {
+      setDriverUID(riderId);
+      setRiderProfile(riderData);
+    }
+    navigation.navigate('BookingsChat');
+  };
 
   const pickRider = () => {
     if (!profile.bookingRequest) {
@@ -71,6 +82,7 @@ function BookingsCard({
     const id = setInterval(() => {
       getUpdatedProfile();
     }, 1000);
+    // @ts-ignore
     setIntervalId(id);
     return () => clearInterval(id);
   }, [riderId]);
@@ -80,7 +92,7 @@ function BookingsCard({
       style={{
         justifyContent: 'space-between',
         width: '85%',
-        height: 175,
+        height: 200,
         marginTop: 25,
         marginBottom: 5,
         paddingTop: 12.5,
@@ -138,7 +150,43 @@ function BookingsCard({
       </StyledRow>
 
       <StyledRow
-        style={{justifyContent: 'flex-start', width: '87.5%', marginTop: 10}}>
+        style={{
+          width: '87.5%',
+          justifyContent: 'space-evenly',
+          marginTop: 5,
+          marginBottom: 5,
+        }}>
+        <StyledRow>
+          <RatingLogo width={25} height={25} />
+          <StyledText14
+            style={[
+              sans.regular,
+              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
+            ]}>
+            {rating.toFixed(2)}
+          </StyledText14>
+          <StyledText14
+            style={[
+              sans.regular,
+              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
+            ]}>
+            ( {totalRides} )
+          </StyledText14>
+        </StyledRow>
+        <StyledRow style={{paddingTop: 2}}>
+          <CapacityLogo width={20} height={20} />
+          <StyledText14
+            style={[
+              sans.regular,
+              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
+            ]}>
+            {riderData.passengerCount} / {riderData.passengerLimit}
+          </StyledText14>
+        </StyledRow>
+      </StyledRow>
+
+      <StyledRow
+        style={{justifyContent: 'flex-start', width: '87.5%', marginBottom: 5}}>
         <StyledText18 style={[sans.bold, {color: '#042F40'}]}>
           {riderData.date}
         </StyledText18>
@@ -171,6 +219,7 @@ function BookingsCard({
           </StyledText14>
         </StyledCol>
       </StyledRow>
+
       <StyledRow
         style={{
           justifyContent: 'space-between',
@@ -179,33 +228,16 @@ function BookingsCard({
           borderTopWidth: 1,
           borderColor: '#c7c7c7',
         }}>
-        <StyledRow>
-          <RatingLogo width={25} height={25} />
+        <StyledTouchableRow style={{paddingTop: 2.5}} onPress={chatRider}>
           <StyledText14
             style={[
-              sans.regular,
-              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
+              sans.bold,
+              {color: '#042F40', paddingTop: 2, marginRight: 2.5},
             ]}>
-            {rating.toFixed(2)}
+            MESSAGE
           </StyledText14>
-          <StyledText14
-            style={[
-              sans.regular,
-              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
-            ]}>
-            ( {totalRides} )
-          </StyledText14>
-        </StyledRow>
-        <StyledRow style={{paddingTop: 2}}>
-          <CapacityLogo width={20} height={20} />
-          <StyledText14
-            style={[
-              sans.regular,
-              {color: '#9D9D9D', paddingLeft: 2.5, paddingTop: 2},
-            ]}>
-            {riderData.passengerCount} / {riderData.passengerLimit}
-          </StyledText14>
-        </StyledRow>
+          <ChatLogo width={20} height={20} />
+        </StyledTouchableRow>
         <StyledTouchableRow style={{paddingTop: 2.5}} onPress={pickRider}>
           <StyledText14 style={[sans.bold, {color: '#042F40', paddingTop: 2}]}>
             VIEW DETAILS

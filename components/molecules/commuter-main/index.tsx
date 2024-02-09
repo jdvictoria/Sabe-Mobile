@@ -23,7 +23,13 @@ function CommuterMain({
   setRedirect,
   setProfile,
   setRiderProfile,
+  setBookingUID,
+  setCommuterUID,
 }: any) {
+  useEffect(() => {
+    setCommuterUID(userUID);
+  }, [userUID]);
+
   useEffect(() => {
     const updateLocation = () => {
       GetLocation.getCurrentPosition({
@@ -243,6 +249,7 @@ function CommuterMain({
           // @ts-ignore
           setRouteData(data.route);
           setHasRide(true);
+          setBookingUID(driverUID);
           // @ts-ignore
           clearInterval(intervalId);
         } else {
@@ -373,6 +380,7 @@ function CommuterMain({
           routeData={routeData}
         />
         <MainRideCommuter
+          navigation={navigation}
           driverData={driverData}
           routeData={routeData}
           hasRide={hasRide}
