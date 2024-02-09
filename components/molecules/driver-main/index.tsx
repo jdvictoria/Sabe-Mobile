@@ -31,7 +31,7 @@ function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
         })
         .catch(error => {
           const {code, message} = error;
-          console.warn(code, message);
+          // console.warn(code, message);
         });
     };
 

@@ -20,6 +20,7 @@ import BookingCardPassengers from '../booking-card-passengers';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
+import ButtonNegative from '../button-negative';
 
 function MainRideDriver({
   routeData,
@@ -270,6 +271,14 @@ function MainRideDriver({
     }
   }, [passengersData]);
 
+  const handleChat = () => {
+    console.log('chat');
+  };
+
+  const handleStop = () => {
+    console.log('stop');
+  };
+
   return (
     <StyledCol
       style={{
@@ -295,9 +304,13 @@ function MainRideDriver({
               <StyledCol style={{width: '100%'}}>
                 <SabeLogo width={75} height={75} />
                 <StyledText18
-                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  style={[
+                    sans.bold,
+                    {color: '#042F40', marginTop: 5, marginBottom: 10},
+                  ]}>
                   Ride Ongoing
                 </StyledText18>
+                <ButtonPositive onClick={handleChat} text={'Ride Chat'} />
                 {profiles.length > 0 && (
                   <StyledCol
                     style={{
@@ -312,6 +325,7 @@ function MainRideDriver({
                     <BookingCardLower routes={routeData} />
                   </StyledCol>
                 )}
+                <ButtonNegative onClick={handleStop} text={'Emergency Stop'} />
               </StyledCol>
             )}
             {hasDrop && (

@@ -16,6 +16,7 @@ import BookingCardRider from '../booking-card-rider';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
+import ButtonPositive from '../button-positive';
 
 function MainRideCommuter({
   driverData,
@@ -31,6 +32,10 @@ function MainRideCommuter({
   setRating,
 }: any) {
   const sans = styledText();
+
+  const handleChat = () => {
+    console.log('chat');
+  };
 
   return (
     <StyledCol
@@ -68,9 +73,13 @@ function MainRideCommuter({
               <StyledCol style={{width: '100%'}}>
                 <SabeLogo width={75} height={75} />
                 <StyledText18
-                  style={[sans.bold, {color: '#042F40', marginTop: 5}]}>
+                  style={[
+                    sans.bold,
+                    {color: '#042F40', marginTop: 5, marginBottom: 10},
+                  ]}>
                   Ride Ongoing
                 </StyledText18>
+                <ButtonPositive onClick={handleChat} text={'Ride Chat'} />
                 {driverData && (
                   <StyledCol style={{width: '100%', marginTop: 10}}>
                     <BookingCardRider profile={driverData} />

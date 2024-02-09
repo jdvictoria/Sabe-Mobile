@@ -12,6 +12,8 @@ import {styledText, StyledText24} from '../../../styles/text';
 import ArrowLeft from '../../../assets/icons/arrow-left.svg';
 // @ts-ignore
 import Logout from '../../../assets/icons/logout.svg';
+// @ts-ignore
+import Message from '../../../assets/icons/message.svg';
 
 import auth from '@react-native-firebase/auth';
 
