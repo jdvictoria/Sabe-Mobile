@@ -53,6 +53,11 @@ function DriverMessages({navigation, userUID, setCommuterUID}: any) {
       // @ts-ignore
       for (const commuterID of commuterIDs) {
         const commuterUID = commuterID;
+
+        if (commuterUID === userUID) {
+          continue;
+        }
+
         const commuterRef = firestore().collection('Users').doc(commuterUID);
         const commuterSnapshot = await commuterRef.get();
 
