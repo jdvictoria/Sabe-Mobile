@@ -174,6 +174,25 @@ function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
   }, []);
 
   // @ts-ignore
+  const handleSendId = async chatid => {
+    try {
+      const driverRef = firestore().collection('Users').doc(driverUID);
+      const driverSnapshot = await driverRef.get();
+      const messageIDsArray = driverSnapshot.data()?.messageIDs || [];
+
+      if (!messageIDsArray.includes(chatid)) {
+        await driverRef.update({
+          // @ts-ignore
+          chatID: firestore.FieldValue.arrayUnion(chatid),
+        });
+        console.log('Chat ID added successfully');
+      }
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
+
+  // @ts-ignore
   const onSend = async msgArray => {
     const msg = msgArray[0];
     const usermsg = {
@@ -194,6 +213,7 @@ function ChatRide({navigation, userUID, driverUID, bookingUID}: any) {
     );
     const chatid = bookingUID + '-' + driverUID;
 
+    handleSendId(chatid);
     firestore()
       .collection('Chats')
       .doc(chatid)
