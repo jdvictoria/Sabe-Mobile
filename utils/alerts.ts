@@ -38,6 +38,19 @@ export const alertDeleteListing = (onDelete: () => void) =>
     },
     {
       text: 'Delete',
-      onPress: onDelete, // Call the provided onDelete callback
+      onPress: onDelete,
+    },
+  ]);
+
+export const alertEmergencyStop = (onStop: () => void) =>
+  Alert.alert('Delete Listing', 'Do you want to delete your listing?', [
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    {
+      text: 'Stop',
+      onPress: onStop,
     },
   ]);

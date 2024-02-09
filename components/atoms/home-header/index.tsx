@@ -12,8 +12,6 @@ import {styledText, StyledText24} from '../../../styles/text';
 import ArrowLeft from '../../../assets/icons/arrow-left.svg';
 // @ts-ignore
 import Logout from '../../../assets/icons/logout.svg';
-// @ts-ignore
-import Message from '../../../assets/icons/message.svg';
 
 import auth from '@react-native-firebase/auth';
 
@@ -29,6 +27,8 @@ function HomeHeader({
   const handleBack = () => {
     if (title === 'Booking Detail') {
       navigation.navigate('Bookings');
+    } else if (title === 'Ride Chat') {
+      navigation.navigate('');
     }
   };
 
@@ -52,10 +52,13 @@ function HomeHeader({
       <StyledRow
         style={{
           width: '90%',
-          justifyContent: fromProfile || !main ? 'space-between' : 'center',
+          justifyContent:
+            fromProfile || !main || title === 'Ride Chat'
+              ? 'space-between'
+              : 'center',
           paddingBottom: 11,
         }}>
-        {!main && (
+        {(!main || title === 'Ride Chat') && (
           <StyledTouchableRow onPress={handleBack}>
             <ArrowLeft width={30} height={30} />
           </StyledTouchableRow>
@@ -64,7 +67,9 @@ function HomeHeader({
         <StyledText24 style={[sans.bold, {color: '#fff'}]}>
           {title}
         </StyledText24>
-        {!main && <StyledRow style={{width: 30, height: 30}} />}
+        {(!main || title === 'Ride Chat') && (
+          <StyledRow style={{width: 30, height: 30}} />
+        )}
         {fromProfile && (
           <StyledTouchableRow onPress={handleLogout}>
             <Logout width={30} height={30} />

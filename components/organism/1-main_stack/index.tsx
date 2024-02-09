@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
+
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
+import ChatRide from '../../molecules/chat-ride';
 import BookingsDetail from '../../molecules/bookings-detail';
-import FallbackUnverified from '../../molecules/fallback-unverified';
 import FallbackInternet from '../../molecules/fallback-internet';
+import FallbackUnverified from '../../molecules/fallback-unverified';
 
 import AuthStack from '../2-auth_stack';
 import HomeStack from '../3-home_stack';
@@ -55,7 +57,8 @@ function MainStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Loading"
+        // initialRouteName="Loading"
+        initialRouteName="RideChat"
         screenOptions={{
           headerShown: false,
           animationEnabled: true,
@@ -129,6 +132,9 @@ function MainStack() {
               setRiderProfile={setRiderProfile}
             />
           )}
+        </Stack.Screen>
+        <Stack.Screen name="RideChat">
+          {props => <ChatRide {...props} userUID={userUID} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

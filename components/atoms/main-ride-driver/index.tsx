@@ -3,6 +3,7 @@ import {Image} from 'react-native';
 
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText18} from '../../../styles/text';
+import {alertEmergencyStop} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import SabeLogo from '../../../assets/icons/home-dark.svg';
@@ -12,6 +13,7 @@ import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
 import ButtonAccept from '../button-accept';
 import ButtonReject from '../button-reject';
+import ButtonNegative from '../button-negative';
 import ButtonPositive from '../button-positive';
 import ListingTwo from '../listing-two';
 import ListingOne from '../listing-one';
@@ -20,7 +22,6 @@ import BookingCardPassengers from '../booking-card-passengers';
 
 import firestore from '@react-native-firebase/firestore';
 import StarRating from 'react-native-star-rating-widget';
-import ButtonNegative from '../button-negative';
 
 function MainRideDriver({
   routeData,
@@ -276,7 +277,11 @@ function MainRideDriver({
   };
 
   const handleStop = () => {
-    console.log('stop');
+    const stopRide = () => {
+      console.log('ride stopped');
+    };
+
+    alertEmergencyStop(stopRide);
   };
 
   return (
