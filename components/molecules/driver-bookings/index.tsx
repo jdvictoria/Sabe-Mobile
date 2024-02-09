@@ -37,6 +37,7 @@ function DriverBookings({
   const [routes, setRoutes] = useState([]);
 
   const handleCreate = () => {
+    // @ts-ignore
     setCreate(prevState => !prevState);
   };
 
@@ -47,6 +48,7 @@ function DriverBookings({
     setTimeEnd('--:-- --');
     setDateJourney('--------');
     setRoutes([]);
+    // @ts-ignore
     setCreate(prevState => !prevState);
   };
 
@@ -118,7 +120,7 @@ function DriverBookings({
       }}>
       <HomeHeader
         navigation={navigation}
-        title={'Bookings'}
+        title={'Listing'}
         main={true}
         fromProfile={false}
       />

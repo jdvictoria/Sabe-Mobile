@@ -17,6 +17,7 @@ import HomeStack from '../3-home_stack';
 import AdminStack from '../4-admin_stack';
 
 import firestore from '@react-native-firebase/firestore';
+import DriverMessages from '../../molecules/driver-messages';
 
 function MainStack() {
   const netInfo = useNetInfo();
@@ -134,6 +135,9 @@ function MainStack() {
               setRiderProfile={setRiderProfile}
             />
           )}
+        </Stack.Screen>
+        <Stack.Screen name="DriverMessage">
+          {props => <DriverMessages {...props} />}
         </Stack.Screen>
         <Stack.Screen name="BookingsChat">
           {props => (

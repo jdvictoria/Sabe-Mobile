@@ -12,6 +12,8 @@ import {styledText, StyledText24} from '../../../styles/text';
 import ArrowLeft from '../../../assets/icons/arrow-left.svg';
 // @ts-ignore
 import Logout from '../../../assets/icons/logout.svg';
+// @ts-ignore
+import Message from '../../../assets/icons/message-rider.svg';
 
 import auth from '@react-native-firebase/auth';
 
@@ -25,12 +27,20 @@ function HomeHeader({
   const sans = styledText();
 
   const handleBack = () => {
-    if (title === 'Booking Detail') {
+    if (
+      title === 'Booking Detail' ||
+      title === 'Booking Chat' ||
+      title === 'Messages'
+    ) {
       navigation.navigate('Bookings');
     } else if (title === 'Ride Chat') {
       navigation.navigate('Home');
-    } else if (title === 'Booking Chat') {
-      navigation.navigate('Bookings');
+    }
+  };
+
+  const handleMessage = () => {
+    if (title === 'Listing') {
+      navigation.navigate('DriverMessage');
     }
   };
 
@@ -58,26 +68,42 @@ function HomeHeader({
             fromProfile ||
             !main ||
             title === 'Ride Chat' ||
-            title === 'Booking Chat'
+            title === 'Booking Chat' ||
+            title === 'Listing' ||
+            title === 'Messages'
               ? 'space-between'
               : 'center',
           paddingBottom: 11,
         }}>
-        {(!main || title === 'Ride Chat' || title === 'Booking Chat') && (
+        {title === 'Listing' && <StyledRow style={{width: 30, height: 30}} />}
+        {(!main ||
+          title === 'Ride Chat' ||
+          title === 'Booking Chat' ||
+          title === 'Messages') && (
           <StyledTouchableRow onPress={handleBack}>
             <ArrowLeft width={30} height={30} />
           </StyledTouchableRow>
         )}
         {fromProfile && <StyledRow style={{width: 30, height: 30}} />}
+
         <StyledText24 style={[sans.bold, {color: '#fff'}]}>
           {title}
         </StyledText24>
-        {(!main || title === 'Ride Chat' || title === 'Booking Chat') && (
+
+        {(!main ||
+          title === 'Ride Chat' ||
+          title === 'Booking Chat' ||
+          title === 'Messages') && (
           <StyledRow style={{width: 30, height: 30}} />
         )}
         {fromProfile && (
           <StyledTouchableRow onPress={handleLogout}>
             <Logout width={30} height={30} />
+          </StyledTouchableRow>
+        )}
+        {title === 'Listing' && (
+          <StyledTouchableRow onPress={handleMessage}>
+            <Message width={30} height={30} />
           </StyledTouchableRow>
         )}
       </StyledRow>
