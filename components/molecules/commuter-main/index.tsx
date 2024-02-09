@@ -23,6 +23,7 @@ function CommuterMain({
   setRedirect,
   setProfile,
   setRiderProfile,
+  setBookingUID,
 }: any) {
   useEffect(() => {
     const updateLocation = () => {
@@ -243,6 +244,7 @@ function CommuterMain({
           // @ts-ignore
           setRouteData(data.route);
           setHasRide(true);
+          setBookingUID(driverUID);
           // @ts-ignore
           clearInterval(intervalId);
         } else {

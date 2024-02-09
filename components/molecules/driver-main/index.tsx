@@ -14,7 +14,19 @@ import firestore from '@react-native-firebase/firestore';
 import notifee from '@notifee/react-native';
 
 // @ts-ignore
-function DriverMain({navigation, isLoggedIn, userUID, hasListing}) {
+function DriverMain({
+  navigation,
+  isLoggedIn,
+  userUID,
+  setDriverUID,
+  hasListing,
+  setBookingUID,
+}: any) {
+  useEffect(() => {
+    setDriverUID(userUID);
+    setBookingUID(userUID);
+  }, [userUID]);
+
   useEffect(() => {
     const updateLocation = () => {
       GetLocation.getCurrentPosition({

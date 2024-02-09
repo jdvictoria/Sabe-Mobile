@@ -97,6 +97,7 @@ function MainStack() {
                 setDriverUID={setDriverUID}
                 riderProfile={riderProfile}
                 setRiderProfile={setRiderProfile}
+                setBookingUID={setBookingUID}
               />
             ) : (
               <FallbackUnverified {...props} />

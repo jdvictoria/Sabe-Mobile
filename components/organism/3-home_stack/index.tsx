@@ -40,6 +40,7 @@ function HomeStack({
   refetchProfile,
   setDriverUID,
   setRiderProfile,
+  setBookingUID,
 }: any) {
   const Tabs = AnimatedTabBarNavigator();
 
@@ -99,8 +100,8 @@ function HomeStack({
           profile.type === 'driver' ? (
             <DriverBookings
               {...props}
-              profile={profile}
               userUID={userUID}
+              profile={profile}
               create={create}
               setCreate={setCreate}
               hasListing={hasListing}
@@ -136,7 +137,9 @@ function HomeStack({
               {...props}
               isLoggedIn={isLoggedIn}
               userUID={userUID}
+              setDriverUID={setDriverUID}
               hasListing={hasListing}
+              setBookingUID={setBookingUID}
             />
           ) : (
             <CommuterMain
@@ -148,6 +151,7 @@ function HomeStack({
               setRedirect={setRedirect}
               setProfile={setProfile}
               setRiderProfile={setRiderProfile}
+              setBookingUID={setBookingUID}
             />
           )
         }
