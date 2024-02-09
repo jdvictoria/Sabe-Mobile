@@ -8,6 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Loading from '../../molecules/loading';
 import ChatRide from '../../molecules/chat-ride';
 import ChatBookings from '../../molecules/chat-bookings';
+import DriverMessages from '../../molecules/driver-messages';
 import BookingsDetail from '../../molecules/bookings-detail';
 import FallbackInternet from '../../molecules/fallback-internet';
 import FallbackUnverified from '../../molecules/fallback-unverified';
@@ -17,7 +18,6 @@ import HomeStack from '../3-home_stack';
 import AdminStack from '../4-admin_stack';
 
 import firestore from '@react-native-firebase/firestore';
-import DriverMessages from '../../molecules/driver-messages';
 
 function MainStack() {
   const netInfo = useNetInfo();
@@ -139,7 +139,13 @@ function MainStack() {
           )}
         </Stack.Screen>
         <Stack.Screen name="DriverMessage">
-          {props => <DriverMessages {...props} userUID={userUID} />}
+          {props => (
+            <DriverMessages
+              {...props}
+              userUID={userUID}
+              setCommuterUID={setCommuterUID}
+            />
+          )}
         </Stack.Screen>
         <Stack.Screen name="BookingsChat">
           {props => (

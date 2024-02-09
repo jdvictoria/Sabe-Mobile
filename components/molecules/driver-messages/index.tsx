@@ -8,11 +8,11 @@ import MessagesCard from '../../atoms/messages-card';
 
 import firestore from '@react-native-firebase/firestore';
 
-function DriverMessages({navigation, userUID}: any) {
+function DriverMessages({navigation, userUID, setCommuterUID}: any) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [chatIds, setChatIds] = useState<string[]>([]);
-  const [commuterData, setCommuterData] = useState([]);
+  const [commuterData, setCommuterData] = useState({});
 
   const fetchChatIds = async () => {
     try {
@@ -48,7 +48,7 @@ function DriverMessages({navigation, userUID}: any) {
       }
 
       // @ts-ignore
-      const commuterProfile = [];
+      const commuterProfile = {};
 
       // @ts-ignore
       for (const commuterID of commuterIDs) {
@@ -57,10 +57,9 @@ function DriverMessages({navigation, userUID}: any) {
         const commuterSnapshot = await commuterRef.get();
 
         // @ts-ignore
-        commuterProfile.push(commuterSnapshot.data());
+        commuterProfile[commuterUID] = commuterSnapshot.data();
       }
 
-      // @ts-ignore
       setCommuterData(commuterProfile);
     } catch (error) {
       console.error('Error fetching chat IDs:', error);
@@ -110,11 +109,13 @@ function DriverMessages({navigation, userUID}: any) {
           borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        {commuterData.map((commuter, index) => (
+        {Object.entries(commuterData).map(([commuterUID, commuter], index) => (
           <MessagesCard
-            key={index}
+            key={commuterUID}
             navigation={navigation}
             commuter={commuter}
+            commuterUID={commuterUID}
+            setCommuterUID={setCommuterUID}
           />
         ))}
       </ScrollView>

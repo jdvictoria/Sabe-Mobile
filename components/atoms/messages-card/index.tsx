@@ -12,12 +12,26 @@ import Sabe from '../../../assets/icons/home-dark.svg';
 // @ts-ignore
 import Rating from '../../../assets/icons/rating.svg';
 // @ts-ignore
-import Delete from '../../../assets/icons/delete.svg';
+import Trash from '../../../assets/icons/trash.svg';
 
 import {Image} from 'react-native';
 
-function MessagesCard({navigation, commuter}: any) {
+function MessagesCard({
+  navigation,
+  commuter,
+  commuterUID,
+  setCommuterUID,
+}: any) {
   const sans = styledText();
+
+  const handleDelete = () => {
+    console.log('delete');
+  };
+
+  const handleChat = () => {
+    setCommuterUID(commuterUID);
+    navigation.navigate('BookingsChat');
+  };
 
   return (
     <StyledTouchableRow
@@ -32,7 +46,8 @@ function MessagesCard({navigation, commuter}: any) {
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.2,
         shadowRadius: 4,
-      }}>
+      }}
+      onPress={handleChat}>
       {commuter.profPic ? (
         <Image
           style={{
@@ -68,7 +83,9 @@ function MessagesCard({navigation, commuter}: any) {
           </StyledRow>
         </StyledRow>
       </StyledCol>
-      <Delete width={25} height={25} />
+      <StyledTouchableRow onPress={handleDelete}>
+        <Trash width={25} height={25} />
+      </StyledTouchableRow>
     </StyledTouchableRow>
   );
 }
