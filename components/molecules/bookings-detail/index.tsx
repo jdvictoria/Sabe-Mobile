@@ -79,15 +79,19 @@ function BookingsDetail({
       if (docSnapshot.exists) {
         const data = docSnapshot.data();
 
+        // @ts-ignore
         if (data.bookingRequest) {
           setHasRequest(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRequest(false);
         }
 
+        // @ts-ignore
         if (data.bookingOngoing) {
           setHasRide(true);
+          // @ts-ignore
           clearInterval(intervalId);
         } else {
           setHasRide(false);
@@ -106,6 +110,7 @@ function BookingsDetail({
       getRequest();
       updateProfile();
     }, 1000);
+    // @ts-ignore
     setIntervalId(id);
     return () => clearInterval(id);
   }, [hasRequest, hasRide]);

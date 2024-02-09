@@ -29,6 +29,8 @@ function HomeHeader({
       navigation.navigate('Bookings');
     } else if (title === 'Ride Chat') {
       navigation.navigate('Home');
+    } else if (title === 'Booking Chat') {
+      navigation.navigate('Bookings');
     }
   };
 
@@ -53,12 +55,15 @@ function HomeHeader({
         style={{
           width: '90%',
           justifyContent:
-            fromProfile || !main || title === 'Ride Chat'
+            fromProfile ||
+            !main ||
+            title === 'Ride Chat' ||
+            title === 'Booking Chat'
               ? 'space-between'
               : 'center',
           paddingBottom: 11,
         }}>
-        {(!main || title === 'Ride Chat') && (
+        {(!main || title === 'Ride Chat' || title === 'Booking Chat') && (
           <StyledTouchableRow onPress={handleBack}>
             <ArrowLeft width={30} height={30} />
           </StyledTouchableRow>
@@ -67,7 +72,7 @@ function HomeHeader({
         <StyledText24 style={[sans.bold, {color: '#fff'}]}>
           {title}
         </StyledText24>
-        {(!main || title === 'Ride Chat') && (
+        {(!main || title === 'Ride Chat' || title === 'Booking Chat') && (
           <StyledRow style={{width: 30, height: 30}} />
         )}
         {fromProfile && (

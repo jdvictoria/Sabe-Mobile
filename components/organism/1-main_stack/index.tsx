@@ -7,6 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Loading from '../../molecules/loading';
 import ChatRide from '../../molecules/chat-ride';
+import ChatBookings from '../../molecules/chat-bookings';
 import BookingsDetail from '../../molecules/bookings-detail';
 import FallbackInternet from '../../molecules/fallback-internet';
 import FallbackUnverified from '../../molecules/fallback-unverified';
@@ -132,6 +133,11 @@ function MainStack() {
               riderProfile={riderProfile}
               setRiderProfile={setRiderProfile}
             />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="BookingsChat">
+          {props => (
+            <ChatBookings {...props} userUID={userUID} driverUID={driverUID} />
           )}
         </Stack.Screen>
         <Stack.Screen name="RideChat">
