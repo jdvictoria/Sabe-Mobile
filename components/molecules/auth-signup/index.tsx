@@ -240,7 +240,7 @@ function AuthSignUp({navigation}) {
             onPress={handleChangeUser}>
             <StyledText16
               style={[sans.regular, {color: asUser ? '#f3f3f3' : '#042F40'}]}>
-              User
+              Commuter
             </StyledText16>
           </FormButtonHalf>
           <FormButtonHalf

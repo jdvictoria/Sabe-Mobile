@@ -29,7 +29,10 @@ function AuthFirstName({name, setName, mode}: any) {
     <>
       <StyledCol style={{width: '100%'}}>
         <StyledText16
-          style={[sans.bold, {alignSelf: 'flex-start', textAlign: 'left'}]}>
+          style={[
+            sans.bold,
+            {alignSelf: 'flex-start', textAlign: 'left', color: '#042F40'},
+          ]}>
           {mode}
         </StyledText16>
       </StyledCol>
