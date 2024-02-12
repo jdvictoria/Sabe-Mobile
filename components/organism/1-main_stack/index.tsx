@@ -19,8 +19,6 @@ import AdminStack from '../4-admin_stack';
 
 import firestore from '@react-native-firebase/firestore';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 function MainStack() {
   const netInfo = useNetInfo();
 
@@ -30,25 +28,6 @@ function MainStack() {
   const [userUID, setUserUID] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState([]);
-
-  const getData = async () => {
-    try {
-      const uid = await AsyncStorage.getItem('uid');
-      const auth = JSON.parse((await AsyncStorage.getItem('auth')) as string);
-      const data = JSON.parse((await AsyncStorage.getItem('data')) as string);
-      if (uid !== null && auth !== null && data !== null) {
-        setUserUID(uid);
-        setIsLoggedIn(auth);
-        setProfile(data);
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   // UIDs
   const [commuterUID, setCommuterUID] = useState('');
@@ -87,7 +66,7 @@ function MainStack() {
           animationEnabled: true,
         }}>
         <Stack.Screen name="Loading">
-          {props => <Loading {...props} />}
+          {props => <Loading {...props} setUserUID={setUserUID} setIsLoggedIn={setIsLoggedIn} setProfile={setProfile}/>}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
           {() => (
