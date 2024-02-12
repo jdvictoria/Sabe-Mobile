@@ -28,6 +28,7 @@ build/
 .idea
 .gradle
 .env
+secrets.properties
 *.iml
 *.hprof
 .cxx/
