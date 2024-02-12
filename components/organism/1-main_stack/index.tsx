@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useNetInfo} from '@react-native-community/netinfo';
 
@@ -19,6 +19,8 @@ import AdminStack from '../4-admin_stack';
 
 import firestore from '@react-native-firebase/firestore';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function MainStack() {
   const netInfo = useNetInfo();
 
@@ -27,6 +29,26 @@ function MainStack() {
   // Global
   const [userUID, setUserUID] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState([]);
+
+  const getData = async () => {
+    try {
+      const uid = await AsyncStorage.getItem('uid');
+      const auth = JSON.parse((await AsyncStorage.getItem('auth')) as string);
+      const data = JSON.parse((await AsyncStorage.getItem('data')) as string);
+      if (uid !== null && auth !== null && data !== null) {
+        setUserUID(uid);
+        setIsLoggedIn(auth);
+        setProfile(data);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   // UIDs
   const [commuterUID, setCommuterUID] = useState('');
@@ -34,7 +56,6 @@ function MainStack() {
   const [bookingUID, setBookingUID] = useState('');
 
   // Commuter Hooks
-  const [profile, setProfile] = useState([]);
   const [riderProfile, setRiderProfile] = useState([]);
   const [redirect, setRedirect] = useState(false);
 

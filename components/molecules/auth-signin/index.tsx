@@ -12,7 +12,7 @@ import {
   StyledText16,
   StyledText30,
 } from '../../../styles/text';
-import {FormButton, FormButtonHalf} from '../../../styles/button';
+import {FormButton} from '../../../styles/button';
 
 import {
   alertEmailVerification,
@@ -33,6 +33,8 @@ import * as Progress from 'react-native-progress';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
   const sans = styledText();
 
@@ -41,10 +43,6 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
   };
 
   const [withEmail, setWithEmail] = useState(true);
-
-  const handleWithEmail = () => {
-    setWithEmail(prevState => !prevState);
-  };
 
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -71,9 +69,17 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
 
           if (userDocument.exists) {
             const userData = userDocument.data();
+
             setUserUID(auth().currentUser?.uid);
             setIsLoggedIn(true);
             setProfile(userData);
+
+            await AsyncStorage.setItem(
+              'uid',
+              auth().currentUser?.uid as string,
+            );
+            await AsyncStorage.setItem('auth', JSON.stringify(true));
+            await AsyncStorage.setItem('data', JSON.stringify(userData));
 
             // @ts-ignore
             if (userData.type === 'admin') {
