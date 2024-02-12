@@ -124,39 +124,6 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
         <StyledText30 style={[sans.bold, {color: '#042F40'}]}>
           Sabe
         </StyledText30>
-        <StyledText14 style={[sans.regular, {color: '#042F40', marginTop: 20}]}>
-          Sign up with
-        </StyledText14>
-        <StyledRow style={{marginTop: 5, marginBottom: 10}}>
-          <FormButtonHalf
-            style={{
-              backgroundColor: withEmail ? '#042F40' : '#f3f3f3',
-            }}
-            disabled={withEmail}
-            onPress={handleWithEmail}>
-            <StyledText16
-              style={[
-                sans.regular,
-                {color: withEmail ? '#f3f3f3' : '#042F40'},
-              ]}>
-              Email
-            </StyledText16>
-          </FormButtonHalf>
-          <FormButtonHalf
-            style={{
-              backgroundColor: !withEmail ? '#042F40' : '#f3f3f3',
-            }}
-            disabled={!withEmail}
-            onPress={handleWithEmail}>
-            <StyledText16
-              style={[
-                sans.regular,
-                {color: !withEmail ? '#f3f3f3' : '#042F40'},
-              ]}>
-              Phone
-            </StyledText16>
-          </FormButtonHalf>
-        </StyledRow>
       </StyledCol>
       <StyledCol style={{width: '90%'}}>
         {withEmail ? (
