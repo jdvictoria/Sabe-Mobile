@@ -56,7 +56,7 @@ function MessagesCard({
       ) : (
         <Sabe width={30} height={30} />
       )}
-      <StyledCol style={{width: '50%'}}>
+      <StyledCol style={{width: '60%'}}>
         <StyledText18 style={[sans.bold, {color: '#1FBF83'}]}>
           {commuter.name}
         </StyledText18>
