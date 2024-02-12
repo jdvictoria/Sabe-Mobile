@@ -135,6 +135,7 @@ function DriverMain({
           // @ts-ignore
           clearInterval(intervalId);
         } else {
+          setDisabledLogout(false);
           setHasRide(false);
         }
 
