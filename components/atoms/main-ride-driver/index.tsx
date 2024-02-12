@@ -178,26 +178,29 @@ function MainRideDriver({
       // @ts-ignore
       const messageIDs = userSnapshot.data().chatID;
 
-      console.log(messageIDs);
+      console.log('messageID', messageIDs);
 
-      for (const messageID of messageIDs) {
-        const chatId = messageID;
+      if (messageIDs && messageIDs.length > 0) {
+        for (const messageID of messageIDs) {
+          const chatId = messageID;
 
-        const messagesRef = firestore()
-          .collection('Chats')
-          .doc(chatId)
-          .collection('messages');
+          const messagesRef = firestore()
+            .collection('Chats')
+            .doc(chatId)
+            .collection('messages');
 
-        const querySnapshot = await messagesRef.get();
+          const querySnapshot = await messagesRef.get();
 
-        querySnapshot.forEach(doc => {
-          messagesRef.doc(doc.id).delete();
+          querySnapshot.forEach(doc => {
+            messagesRef.doc(doc.id).delete();
+          });
+        }
+
+        // Assuming userRef is a reference to the user's document
+        await userRef.update({
+          chatID: [],
         });
       }
-
-      await userRef.update({
-        chatID: [],
-      });
 
       const commuterRef = firestore()
         .collection('Users')

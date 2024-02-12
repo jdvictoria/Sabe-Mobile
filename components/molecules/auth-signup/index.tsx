@@ -126,6 +126,7 @@ function AuthSignUp({navigation}) {
         contact: phone,
         score: 0,
         rating: 0,
+        totalRides: 0,
         schoolIDUrl: downloadURL,
         isVerified: false,
       });

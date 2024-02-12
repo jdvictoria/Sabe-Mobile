@@ -16,12 +16,9 @@ function AuthEmail({
 
   // Regular expression for email validation
   // Prod
-  const emailRegex = asUser
-    ? /^[a-zA-Z0-9._-]+@dhvsu\.edu\.ph$/
-    : /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Test
-  // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
