@@ -344,6 +344,7 @@ function MainRideDriver({
         const newPassengerCount = currentPassengerCount - totalPassengers;
 
         await driverRef.update({
+          bookingPassengers: [],
           passengerCount: newPassengerCount,
           bookingOngoing: false,
           dropoffUID: '',
