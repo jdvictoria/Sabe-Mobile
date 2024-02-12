@@ -22,7 +22,7 @@ import Person from '../../../assets/icons/person.svg';
 // @ts-ignore
 import Rides from '../../../assets/icons/home-dark.svg';
 
-import email from 'react-native-email';
+import {openComposer} from 'react-native-email-link';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 import firestore from '@react-native-firebase/firestore';
@@ -60,8 +60,11 @@ function UserProfile({
   };
 
   const handleEmail = () => {
-    const to = ['2020101221@dhvsu.edu.ph'];
-    email(to, {}).catch(console.error);
+    openComposer({
+      to: '2020101221@dhvsu.edu.ph',
+      subject: 'Sabe Customer Support',
+      body: 'Hi, can you help me with...',
+    });
   };
 
   const [isHovered, setIsHovered] = useState(false);

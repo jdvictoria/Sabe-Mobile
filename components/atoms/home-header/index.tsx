@@ -17,6 +17,8 @@ import Message from '../../../assets/icons/message-rider.svg';
 
 import auth from '@react-native-firebase/auth';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function HomeHeader({
   navigation,
   setIsLoggedIn,
@@ -45,11 +47,16 @@ function HomeHeader({
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
     setIsLoggedIn(false);
+
+    await AsyncStorage.setItem('uid', '');
+    await AsyncStorage.setItem('auth', JSON.stringify(false));
+    await AsyncStorage.setItem('data', JSON.stringify([]));
+
     navigation.navigate('AuthStack');
   };
 
