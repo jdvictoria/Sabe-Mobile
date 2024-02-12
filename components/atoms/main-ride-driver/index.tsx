@@ -178,8 +178,6 @@ function MainRideDriver({
       // @ts-ignore
       const messageIDs = userSnapshot.data().chatID;
 
-      console.log('messageID', messageIDs);
-
       if (messageIDs && messageIDs.length > 0) {
         for (const messageID of messageIDs) {
           const chatId = messageID;

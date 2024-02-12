@@ -63,19 +63,21 @@ function DriverBookings({
         // @ts-ignore
         const messageIDs = driverSnapshot.data().messageIDs;
 
-        for (const messageID of messageIDs) {
-          const chatId = messageID;
+        if (messageIDs && messageIDs.length > 0) {
+          for (const messageID of messageIDs) {
+            const chatId = messageID;
 
-          const messagesRef = firestore()
-            .collection('Chats')
-            .doc(chatId)
-            .collection('messages');
+            const messagesRef = firestore()
+              .collection('Chats')
+              .doc(chatId)
+              .collection('messages');
 
-          const querySnapshot = await messagesRef.get();
+            const querySnapshot = await messagesRef.get();
 
-          querySnapshot.forEach(doc => {
-            messagesRef.doc(doc.id).delete();
-          });
+            querySnapshot.forEach(doc => {
+              messagesRef.doc(doc.id).delete();
+            });
+          }
         }
 
         await driverRef.update({
