@@ -336,6 +336,7 @@ function MainRideDriver({
           await commuterRef.update({
             dropoffApproved: false,
             bookingOngoing: false,
+            route: [],
           });
         }
 
