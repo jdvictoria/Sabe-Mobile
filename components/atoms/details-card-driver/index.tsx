@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
+import {Dimensions, Image} from 'react-native';
 
 import {
   StyledCol,
   StyledRow,
+  StyledTouchableCol,
   StyledTouchableRow,
 } from '../../../styles/container';
 import {styledText, StyledText14, StyledText16} from '../../../styles/text';
@@ -12,26 +14,97 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 // @ts-ignore
 import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
+import CircleArrowLeft from '../../../assets/icons/arrow-left-circle.svg';
+// @ts-ignore
+import CircleArrowLeftDisabled from '../../../assets/icons/arrow-left-circle-disabled.svg';
+// @ts-ignore
+import CircleArrowRight from '../../../assets/icons/arrow-right-circle.svg';
+// @ts-ignore
+import CircleArrowRightDisabled from '../../../assets/icons/arrow-right-circle-disabled.svg';
+// @ts-ignore
 import Check from '../../../assets/icons/check.svg';
 
 function DetailsCardDriver({id, data, onApprove}: any) {
   const sans = styledText();
 
-  const [showORCR, setShowORCR] = useState(false);
-  const [showLicense, setShowLicense] = useState(false);
+  const [showID, setShowID] = useState(false);
+  const [step, setStep] = useState(2);
 
   const handleShowID = () => {
-    setShowORCR(prevState => !prevState);
-    setShowLicense(prevState => !prevState);
+    setShowID(prevState => !prevState);
   };
 
   const handleApprove = () => {
     onApprove(id);
   };
 
+  const handleStepAdd = () => {
+    setStep(2);
+  };
+
+  const handleStepMinus = () => {
+    setStep(1);
+  };
+
   return (
     <>
-      <></>
+      {showID && (
+        <StyledTouchableCol
+          style={{
+            position: 'absolute',
+            justifyContent: 'flex-start',
+            width: '100%',
+            height: Dimensions.get('window').height,
+            zIndex: 2,
+          }}
+          onPress={handleShowID}>
+          <StyledCol
+            style={{
+              position: 'absolute',
+              justifyContent: 'flex-start',
+              width: '100%',
+              height: Dimensions.get('window').height,
+              backgroundColor: 'gray',
+              opacity: 0.5,
+            }}
+          />
+          <Image
+            source={{uri: step === 1 ? data.regIDUrl : data.licenseIDUrl}}
+            style={{
+              width: Dimensions.get('window').width * 0.85,
+              height: Dimensions.get('window').height * 0.6,
+              marginTop: 50,
+              marginBottom: 15,
+              borderRadius: 10,
+            }}
+          />
+          {step === 1 && (
+            <StyledRow>
+              <StyledRow style={{marginRight: 5}}>
+                <CircleArrowLeftDisabled width={25} height={25} />
+              </StyledRow>
+              <StyledTouchableRow
+                style={{marginLeft: 5}}
+                onPress={handleStepAdd}>
+                <CircleArrowRight width={25} height={25} />
+              </StyledTouchableRow>
+            </StyledRow>
+          )}
+          {step === 2 && (
+            <StyledRow>
+              <StyledTouchableRow
+                style={{marginRight: 5}}
+                onPress={handleStepMinus}>
+                <CircleArrowLeft width={25} height={25} />
+              </StyledTouchableRow>
+              <StyledRow style={{marginLeft: 5}}>
+                <CircleArrowRightDisabled width={25} height={25} />
+              </StyledRow>
+            </StyledRow>
+          )}
+        </StyledTouchableCol>
+      )}
+
       <StyledCol
         style={{
           justifyContent: 'space-between',
@@ -123,7 +196,7 @@ function DetailsCardDriver({id, data, onApprove}: any) {
                   alignSelf: 'flex-start',
                 },
               ]}>
-              {data.phone}
+              {data.contact}
             </StyledText16>
           </StyledCol>
         </StyledRow>
