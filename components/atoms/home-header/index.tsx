@@ -23,6 +23,7 @@ function HomeHeader({
   title,
   main,
   fromProfile,
+  disableLogout,
 }: any) {
   const sans = styledText();
 
@@ -97,7 +98,7 @@ function HomeHeader({
           <StyledRow style={{width: 30, height: 30}} />
         )}
         {fromProfile && (
-          <StyledTouchableRow onPress={handleLogout}>
+          <StyledTouchableRow onPress={handleLogout} disabled={disableLogout}>
             <Logout width={30} height={30} />
           </StyledTouchableRow>
         )}

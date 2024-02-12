@@ -51,6 +51,8 @@ function HomeStack({
   const [hasListing, setHasListing] = useState(false);
   const [booking, setBooking] = useState([]);
 
+  const [disableLogout, setDisabledLogout] = useState(false);
+
   useEffect(() => {
     if (profile.type === 'driver') {
       const checkListing = async () => {
@@ -116,6 +118,7 @@ function HomeStack({
               profile={profile}
               setDriverUID={setDriverUID}
               setRiderProfile={setRiderProfile}
+              setDisabledLogout={setDisabledLogout}
             />
           )
         }
@@ -141,6 +144,7 @@ function HomeStack({
               setDriverUID={setDriverUID}
               hasListing={hasListing}
               setBookingUID={setBookingUID}
+              setDisabledLogout={setDisabledLogout}
             />
           ) : (
             <CommuterMain
@@ -154,6 +158,7 @@ function HomeStack({
               setRiderProfile={setRiderProfile}
               setBookingUID={setBookingUID}
               setCommuterUID={setCommuterUID}
+              setDisabledLogout={setDisabledLogout}
             />
           )
         }
@@ -177,6 +182,7 @@ function HomeStack({
             userUID={userUID}
             profile={profile}
             refetchProfile={refetchProfile}
+            disableLogout={disableLogout}
           />
         )}
       </Tabs.Screen>

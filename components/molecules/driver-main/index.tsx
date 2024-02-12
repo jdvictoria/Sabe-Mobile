@@ -21,6 +21,7 @@ function DriverMain({
   setDriverUID,
   hasListing,
   setBookingUID,
+  setDisabledLogout,
 }: any) {
   useEffect(() => {
     setDriverUID(userUID);
@@ -129,6 +130,7 @@ function DriverMain({
           setRouteData(data.route);
           // @ts-ignore
           setPassengersData(data.bookingPassengers);
+          setDisabledLogout(true);
           setHasRide(true);
           // @ts-ignore
           clearInterval(intervalId);

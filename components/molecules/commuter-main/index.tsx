@@ -25,6 +25,7 @@ function CommuterMain({
   setRiderProfile,
   setBookingUID,
   setCommuterUID,
+  setDisabledLogout,
 }: any) {
   useEffect(() => {
     setCommuterUID(userUID);
@@ -250,6 +251,7 @@ function CommuterMain({
           setRouteData(data.route);
           setHasRide(true);
           setBookingUID(driverUID);
+          setDisabledLogout(true);
           // @ts-ignore
           clearInterval(intervalId);
         } else {

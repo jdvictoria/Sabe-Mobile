@@ -34,6 +34,7 @@ function UserProfile({
   userUID,
   profile,
   refetchProfile,
+  disableLogout,
 }: any) {
   const sans = styledText();
 
@@ -124,6 +125,7 @@ function UserProfile({
           title={'Profile'}
           main={true}
           fromProfile={true}
+          disableLogout={disableLogout}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
