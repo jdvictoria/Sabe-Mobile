@@ -17,7 +17,12 @@ function Loading({navigation, setUserUID, setIsLoggedIn, setProfile}: any) {
       const uid = await AsyncStorage.getItem('uid');
       const auth = JSON.parse((await AsyncStorage.getItem('auth')) as string);
       const data = JSON.parse((await AsyncStorage.getItem('data')) as string);
-      if (uid !== null && auth !== null && data !== null) {
+
+      console.log(uid);
+      console.log(auth);
+      console.log(data);
+
+      if (uid !== null && auth !== null && data.isVerified) {
         setUserUID(uid);
         setIsLoggedIn(auth);
         setProfile(data);
