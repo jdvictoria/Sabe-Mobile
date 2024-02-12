@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
-import {StyledSafeAreaView, StyledPlaceholder} from '../../../styles/container';
+import {
+  StyledSafeAreaView,
+  StyledPlaceholder,
+  StyledCol,
+} from '../../../styles/container';
 
 import HomeHeader from '../../atoms/home-header';
 import BookingsCard from '../../atoms/bookings-card';
 
 import firestore from '@react-native-firebase/firestore';
+import Sabe from '../../../assets/icons/home-dark.svg';
+import {styledText, StyledText18} from '../../../styles/text';
 
 // @ts-ignore
 function CommuterBookings({
@@ -16,6 +22,8 @@ function CommuterBookings({
   setDriverUID,
   setRiderProfile,
 }: any) {
+  const sans = styledText();
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [riders, setRiders] = useState([]);
@@ -77,19 +85,29 @@ function CommuterBookings({
           borderTopRightRadius: 25,
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        {riders.map((rider, index) => (
-          <BookingsCard
-            key={index}
-            navigation={navigation}
-            profile={profile}
-            // @ts-ignore
-            riderId={rider.id}
-            // @ts-ignore
-            riderData={rider.data}
-            setDriverUID={setDriverUID}
-            setRiderProfile={setRiderProfile}
-          />
-        ))}
+        {riders.length > 0 ? (
+          riders.map((rider, index) => (
+            <BookingsCard
+              key={index}
+              navigation={navigation}
+              profile={profile}
+              // @ts-ignore
+              riderId={rider.id}
+              // @ts-ignore
+              riderData={rider.data}
+              setDriverUID={setDriverUID}
+              setRiderProfile={setRiderProfile}
+            />
+          ))
+        ) : (
+          <StyledCol style={{marginTop: 50}}>
+            <Sabe width={100} height={100} />
+            <StyledText18
+              style={[sans.bold, {color: '#042F40', marginTop: 10}]}>
+              No Available Rides
+            </StyledText18>
+          </StyledCol>
+        )}
         <StyledPlaceholder />
       </ScrollView>
     </StyledSafeAreaView>
