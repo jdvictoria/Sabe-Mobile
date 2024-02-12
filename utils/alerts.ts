@@ -34,23 +34,25 @@ export const alertDeleteListing = (onDelete: () => void) =>
     {
       text: 'Cancel',
       onPress: () => console.log('Cancel Pressed'),
-      style: 'cancel',
+      style: 'destructive',
     },
     {
       text: 'Delete',
       onPress: onDelete,
+      style: 'default',
     },
   ]);
 
 export const alertEmergencyStop = (onStop: () => void) =>
-  Alert.alert('Delete Listing', 'Do you want to delete your listing?', [
+  Alert.alert('Emergency Stop', 'Do you want to stop your ride?', [
     {
       text: 'Cancel',
       onPress: () => console.log('Cancel Pressed'),
-      style: 'cancel',
+      style: 'destructive',
     },
     {
       text: 'Stop',
       onPress: onStop,
+      style: 'default',
     },
   ]);

@@ -282,12 +282,14 @@ function MainRideDriver({
     try {
       const profilesRef = firestore().collection('Users');
 
+      // @ts-ignore
       const profilesPromises = passengersData.map(async uid => {
         const profileDoc = await profilesRef.doc(uid).get();
         return profileDoc.data();
       });
 
       const profiles = await Promise.all(profilesPromises);
+      // @ts-ignore
       setProfiles(profiles);
     } catch (error) {
       console.error('Error fetching documents:', error);
@@ -305,11 +307,52 @@ function MainRideDriver({
   };
 
   const handleStop = () => {
-    const stopRide = () => {
-      console.log('ride stopped');
-    };
-
     alertEmergencyStop(stopRide);
+  };
+
+  const stopRide = async () => {
+    try {
+      // @ts-ignore
+      const driverRef = firestore().collection('Bookings').doc(userUID);
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+
+      let totalPassengers;
+      if (driverSnapshot.exists) {
+        const data = driverSnapshot.data();
+        // @ts-ignore
+        const bookingUIDs = data.bookingPassengers;
+        totalPassengers = bookingUIDs.length;
+
+        for (let i = 0; i < bookingUIDs.length; i++) {
+          const currentUserUID = bookingUIDs[i];
+
+          const commuterRef = firestore()
+            .collection('Users')
+            .doc(currentUserUID);
+
+          await commuterRef.update({
+            dropoffApproved: false,
+            bookingOngoing: false,
+          });
+        }
+
+        // @ts-ignore
+        const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+        const newPassengerCount = currentPassengerCount - totalPassengers;
+
+        await driverRef.update({
+          passengerCount: newPassengerCount,
+          bookingOngoing: false,
+          dropoffUID: '',
+          dropoffApproved: false,
+        });
+      }
+    } catch (error) {
+      console.log('Error stopping ride: ', error);
+    }
   };
 
   return (
