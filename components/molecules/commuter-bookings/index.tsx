@@ -6,13 +6,15 @@ import {
   StyledPlaceholder,
   StyledCol,
 } from '../../../styles/container';
+import {styledText, StyledText18} from '../../../styles/text';
 
 import HomeHeader from '../../atoms/home-header';
 import BookingsCard from '../../atoms/bookings-card';
 
 import firestore from '@react-native-firebase/firestore';
+
+// @ts-ignore
 import Sabe from '../../../assets/icons/home-dark.svg';
-import {styledText, StyledText18} from '../../../styles/text';
 
 // @ts-ignore
 function CommuterBookings({
