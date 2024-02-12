@@ -18,38 +18,41 @@ function BookingCardLower({routes}: any) {
         borderBottomRightRadius: 10,
       }}>
       <StyledCol style={{justifyContent: 'space-around', height: '90%'}}>
-        {routes.map((route, index) => (
-          <StyledCol key={index} style={{width: '100%'}}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {
-                  color: '#1FBF83',
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {index + 1}
-              {index === 0
-                ? 'st'
-                : index === 1
-                ? 'nd'
-                : index === 2
-                ? 'rd'
-                : 'th'}{' '}
-              stop
-            </StyledText14>
-            <StyledText16
-              style={[
-                sans.regular,
-                {
-                  color: '#042F40',
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {route}
-            </StyledText16>
-          </StyledCol>
-        ))}
+        {
+          // @ts-ignore
+          routes.map((route, index) => (
+            <StyledCol key={index} style={{width: '100%'}}>
+              <StyledText14
+                style={[
+                  sans.regular,
+                  {
+                    color: '#1FBF83',
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {index + 1}
+                {index === 0
+                  ? 'st'
+                  : index === 1
+                  ? 'nd'
+                  : index === 2
+                  ? 'rd'
+                  : 'th'}{' '}
+                stop
+              </StyledText14>
+              <StyledText16
+                style={[
+                  sans.regular,
+                  {
+                    color: '#042F40',
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {route}
+              </StyledText16>
+            </StyledCol>
+          ))
+        }
       </StyledCol>
       <StyledCol>
         <StyledCol
@@ -60,17 +63,20 @@ function BookingCardLower({routes}: any) {
             backgroundColor: '#1FBF83',
             borderRadius: 20,
           }}>
-          {routes.map((key, index) => (
-            <StyledCol
-              key={index}
-              style={{
-                width: 10,
-                height: 10,
-                backgroundColor: '#fff',
-                borderRadius: 20,
-              }}
-            />
-          ))}
+          {
+            // @ts-ignore
+            routes.map((key, index) => (
+              <StyledCol
+                key={index}
+                style={{
+                  width: 10,
+                  height: 10,
+                  backgroundColor: '#fff',
+                  borderRadius: 20,
+                }}
+              />
+            ))
+          }
         </StyledCol>
       </StyledCol>
     </StyledRow>

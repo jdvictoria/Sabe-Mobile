@@ -6,8 +6,7 @@ import {StyledTouchableRow} from '../../../styles/container';
 // @ts-ignore
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 
-// @ts-ignore
-function ButtonNegative({text}) {
+function ButtonNegative({text}: any) {
   const sans = styledText();
 
   return (

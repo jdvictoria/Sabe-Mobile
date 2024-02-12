@@ -11,8 +11,7 @@ import {
 import BookingCardLower from '../booking-card-lower';
 import BookingCardUpper from '../booking-card-upper';
 
-// @ts-ignore
-function BookingCard({riderProfile}) {
+function BookingCard({riderProfile}: any) {
   const sans = styledText();
 
   return (

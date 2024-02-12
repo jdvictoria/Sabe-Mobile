@@ -7,8 +7,9 @@ import {styledText, StyledText18} from '../../../styles/text';
 // @ts-ignore
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 
-import ButtonNegative from '../button-negative';
 import ButtonNeutral from '../button-neutral';
+import ButtonNegative from '../button-negative';
+import ButtonPositive from '../button-positive';
 import BookingCardLower from '../booking-card-lower';
 import BookingCardRider from '../booking-card-rider';
 
@@ -16,7 +17,6 @@ import BookingCardRider from '../booking-card-rider';
 import AnimatedEllipsis from 'react-native-animated-ellipsis';
 // @ts-ignore
 import StarRating from 'react-native-star-rating-widget';
-import ButtonPositive from '../button-positive';
 
 function MainRideCommuter({
   navigation,

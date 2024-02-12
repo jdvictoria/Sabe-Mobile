@@ -4,8 +4,7 @@ import {StyledCol} from '../../../styles/container';
 import {styledText, StyledText16} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
-// @ts-ignore
-function AuthFirstName({name, setName, mode}) {
+function AuthFirstName({name, setName, mode}: any) {
   const sans = styledText();
 
   const handleNameChange = (text: string) => {

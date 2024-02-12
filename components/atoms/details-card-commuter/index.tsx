@@ -15,11 +15,8 @@ import SabeLogo from '../../../assets/icons/home-dark.svg';
 import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import Check from '../../../assets/icons/check.svg';
-// @ts-ignore
-import Cross from '../../../assets/icons/cross.svg';
 
-// @ts-ignore
-function DetailsCardCommuter({id, data, onApprove}) {
+function DetailsCardCommuter({id, data, onApprove}: any) {
   const sans = styledText();
 
   const [showID, setShowID] = useState(false);

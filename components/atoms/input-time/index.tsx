@@ -14,8 +14,7 @@ import DateLogo from '../../../assets/icons/date.svg';
 // @ts-ignore
 import TimeLogo from '../../../assets/icons/time.svg';
 
-// @ts-ignore
-function InputTime({mode, time, setTime}) {
+function InputTime({mode, time, setTime}: any) {
   const sans = styledText();
 
   const [date, setDate] = useState(new Date());

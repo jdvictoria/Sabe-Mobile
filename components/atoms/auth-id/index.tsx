@@ -17,8 +17,7 @@ import UploadLogo from '../../../assets/icons/upload.svg';
 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-// @ts-ignore
-function AuthId({schoolID, setSchoolID}) {
+function AuthId({schoolID, setSchoolID}: any) {
   const sans = styledText();
 
   const [clicked, setClicked] = useState(false);
@@ -36,12 +35,16 @@ function AuthId({schoolID, setSchoolID}) {
       maxWidth: 2000,
     };
 
+    // @ts-ignore
     launchCamera(options, response => {
       if (response.didCancel) {
         console.log('User cancelled camera');
+        // @ts-ignore
       } else if (response.error) {
+        // @ts-ignore
         console.log('Camera Error: ', response.error);
       } else {
+        // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setSchoolID(imageUri);
         // console.log(imageUri);
@@ -58,12 +61,16 @@ function AuthId({schoolID, setSchoolID}) {
       maxWidth: 2000,
     };
 
+    // @ts-ignore
     launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
+        // @ts-ignore
       } else if (response.error) {
+        // @ts-ignore
         console.log('Image picker error: ', response.error);
       } else {
+        // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setSchoolID(imageUri);
         // console.log(imageUri);

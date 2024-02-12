@@ -4,11 +4,10 @@ import {StyledCol} from '../../../styles/container';
 import {styledText, StyledText12, StyledText16} from '../../../styles/text';
 import {FormTextInput} from '../../../styles/input';
 
-// @ts-ignore
-function AuthFirstName({signIn, phone, setPhone, validity, setValidity}) {
+function AuthFirstName({signIn, phone, setPhone, validity, setValidity}: any) {
   const sans = styledText();
 
-  const phoneRegex = /^09\d{9}$/; // Adjust the regex according to your specific requirements
+  const phoneRegex = /^09\d{9}$/;
 
   const handlePhoneChange = (text: string) => {
     setPhone(text);

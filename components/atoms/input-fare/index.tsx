@@ -4,8 +4,7 @@ import {TextInput} from 'react-native';
 import {styledText, StyledText14, StyledText26} from '../../../styles/text';
 import {StyledCol, StyledRow} from '../../../styles/container';
 
-// @ts-ignore
-function InputFare({fare, setFare}) {
+function InputFare({fare, setFare}: any) {
   const sans = styledText();
 
   return (

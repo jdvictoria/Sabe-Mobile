@@ -15,14 +15,13 @@ import ShowLogo from '../../../assets/icons/show.svg';
 // @ts-ignore
 import HideLogo from '../../../assets/icons/hide.svg';
 
-// @ts-ignore
 function AuthPassword({
   signIn,
   password,
   setPassword,
   setValidity,
   handleForgotPass,
-}) {
+}: any) {
   const sans = styledText();
 
   // Regular expression for password validation

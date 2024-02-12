@@ -7,8 +7,7 @@ import {StyledTouchableRow} from '../../../styles/container';
 // @ts-ignore
 import PlusIcon from '../../../assets/icons/plus-alt.svg';
 
-// @ts-ignore
-function ButtonCreate({onClick}) {
+function ButtonCreate({onClick}: any) {
   const sans = styledText();
 
   return (

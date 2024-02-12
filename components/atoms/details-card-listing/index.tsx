@@ -22,8 +22,7 @@ import ListingOne from '../listing-one';
 
 import * as Progress from 'react-native-progress';
 
-// @ts-ignore
-function DetailsCardListing({isLoading, booking, onClick}) {
+function DetailsCardListing({isLoading, booking, onClick}: any) {
   const sans = styledText();
 
   return (

@@ -8,8 +8,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import firestore from '@react-native-firebase/firestore';
 
-// @ts-ignore
-function DropdownListing({index, routes, setRoutes}) {
+function DropdownListing({index, routes, setRoutes}: any) {
   const sans = styledText();
 
   const [items, setItems] = useState([]);

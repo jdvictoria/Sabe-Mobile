@@ -1,11 +1,10 @@
 import React from 'react';
+import {Image} from 'react-native';
 
 import {StyledCol} from '../../../styles/container';
 
 import ListingOne from '../listing-one';
 import ListingTwo from '../listing-two';
-
-import {Image} from 'react-native';
 
 function BookingCardRider({profile}: any) {
   return (

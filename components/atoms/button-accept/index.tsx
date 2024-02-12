@@ -3,8 +3,7 @@ import React from 'react';
 import {styledText, StyledText20} from '../../../styles/text';
 import {StyledTouchableRow} from '../../../styles/container';
 
-// @ts-ignore
-function ButtonAccept({onClick}) {
+function ButtonAccept({onClick}: any) {
   const sans = styledText();
 
   return (

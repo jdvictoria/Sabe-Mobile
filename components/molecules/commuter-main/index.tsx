@@ -321,7 +321,6 @@ function CommuterMain({
     };
 
     if (!hasRequest && hasRide && hasApproved) {
-      console.log('approve');
       approveNotification();
     } else if (
       hasRide &&
@@ -330,7 +329,6 @@ function CommuterMain({
       hasDrop &&
       !hasApproved
     ) {
-      console.log('hello');
       rideNotification();
     } else if (
       !hasRequest &&
@@ -338,9 +336,6 @@ function CommuterMain({
       !hasRide &&
       isInitialRender.current
     ) {
-      console.log(hasRequest);
-      console.log(hasCancelled);
-      console.log(hasRide);
       cancelNotification();
     }
   }, [hasRequest, hasRide, hasDrop, hasApproved, hasCancelled]);

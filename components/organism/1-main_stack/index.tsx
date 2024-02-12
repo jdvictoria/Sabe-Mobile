@@ -24,10 +24,9 @@ function MainStack() {
 
   const Stack = createStackNavigator();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   // Global
   const [userUID, setUserUID] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // UIDs
   const [commuterUID, setCommuterUID] = useState('');
@@ -83,9 +82,8 @@ function MainStack() {
             // @ts-ignore
             !netInfo.isConnected ? (
               <FallbackInternet />
-            ) : profile.isVerified &&
-              profile.isVerified !== undefined &&
-              isLoggedIn ? (
+            ) : // @ts-ignore
+            profile.isVerified && isLoggedIn ? (
               <HomeStack
                 {...props}
                 isLoggedIn={isLoggedIn}

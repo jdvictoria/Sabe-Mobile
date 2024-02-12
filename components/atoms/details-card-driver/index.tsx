@@ -14,8 +14,7 @@ import ArrowRight from '../../../assets/icons/arrow-right.svg';
 // @ts-ignore
 import Check from '../../../assets/icons/check.svg';
 
-// @ts-ignore
-function DetailsCardDriver({id, data, onApprove}) {
+function DetailsCardDriver({id, data, onApprove}: any) {
   const sans = styledText();
 
   const [showORCR, setShowORCR] = useState(false);

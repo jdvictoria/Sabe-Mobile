@@ -4,8 +4,7 @@ import {Dimensions} from 'react-native';
 import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 import {StyledCol} from '../../../styles/container';
 
-// @ts-ignore
-function ListingOne({label, data}) {
+function ListingOne({label, data}: any) {
   const sans = styledText();
 
   return (

@@ -11,8 +11,6 @@ import {
 import Sabe from '../../../assets/icons/home-dark.svg';
 // @ts-ignore
 import Rating from '../../../assets/icons/rating.svg';
-// @ts-ignore
-import Trash from '../../../assets/icons/trash.svg';
 
 import {Image} from 'react-native';
 

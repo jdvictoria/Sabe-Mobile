@@ -116,7 +116,7 @@ function DriverMessages({navigation, userUID, setCommuterUID}: any) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {Object.entries(commuterData).map(([commuterUID, commuter], index) => (
           <MessagesCard
-            key={commuterUID}
+            key={index}
             navigation={navigation}
             commuter={commuter}
             commuterUID={commuterUID}
