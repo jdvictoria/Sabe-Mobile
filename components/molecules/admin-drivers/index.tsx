@@ -69,6 +69,7 @@ function AdminDrivers({navigation, drivers, setDrivers, fetchDrivers}) {
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {drivers.length > 0 ? (
+          // @ts-ignore
           drivers.map((driver, index) => (
             <DetailsCardDriver
               key={index}

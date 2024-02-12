@@ -44,7 +44,9 @@ function AdminProfile({
     setRefreshing(true);
     setTimeout(() => {
       refetchProfile();
+      // @ts-ignore
       fetchDrivers().then(data => setDrivers(data));
+      // @ts-ignore
       fetchCommuters().then(data => setCommuters(data));
       fetchTotalDrivers();
       fetchTotalCommuters();

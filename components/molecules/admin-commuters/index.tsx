@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Dimensions, RefreshControl, ScrollView} from 'react-native';
 
 import {StyledCol, StyledSafeAreaView} from '../../../styles/container';
@@ -74,6 +74,7 @@ function AdminCommuters({navigation, commuters, setCommuters, fetchCommuters}) {
         }}>
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         {commuters.length > 0 ? (
+          // @ts-ignore
           commuters.map((commuter, index) => (
             <DetailsCardCommuter
               key={index}
