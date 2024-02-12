@@ -1841,6 +1841,8 @@ PODS:
   - ReactNativeGetLocation (4.0.1):
     - React-Core
   - RecaptchaInterop (100.0.0)
+  - RNCAsyncStorage (1.21.0):
+    - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNFBApp (18.7.3):
@@ -1939,6 +1941,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeGetLocation (from `../node_modules/react-native-get-location`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
@@ -2086,6 +2089,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeGetLocation:
     :path: "../node_modules/react-native-get-location"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNFBApp:
@@ -2186,6 +2191,7 @@ SPEC CHECKSUMS:
   ReactCommon: 73242ec9768e71688f35ad97ae3d0709a0f66435
   ReactNativeGetLocation: b4379a01dff72507d9abce5f4d569b98abef7761
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFBApp: 5ee688b07ed0fa692a3a8fd07df6d6ae41e4c3a0
   RNFBAuth: a800af76ce0baed0c839307aa0aa0c2443dbbee6

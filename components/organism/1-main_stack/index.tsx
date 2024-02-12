@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useNetInfo} from '@react-native-community/netinfo';
 
@@ -27,6 +27,7 @@ function MainStack() {
   // Global
   const [userUID, setUserUID] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState([]);
 
   // UIDs
   const [commuterUID, setCommuterUID] = useState('');
@@ -34,7 +35,6 @@ function MainStack() {
   const [bookingUID, setBookingUID] = useState('');
 
   // Commuter Hooks
-  const [profile, setProfile] = useState([]);
   const [riderProfile, setRiderProfile] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
@@ -66,7 +66,7 @@ function MainStack() {
           animationEnabled: true,
         }}>
         <Stack.Screen name="Loading">
-          {props => <Loading {...props} />}
+          {props => <Loading {...props} setUserUID={setUserUID} setIsLoggedIn={setIsLoggedIn} setProfile={setProfile}/>}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
           {() => (

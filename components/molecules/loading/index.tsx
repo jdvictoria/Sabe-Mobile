@@ -6,17 +6,35 @@ import {styledText, StyledText60} from '../../../styles/text';
 // @ts-ignore
 import HomeLogo from '../../../assets/icons/home.svg';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // @ts-ignore
-function Loading({navigation}) {
+function Loading({navigation, setUserUID, setIsLoggedIn, setProfile}: any) {
   const sans = styledText();
+
+  const getData = async () => {
+    try {
+      const uid = await AsyncStorage.getItem('uid');
+      const auth = JSON.parse((await AsyncStorage.getItem('auth')) as string);
+      const data = JSON.parse((await AsyncStorage.getItem('data')) as string);
+      if (uid !== null && auth !== null && data !== null) {
+        setUserUID(uid);
+        setIsLoggedIn(auth);
+        setProfile(data);
+        navigation.navigate('HomeStack');
+      } else {
+        navigation.navigate('AuthStack');
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('AuthStack');
-      // navigation.navigate('HomeStack');
+      getData();
     }, 1000);
 
-    // Clear the timeout on component unmount
     return () => clearTimeout(timer);
   }, []);
 
