@@ -32,11 +32,18 @@ function CommuterBookings({
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setTimeout(() => {
+    // @ts-ignore
+    getBookings().then(data => setRiders(data));
+
+    // Set up interval to fetch data every second
+    const intervalId = setInterval(() => {
       // @ts-ignore
       getBookings().then(data => setRiders(data));
-      setRefreshing(false);
-    }, 2000);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const getBookings = async () => {
@@ -50,13 +57,22 @@ function CommuterBookings({
       return allUsers;
     } catch (error) {
       console.error('Error fetching users: ', error);
-      return []; // Handle the error as needed
+      return [];
     }
   };
 
   useEffect(() => {
     // @ts-ignore
     getBookings().then(data => setRiders(data));
+
+    const intervalId = setInterval(() => {
+      // @ts-ignore
+      getBookings().then(data => setRiders(data));
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [userUID]);
 
   return (
