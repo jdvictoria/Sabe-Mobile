@@ -47,7 +47,7 @@ function AuthOrcr({regImage, setRegImage}: any) {
         // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setRegImage(imageUri);
-        console.log(imageUri);
+        // console.log(imageUri);
         setUploaded(prevState => !prevState);
       }
     });
@@ -73,7 +73,7 @@ function AuthOrcr({regImage, setRegImage}: any) {
         // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setRegImage(imageUri);
-        console.log(response);
+        // console.log('ORCR: ', response);
         setUploaded(prevState => !prevState);
       }
     });

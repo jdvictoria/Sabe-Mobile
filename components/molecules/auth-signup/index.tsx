@@ -153,7 +153,6 @@ function AuthSignUp({navigation}) {
     setIsLoading(true);
 
     try {
-      // Create user using Firebase Authentication
       const userCredential = await auth().createUserWithEmailAndPassword(
         email,
         password,
@@ -161,19 +160,20 @@ function AuthSignUp({navigation}) {
 
       // Send email verification
       await userCredential.user?.sendEmailVerification();
-      alertEmailVerification(navigation);
 
       // Upload image to Firebase Storage
       const regImageName =
-        name + '-' + regImage.substring(regImage.lastIndexOf('/') + 1);
+        name + 'ORCR-' + regImage.substring(regImage.lastIndexOf('/') + 1);
       const storageRef1 = storage().ref(`drivers/${regImageName}`);
       const task1 = storageRef1.putFile(regImage);
       const downloadURL1 = await task1.then(() => storageRef1.getDownloadURL());
 
       const licenseImageName =
-        name + '-' + licenseImage.substring(licenseImage.lastIndexOf('/') + 1);
-      const storageRef2 = storage().ref(`drivers/${licenseImage}`);
-      const task2 = storageRef2.putFile(licenseImageName);
+        name +
+        'License-' +
+        licenseImage.substring(licenseImage.lastIndexOf('/') + 1);
+      const storageRef2 = storage().ref(`drivers/${licenseImageName}`);
+      const task2 = storageRef2.putFile(licenseImage);
       const downloadURL2 = await task2.then(() => storageRef2.getDownloadURL());
 
       // Add user data to Firestore
@@ -193,7 +193,7 @@ function AuthSignUp({navigation}) {
         isVerified: false,
       });
 
-      console.log('User added!');
+      alertEmailVerification(navigation);
     } catch (error) {
       // @ts-ignore
       if (error.code === 'auth/email-already-in-use') {

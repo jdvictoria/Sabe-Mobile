@@ -47,7 +47,7 @@ function AuthLicense({licenseImage, setLicenseImage}: any) {
         // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setLicenseImage(imageUri);
-        console.log(imageUri);
+        // console.log(imageUri);
         setUploaded(prevState => !prevState);
       }
     });
@@ -73,7 +73,7 @@ function AuthLicense({licenseImage, setLicenseImage}: any) {
         // @ts-ignore
         let imageUri = response.uri || response.assets?.[0]?.uri;
         setLicenseImage(imageUri);
-        console.log(response);
+        // console.log('License: ', response);
         setUploaded(prevState => !prevState);
       }
     });
