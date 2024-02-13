@@ -57,6 +57,8 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
   const handleSignIn = async () => {
     setIsLoading(true);
 
+    console.log(email);
+    console.log(password);
     await auth().currentUser?.reload();
     await auth()
       .signInWithEmailAndPassword(email, password)
@@ -161,7 +163,7 @@ function AuthSignin({navigation, setProfile, setUserUID, setIsLoggedIn}: any) {
       <StyledCol style={{width: '100%'}}>
         <FormButton
           onPress={handleSignIn}
-          disabled={(!isValidEmail || !isValidPhone) && !isValidPassword}>
+          disabled={email === '' || password === ''}>
           {!isLoading ? (
             <StyledText16 style={[sans.regular, {color: '#f3f3f3'}]}>
               Sign In
