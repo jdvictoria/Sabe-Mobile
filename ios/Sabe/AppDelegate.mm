@@ -1,12 +1,13 @@
 #import "AppDelegate.h"
 #import <Firebase.h>
-
+#import <GoogleMaps/GoogleMaps.h>
 #import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"${MAPS_API_KEY}"];
   [FIRApp configure];
 
   self.moduleName = @"Sabe";
