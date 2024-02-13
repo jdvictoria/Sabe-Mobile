@@ -7,7 +7,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"${MAPS_API_KEY}"];
+  [GMSServices provideAPIKey:@"AIzaSyAlDnEaEJQh_BItN83_xrB86b9IZPyr-y8"];
   [FIRApp configure];
 
   self.moduleName = @"Sabe";

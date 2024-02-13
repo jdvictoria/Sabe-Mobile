@@ -1,12 +1,12 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {Dimensions, Platform} from 'react-native';
+import {Dimensions} from 'react-native';
 
 import {StyledCol} from '../../../styles/container';
 
 import MapView, {
   Marker,
-  PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
+  enableLatestRenderer,
 } from 'react-native-maps';
 
 import firestore from '@react-native-firebase/firestore';
@@ -15,6 +15,8 @@ import firestore from '@react-native-firebase/firestore';
 import Pin from '../../../assets/icons/pin.svg';
 
 function MainMapDriver({position, hasRide, routeData}: any) {
+  enableLatestRenderer();
+
   const mapRef = useRef(null);
   const [enableRef, setEnableRef] = useState(true);
   const [onDrag, setDrag] = useState(false);
@@ -146,8 +148,8 @@ function MainMapDriver({position, hasRide, routeData}: any) {
           justifyContent: 'center',
           alignItems: 'center',
           flex: 1,
-          width: '100%',
-          height: '100%',
+          width: Dimensions.get('window').width,
+          height: 1000,
         }}
         initialRegion={position}
         showsUserLocation={true}
