@@ -188,10 +188,9 @@ function ModalInfo({visible, setVisible, section}: any) {
                 ]}>
                 We are a team of motivated 4th-year students pursuing
                 Electronics Engineering at Don Honorio Ventura State University.
-                Comprising seven dedicated members from section 4B, we share a
-                common goal: to address the transportation challenges faced by
-                our fellow students at DHVSU in Bacolor, Pampanga. connected
-                future.
+                Comprising of seven dedicated members from section 4B, we share
+                a common goal: to address the transportation challenges faced by
+                our fellow students at DHVSU in Bacolor, Pampanga.
               </StyledText14>
               <StyledText14
                 style={[
@@ -206,22 +205,11 @@ function ModalInfo({visible, setVisible, section}: any) {
                 ]}>
                 With a passion for innovation and a drive to make a positive
                 impact on campus life. As students ourselves, we understand the
-                importance of reliable and additional transportation.
-              </StyledText14>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {
-                    color: '#042F40',
-                    textAlign: 'center',
-                    paddingBottom: 5,
-                    paddingTop: 5,
-                    paddingLeft: 5,
-                  },
-                ]}>
-                Join us in our mission to enhance the way students travel from
-                DHVSU Main Campus, and together let's pave the way for a
-                brighter, more connected future.
+                importance of reliable and additional transportation. Join us in
+                our mission to enhance the way students travel from DHVSU Main
+                Campus. Together let's pave the way for a brighter and more
+                connected future for the betterment of our transportation
+                system.
               </StyledText14>
             </StyledCol>
           </>

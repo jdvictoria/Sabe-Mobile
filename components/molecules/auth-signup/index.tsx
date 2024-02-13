@@ -3,6 +3,7 @@ import {Alert, TouchableOpacity} from 'react-native';
 
 import {
   StyledCol,
+  StyledKeyboardView,
   StyledRow,
   StyledSafeAreaView,
 } from '../../../styles/container';
@@ -13,7 +14,7 @@ import {
   StyledText30,
 } from '../../../styles/text';
 import {FormButton, FormButtonHalf} from '../../../styles/button';
-import {alertInvalidEmail} from '../../../utils/alerts.ts';
+import {alertAlreadyUsed, alertInvalidEmail} from '../../../utils/alerts.ts';
 
 // @ts-ignore
 import HomeLogo from '../../../assets/icons/home-dark.svg';
@@ -100,6 +101,7 @@ function AuthSignUp({navigation}) {
   const handleSignUpCommuter = async () => {
     setIsLoading(true);
 
+    console.log(email);
     try {
       // Create user using Firebase Authentication
       const userCredential = await auth().createUserWithEmailAndPassword(
@@ -135,7 +137,7 @@ function AuthSignUp({navigation}) {
     } catch (error) {
       // @ts-ignore
       if (error.code === 'auth/email-already-in-use') {
-        alertInvalidEmail();
+        alertAlreadyUsed();
         setStep(1);
         // @ts-ignore
       } else if (error.code === 'auth/invalid-email') {
@@ -145,6 +147,7 @@ function AuthSignUp({navigation}) {
         console.error('Error creating user:', error);
         setStep(1);
       }
+      console.log(error);
     }
 
     setIsLoading(false);
@@ -214,7 +217,8 @@ function AuthSignUp({navigation}) {
   };
 
   return (
-    <StyledSafeAreaView
+    <StyledKeyboardView
+      behavior="padding"
       style={{
         justifyContent: 'space-between',
         backgroundColor: '#f3f3f3',
@@ -399,7 +403,7 @@ function AuthSignUp({navigation}) {
           </TouchableOpacity>
         </StyledRow>
       </StyledCol>
-    </StyledSafeAreaView>
+    </StyledKeyboardView>
   );
 }
 

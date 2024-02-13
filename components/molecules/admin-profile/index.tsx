@@ -170,9 +170,19 @@ function AdminProfile({
   };
 
   useEffect(() => {
-    // @ts-ignore
-    fetchTotalDrivers();
-    fetchTotalCommuters();
+    const fetchData = async () => {
+      // @ts-ignore
+      await fetchTotalDrivers();
+      await fetchTotalCommuters();
+    };
+
+    fetchData();
+
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 1000);
+
+    return () => clearInterval(intervalId);
   }, [userUID]);
 
   return (

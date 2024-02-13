@@ -13,7 +13,7 @@ export const StyledSafeAreaView = styled.SafeAreaView`
   bottom: 0;
 `;
 
-export const StyledView = styled.View`
+export const StyledKeyboardView = styled.KeyboardAvoidingView`
   display: flex;
   position: absolute;
   justify-content: center;

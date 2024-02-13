@@ -10,6 +10,11 @@ export const alertInvalidEmail = () =>
     {text: 'OK', onPress: () => console.log('OK Pressed')},
   ]);
 
+export const alertAlreadyUsed = () =>
+  Alert.alert('Invalid Email', 'Email already in use.', [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ]);
+
 export const alertSignInError = () =>
   Alert.alert('Sign In Error', 'Invalid Email / Password', [
     {text: 'OK', onPress: () => console.log('OK Pressed')},
