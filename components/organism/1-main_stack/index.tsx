@@ -66,7 +66,14 @@ function MainStack() {
           animationEnabled: true,
         }}>
         <Stack.Screen name="Loading">
-          {props => <Loading {...props} setUserUID={setUserUID} setIsLoggedIn={setIsLoggedIn} setProfile={setProfile}/>}
+          {props => (
+            <Loading
+              {...props}
+              setUserUID={setUserUID}
+              setIsLoggedIn={setIsLoggedIn}
+              setProfile={setProfile}
+            />
+          )}
         </Stack.Screen>
         <Stack.Screen name="AuthStack">
           {() => (
