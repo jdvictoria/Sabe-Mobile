@@ -33,7 +33,10 @@ function CommuterBookings({
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     // @ts-ignore
-    getBookings().then(data => setRiders(data));
+    setTimeout(() => {
+      getBookings().then(data => setRiders(data));
+      setRefreshing(false);
+    }, 1000);
 
     // Set up interval to fetch data every second
     const intervalId = setInterval(() => {
