@@ -231,6 +231,25 @@ function MainRideDriver({
     }
   };
 
+  const handleCheckPassengers = async () => {
+    try {
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+
+      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+
+      if (currentPassengerCount === 0) {
+        setTimeout(async () => {
+          handleDelete();
+        }, 2000);
+      }
+    } catch (error) {
+      console.log('Error checking passengers');
+    }
+  };
+
   const handleEnd = async () => {
     try {
       const driverRef = firestore().collection('Bookings').doc(userUID);
@@ -271,6 +290,8 @@ function MainRideDriver({
         rating: newCommuterRating,
         totalRides: newCommuterTotalRides,
       });
+
+      await handleCheckPassengers();
 
       setHasDrop(false);
       setHasApproved(false);
