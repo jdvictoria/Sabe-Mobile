@@ -20,6 +20,7 @@ function DriverMain({
   userUID,
   setDriverUID,
   hasListing,
+  setHasListing,
   setBookingUID,
   setDisabledLogout,
 }: any) {
@@ -250,6 +251,7 @@ function DriverMain({
           routeData={routeData}
           userUID={userUID}
           hasListing={hasListing}
+          setHasListing={setHasListing}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
           dropeeData={dropeeData}

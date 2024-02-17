@@ -143,6 +143,7 @@ function HomeStack({
               userUID={userUID}
               setDriverUID={setDriverUID}
               hasListing={hasListing}
+              setHasListing={setHasListing}
               setBookingUID={setBookingUID}
               setDisabledLogout={setDisabledLogout}
             />
