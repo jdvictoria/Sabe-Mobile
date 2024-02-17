@@ -29,7 +29,6 @@ function DriverBookings({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [fare, setFare] = useState(0);
   const [pax, setPax] = useState('');
   const [timeStart, setTimeStart] = useState('--:-- --');
   const [timeEnd, setTimeEnd] = useState('--:-- --');
@@ -42,7 +41,6 @@ function DriverBookings({
   };
 
   const handleCancel = () => {
-    setFare(0);
     setPax('');
     setTimeStart('--:-- --');
     setTimeEnd('--:-- --');
@@ -96,7 +94,6 @@ function DriverBookings({
 
   const handleApprove = async () => {
     if (
-      fare === '' ||
       pax === '' ||
       timeStart === '--:-- --' ||
       timeEnd === '--:-- --' ||
@@ -121,7 +118,6 @@ function DriverBookings({
             carPlate: profile.carPlate,
             contact: profile.contact,
             email: profile.email,
-            fare: Number(fare),
             passengerCount: 0,
             passengerLimit: Number(pax),
             rating: profile.rating,
@@ -166,13 +162,11 @@ function DriverBookings({
               profile={profile}
               onCancel={handleCancel}
               onApprove={handleApprove}
-              fare={fare}
               pax={pax}
               timeStart={timeStart}
               timeEnd={timeEnd}
               dateJourney={dateJourney}
               routes={routes}
-              setFare={setFare}
               setPax={setPax}
               setTimeStart={setTimeStart}
               setTimeEnd={setTimeEnd}

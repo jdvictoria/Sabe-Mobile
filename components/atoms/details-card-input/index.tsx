@@ -21,7 +21,6 @@ import Cancel from '../../../assets/icons/cross.svg';
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 
 import DropdownListing from '../dropdown-listing';
-import InputFare from '../input-fare';
 import InputPax from '../input-pax';
 import InputTime from '../input-time';
 
@@ -34,13 +33,11 @@ function DetailsCardInput({
   profile,
   onCancel,
   onApprove,
-  fare,
   pax,
   timeStart,
   timeEnd,
   dateJourney,
   routes,
-  setFare,
   setPax,
   setTimeStart,
   setTimeEnd,
@@ -90,9 +87,6 @@ function DetailsCardInput({
             console.error('Error fetching data:', error);
           }
         }
-
-        const sumOfPrices = pricesArray.reduce((acc, price) => acc + price, 0);
-        setFare(sumOfPrices);
       }
     };
 
@@ -150,7 +144,6 @@ function DetailsCardInput({
               width: Dimensions.get('window').width * 0.77,
               marginTop: 10,
             }}>
-            <InputFare fare={fare} />
             <InputPax pax={pax} setPax={setPax} />
           </StyledRow>
 
