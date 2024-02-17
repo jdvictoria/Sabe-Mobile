@@ -28,6 +28,7 @@ function MainRideDriver({
   routeData,
   userUID,
   hasListing,
+  setHasListing,
   requesteeData,
   setRequesteeData,
   dropeeData,
@@ -230,6 +231,25 @@ function MainRideDriver({
     }
   };
 
+  const handleCheckPassengers = async () => {
+    try {
+      const driverSnapshot = await firestore()
+        .collection('Bookings')
+        .doc(userUID)
+        .get();
+
+      const currentPassengerCount = driverSnapshot.data().passengerCount || 0;
+
+      if (currentPassengerCount === 0) {
+        setTimeout(async () => {
+          handleDelete();
+        }, 2000);
+      }
+    } catch (error) {
+      console.log('Error checking passengers');
+    }
+  };
+
   const handleEnd = async () => {
     try {
       const driverRef = firestore().collection('Bookings').doc(userUID);
@@ -270,6 +290,8 @@ function MainRideDriver({
         rating: newCommuterRating,
         totalRides: newCommuterTotalRides,
       });
+
+      await handleCheckPassengers();
 
       setHasDrop(false);
       setHasApproved(false);
@@ -352,9 +374,49 @@ function MainRideDriver({
           dropoffUID: '',
           dropoffApproved: false,
         });
+
+        setTimeout(async () => {
+          handleDelete();
+        }, 2000);
       }
     } catch (error) {
       console.log('Error stopping ride: ', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await firestore().collection('Bookings').doc(userUID).delete();
+
+      const driverRef = firestore().collection('Users').doc(userUID);
+      const driverSnapshot = await driverRef.get();
+      // @ts-ignore
+      const messageIDs = driverSnapshot.data().messageIDs;
+
+      if (messageIDs && messageIDs.length > 0) {
+        for (const messageID of messageIDs) {
+          const chatId = messageID;
+
+          const messagesRef = firestore()
+            .collection('Chats')
+            .doc(chatId)
+            .collection('messages');
+
+          const querySnapshot = await messagesRef.get();
+
+          querySnapshot.forEach(doc => {
+            messagesRef.doc(doc.id).delete();
+          });
+        }
+      }
+
+      await driverRef.update({
+        messageIDs: [],
+      });
+
+      setHasListing(false);
+    } catch (error) {
+      console.error('Error deleting document:', error);
     }
   };
 
