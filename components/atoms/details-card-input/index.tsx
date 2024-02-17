@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 
 import {
@@ -26,6 +26,7 @@ import InputPax from '../input-pax';
 import InputTime from '../input-time';
 
 import * as Progress from 'react-native-progress';
+import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
 function DetailsCardInput({
@@ -62,6 +63,41 @@ function DetailsCardInput({
   const addDropdown = () => {
     setNumDropdowns(numDropdowns + 1);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (routes.length > 0) {
+        const pricesArray = [];
+
+        for (const route of routes) {
+          try {
+            // Assuming "Routes" is the collection name and "tLujWHvJK6s8ywQ1lY8I" is the document ID
+            const docRef = firestore()
+              .collection('Routes')
+              .doc('tLujWHvJK6s8ywQ1lY8I');
+            const docSnapshot = await docRef.get();
+
+            if (docSnapshot.exists) {
+              const locationsArray = docSnapshot.data();
+
+              // @ts-ignore
+              if (locationsArray.hasOwnProperty(route)) {
+                // @ts-ignore
+                pricesArray.push(locationsArray[route][2]);
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        }
+
+        const sumOfPrices = pricesArray.reduce((acc, price) => acc + price, 0);
+        setFare(sumOfPrices);
+      }
+    };
+
+    fetchData();
+  }, [routes]);
 
   return (
     <StyledCol
@@ -114,7 +150,7 @@ function DetailsCardInput({
               width: Dimensions.get('window').width * 0.77,
               marginTop: 10,
             }}>
-            <InputFare fare={fare} setFare={setFare} />
+            <InputFare fare={fare} />
             <InputPax pax={pax} setPax={setPax} />
           </StyledRow>
 
