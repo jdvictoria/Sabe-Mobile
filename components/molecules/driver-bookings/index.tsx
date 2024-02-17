@@ -29,7 +29,7 @@ function DriverBookings({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [fare, setFare] = useState('');
+  const [fare, setFare] = useState(0);
   const [pax, setPax] = useState('');
   const [timeStart, setTimeStart] = useState('--:-- --');
   const [timeEnd, setTimeEnd] = useState('--:-- --');
@@ -42,7 +42,7 @@ function DriverBookings({
   };
 
   const handleCancel = () => {
-    setFare('');
+    setFare(0);
     setPax('');
     setTimeStart('--:-- --');
     setTimeEnd('--:-- --');

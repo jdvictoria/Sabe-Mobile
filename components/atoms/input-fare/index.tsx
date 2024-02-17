@@ -1,10 +1,9 @@
 import React from 'react';
-import {TextInput} from 'react-native';
 
 import {styledText, StyledText14, StyledText26} from '../../../styles/text';
 import {StyledCol, StyledRow} from '../../../styles/container';
 
-function InputFare({fare, setFare}: any) {
+function InputFare({fare}: any) {
   const sans = styledText();
 
   return (
@@ -26,17 +25,9 @@ function InputFare({fare, setFare}: any) {
         </StyledText14>
       </StyledRow>
       <StyledRow style={{alignSelf: 'flex-start'}}>
-        <StyledText26 style={[sans.bold, {color: '#042F40'}]}>
-          PHP{' '}
+        <StyledText26 style={[sans.bold, {color: '#042F40', marginLeft: 2.5}]}>
+          PHP {fare}
         </StyledText26>
-        <TextInput
-          style={[sans.bold, {fontSize: 26, color: '#042F40'}]}
-          keyboardType={'numeric'}
-          placeholder={'0'}
-          placeholderTextColor={'#042F40'}
-          value={fare}
-          onChangeText={text => setFare(text)}
-        />
       </StyledRow>
     </StyledCol>
   );
