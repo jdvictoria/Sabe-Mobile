@@ -32,9 +32,9 @@ function BookingCardRider({profile}: any) {
           dataTwo={profile.contact}
         />
         <ListingTwo
-          labelOne={'Car Make'}
+          labelOne={'Car Brand'}
           dataOne={profile.carMake}
-          labelTwo={'Car Series'}
+          labelTwo={'Car Model'}
           dataTwo={profile.carSeries}
         />
         <ListingTwo

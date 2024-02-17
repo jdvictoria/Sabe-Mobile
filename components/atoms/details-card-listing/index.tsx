@@ -73,12 +73,7 @@ function DetailsCardListing({isLoading, booking, onClick}: any) {
           </>
         ) : (
           <>
-            <ListingTwo
-              labelOne={'Email'}
-              dataOne={booking.email}
-              labelTwo={'Fare'}
-              dataTwo={booking.fare}
-            />
+            <ListingOne label={'Email'} data={booking.email} />
 
             <ListingOne label={'Journey Date'} data={booking.date} />
 
@@ -97,9 +92,9 @@ function DetailsCardListing({isLoading, booking, onClick}: any) {
             />
 
             <ListingTwo
-              labelOne={'Car Make'}
+              labelOne={'Car Brand'}
               dataOne={booking.carMake}
-              labelTwo={'Car Series'}
+              labelTwo={'Car Model'}
               dataTwo={booking.carSeries}
             />
 
@@ -123,7 +118,7 @@ function DetailsCardListing({isLoading, booking, onClick}: any) {
                 ]}>
                 Route
               </StyledText14>
-              <BookingCardLower routes={booking.route} />
+              <BookingCardLower routes={booking.route} prices={booking.price} />
             </StyledCol>
           </>
         )}

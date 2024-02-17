@@ -59,9 +59,9 @@ function BookingCardUpper({riderProfile}) {
       />
 
       <ListingTwo
-        labelOne={'Car Make'}
+        labelOne={'Car Brand'}
         dataOne={riderProfile.carMake}
-        labelTwo={'Car Series'}
+        labelTwo={'Car Model'}
         dataTwo={riderProfile.carSeries}
       />
 

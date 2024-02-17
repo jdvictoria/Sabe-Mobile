@@ -67,6 +67,7 @@ function CommuterMain({
 
   const [driverData, setDriverData] = useState([]);
   const [routeData, setRouteData] = useState(null);
+  const [priceData, setPriceData] = useState(null);
 
   const isInitialRender = useRef(true);
   const [hasRequest, setHasRequest] = useState(false);
@@ -84,6 +85,7 @@ function CommuterMain({
     if (!isLoggedIn) {
       setDriverData([]);
       setRouteData(null);
+      setPriceData(null);
 
       setHasRequest(false);
       setHasRide(false);
@@ -221,6 +223,8 @@ function CommuterMain({
   const getRequest = async () => {
     try {
       setHasCancelled(false);
+      const bookingsRef = firestore().collection('Bookings').doc(driverUID);
+      const bookingsSnapshot = await bookingsRef.get();
       const driverRef = firestore().collection('Users').doc(driverUID);
       const driverSnapshot = await driverRef.get();
       const docRef = firestore().collection('Users').doc(userUID);
@@ -231,6 +235,12 @@ function CommuterMain({
 
         // @ts-ignore
         setDriverData(data);
+      }
+
+      if (bookingsSnapshot.exists) {
+        const data = bookingsSnapshot.data();
+
+        setPriceData(data.price);
       }
 
       if (docSnapshot.exists) {
@@ -249,6 +259,7 @@ function CommuterMain({
         if (data.bookingOngoing) {
           // @ts-ignore
           setRouteData(data.route);
+
           setHasRide(true);
           setBookingUID(driverUID);
           setDisabledLogout(true);
@@ -381,6 +392,7 @@ function CommuterMain({
           navigation={navigation}
           driverData={driverData}
           routeData={routeData}
+          priceData={priceData}
           hasRide={hasRide}
           hasRequest={hasRequest}
           hasDrop={hasDrop}

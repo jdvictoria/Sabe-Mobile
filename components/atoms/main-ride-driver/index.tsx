@@ -29,6 +29,7 @@ function MainRideDriver({
   userUID,
   hasListing,
   setHasListing,
+  priceData,
   requesteeData,
   setRequesteeData,
   dropeeData,
@@ -461,9 +462,9 @@ function MainRideDriver({
                     <BookingCardPassengers profiles={profiles} />
                   </StyledCol>
                 )}
-                {routeData && (
+                {routeData && priceData && (
                   <StyledCol style={{width: '100%', marginTop: 10}}>
-                    <BookingCardLower routes={routeData} />
+                    <BookingCardLower routes={routeData} prices={priceData} />
                   </StyledCol>
                 )}
                 <ButtonNegative onClick={handleStop} text={'Emergency Stop'} />

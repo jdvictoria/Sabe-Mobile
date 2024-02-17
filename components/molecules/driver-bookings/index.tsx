@@ -34,6 +34,7 @@ function DriverBookings({
   const [timeEnd, setTimeEnd] = useState('--:-- --');
   const [dateJourney, setDateJourney] = useState('--------');
   const [routes, setRoutes] = useState([]);
+  const [prices, setPrices] = useState([]);
 
   const handleCreate = () => {
     // @ts-ignore
@@ -98,7 +99,7 @@ function DriverBookings({
       timeStart === '--:-- --' ||
       timeEnd === '--:-- --' ||
       dateJourney === '--------' ||
-      routes.length <= 1
+      routes.length === 0
     ) {
       alertMissingDetails();
     } else {
@@ -123,6 +124,7 @@ function DriverBookings({
             rating: profile.rating,
             totalRides: profile.totalRides,
             route: routes,
+            price: prices,
             timeStart: timeStart,
             timeEnd: timeEnd,
             date: dateJourney,
@@ -167,11 +169,13 @@ function DriverBookings({
               timeEnd={timeEnd}
               dateJourney={dateJourney}
               routes={routes}
+              prices={prices}
               setPax={setPax}
               setTimeStart={setTimeStart}
               setTimeEnd={setTimeEnd}
               setDateJourney={setDateJourney}
               setRoutes={setRoutes}
+              setPrices={setPrices}
             />
           ) : !hasListing ? (
             <ButtonCreate onClick={handleCreate} />

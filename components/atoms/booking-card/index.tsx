@@ -39,7 +39,10 @@ function BookingCard({riderProfile}: any) {
           borderRadius: 10,
         }}>
         <BookingCardUpper riderProfile={riderProfile} />
-        <BookingCardLower routes={riderProfile.route} />
+        <BookingCardLower
+          routes={riderProfile.route}
+          prices={riderProfile.price}
+        />
       </StyledCol>
     </>
   );

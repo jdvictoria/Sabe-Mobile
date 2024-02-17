@@ -22,6 +22,7 @@ function MainRideCommuter({
   navigation,
   driverData,
   routeData,
+  priceData,
   hasRequest,
   hasRide,
   hasDrop,
@@ -86,9 +87,9 @@ function MainRideCommuter({
                     <BookingCardRider profile={driverData} />
                   </StyledCol>
                 )}
-                {routeData && (
+                {routeData && priceData && (
                   <StyledCol style={{width: '100%', marginTop: 10}}>
-                    <BookingCardLower routes={routeData} />
+                    <BookingCardLower routes={routeData} prices={priceData} />
                   </StyledCol>
                 )}
                 <StyledRow style={{marginTop: 10}}>

@@ -34,6 +34,7 @@ function CommuterBookings({
     setRefreshing(true);
     // @ts-ignore
     setTimeout(() => {
+      // @ts-ignore
       getBookings().then(data => setRiders(data));
       setRefreshing(false);
     }, 1000);

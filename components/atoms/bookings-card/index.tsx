@@ -92,7 +92,8 @@ function BookingsCard({
       style={{
         justifyContent: 'space-between',
         width: '85%',
-        height: 200,
+        minWidth: 200,
+        height: 'auto',
         marginTop: 25,
         marginBottom: 5,
         paddingTop: 12.5,
@@ -198,7 +199,7 @@ function BookingsCard({
           justifyContent: 'space-between',
           marginBottom: 5,
         }}>
-        <StyledCol>
+        <StyledCol style={{width: '50%'}}>
           <StyledText12
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-start'}]}>
             {riderData.timeStart}
@@ -208,7 +209,7 @@ function BookingsCard({
             {riderData.route[0]}
           </StyledText14>
         </StyledCol>
-        <StyledCol>
+        <StyledCol style={{width: '50%'}}>
           <StyledText12
             style={[sans.regular, {color: '#1FBF83', alignSelf: 'flex-end'}]}>
             {riderData.timeEnd}

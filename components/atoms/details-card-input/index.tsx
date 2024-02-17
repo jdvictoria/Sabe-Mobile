@@ -6,12 +6,7 @@ import {
   StyledRow,
   StyledTouchableRow,
 } from '../../../styles/container';
-import {
-  styledText,
-  StyledText14,
-  StyledText16,
-  StyledText20,
-} from '../../../styles/text';
+import {styledText, StyledText14, StyledText20} from '../../../styles/text';
 
 // @ts-ignore
 import Check from '../../../assets/icons/check.svg';
@@ -20,11 +15,14 @@ import Cancel from '../../../assets/icons/cross.svg';
 // @ts-ignore
 import SabeLogo from '../../../assets/icons/home-dark.svg';
 
-import DropdownListing from '../dropdown-listing';
 import InputPax from '../input-pax';
 import InputTime from '../input-time';
+import ListingTwo from '../listing-two';
+import ListingOne from '../listing-one';
+import DropdownListing from '../dropdown-listing';
 
 import * as Progress from 'react-native-progress';
+
 import firestore from '@react-native-firebase/firestore';
 
 // @ts-ignore
@@ -38,11 +36,13 @@ function DetailsCardInput({
   timeEnd,
   dateJourney,
   routes,
+  prices,
   setPax,
   setTimeStart,
   setTimeEnd,
   setDateJourney,
   setRoutes,
+  setPrices,
 }: any) {
   const sans = styledText();
 
@@ -87,6 +87,9 @@ function DetailsCardInput({
             console.error('Error fetching data:', error);
           }
         }
+
+        // @ts-ignore
+        setPrices(pricesArray);
       }
     };
 
@@ -178,141 +181,28 @@ function DetailsCardInput({
             />
           </StyledRow>
 
-          <StyledCol
-            style={{
-              justifyContent: 'flex-start',
-              width: Dimensions.get('window').width * 0.75,
-              marginTop: 10,
-            }}>
-            <StyledText14
-              style={[
-                sans.regular,
-                {color: '#1FBF83', alignSelf: 'flex-start'},
-              ]}>
-              Email
-            </StyledText14>
-            <StyledText16
-              style={[sans.bold, {color: '#042F40', alignSelf: 'flex-start'}]}>
-              {profile.email}
-            </StyledText16>
-          </StyledCol>
+          <ListingOne label={'Email'} data={profile.email} />
 
-          <StyledRow
-            style={{
-              width: Dimensions.get('window').width * 0.75,
-              marginTop: 10,
-            }}>
-            <StyledCol style={{width: '50%'}}>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {color: '#1FBF83', alignSelf: 'flex-start'},
-                ]}>
-                Name
-              </StyledText14>
-              <StyledText16
-                style={[
-                  sans.bold,
-                  {color: '#042F40', alignSelf: 'flex-start'},
-                ]}>
-                {profile.name}
-              </StyledText16>
-            </StyledCol>
-            <StyledCol style={{width: '50%'}}>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {color: '#1FBF83', alignSelf: 'flex-start'},
-                ]}>
-                Phone
-              </StyledText14>
-              <StyledText16
-                style={[
-                  sans.bold,
-                  {color: '#042F40', alignSelf: 'flex-start'},
-                ]}>
-                {profile.contact}
-              </StyledText16>
-            </StyledCol>
-          </StyledRow>
+          <ListingTwo
+            labelOne={'Name'}
+            dataOne={profile.name}
+            labelTwo={'Phone'}
+            dataTwo={profile.contact}
+          />
 
-          <StyledRow
-            style={{
-              width: Dimensions.get('window').width * 0.75,
-              marginTop: 10,
-            }}>
-            <StyledCol style={{width: '50%'}}>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {color: '#1FBF83', alignSelf: 'flex-start'},
-                ]}>
-                Car Make
-              </StyledText14>
-              <StyledText16
-                style={[
-                  sans.bold,
-                  {color: '#042F40', alignSelf: 'flex-start'},
-                ]}>
-                {profile.carMake}
-              </StyledText16>
-            </StyledCol>
-            <StyledCol style={{width: '50%'}}>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {color: '#1FBF83', alignSelf: 'flex-start'},
-                ]}>
-                Car Series
-              </StyledText14>
-              <StyledText16
-                style={[
-                  sans.bold,
-                  {color: '#042F40', alignSelf: 'flex-start'},
-                ]}>
-                {profile.carSeries}
-              </StyledText16>
-            </StyledCol>
-          </StyledRow>
+          <ListingTwo
+            labelOne={'Car Brand'}
+            dataOne={profile.carMake}
+            labelTwo={'Car Model'}
+            dataTwo={profile.carSeries}
+          />
 
-          <StyledRow
-            style={{
-              width: Dimensions.get('window').width * 0.75,
-              marginTop: 10,
-            }}>
-            <StyledCol style={{width: '50%'}}>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {color: '#1FBF83', alignSelf: 'flex-start'},
-                ]}>
-                Car Color
-              </StyledText14>
-              <StyledText16
-                style={[
-                  sans.bold,
-                  {color: '#042F40', alignSelf: 'flex-start'},
-                ]}>
-                {profile.carColor}
-              </StyledText16>
-            </StyledCol>
-            <StyledCol style={{width: '50%'}}>
-              <StyledText14
-                style={[
-                  sans.regular,
-                  {color: '#1FBF83', alignSelf: 'flex-start'},
-                ]}>
-                Plate Number
-              </StyledText14>
-              <StyledText16
-                style={[
-                  sans.bold,
-                  {color: '#042F40', alignSelf: 'flex-start'},
-                ]}>
-                {profile.carPlate}
-              </StyledText16>
-            </StyledCol>
-          </StyledRow>
+          <ListingTwo
+            labelOne={'Car Color'}
+            dataOne={profile.carColor}
+            labelTwo={'Plate Number'}
+            dataTwo={profile.carPlate}
+          />
 
           <StyledRow
             style={{
@@ -352,6 +242,7 @@ function DetailsCardInput({
                 index={index}
                 routes={routes}
                 setRoutes={setRoutes}
+                prices={prices}
               />
             ))}
           </StyledCol>

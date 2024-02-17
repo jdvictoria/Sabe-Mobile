@@ -66,6 +66,7 @@ function DriverMain({
   const [requesteeData, setRequesteeData] = useState([]);
   const [dropeeData, setDropeeData] = useState([]);
   const [routeData, setRouteData] = useState(null);
+  const [priceData, setPriceData] = useState(null);
   const [passengersData, setPassengersData] = useState(null);
 
   const [hasRequest, setHasRequest] = useState(false);
@@ -82,6 +83,7 @@ function DriverMain({
       setRequesteeData([]);
       setDropeeData([]);
       setRouteData(null);
+      setPriceData(null);
       setPassengersData(null);
 
       setHasRequest(false);
@@ -129,6 +131,8 @@ function DriverMain({
         if (data.bookingOngoing) {
           // @ts-ignore
           setRouteData(data.route);
+          // @ts-ignore
+          setPriceData(data.price);
           // @ts-ignore
           setPassengersData(data.bookingPassengers);
           setDisabledLogout(true);
@@ -252,6 +256,7 @@ function DriverMain({
           userUID={userUID}
           hasListing={hasListing}
           setHasListing={setHasListing}
+          priceData={priceData}
           requesteeData={requesteeData}
           setRequesteeData={setRequesteeData}
           dropeeData={dropeeData}

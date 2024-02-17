@@ -3,7 +3,7 @@ import React from 'react';
 import {StyledCol, StyledRow} from '../../../styles/container';
 import {styledText, StyledText14, StyledText16} from '../../../styles/text';
 
-function BookingCardLower({routes}: any) {
+function BookingCardLower({routes, prices}: any) {
   const sans = styledText();
 
   return (
@@ -49,6 +49,16 @@ function BookingCardLower({routes}: any) {
                   },
                 ]}>
                 {route}
+              </StyledText16>
+              <StyledText16
+                style={[
+                  sans.regular,
+                  {
+                    color: '#042F40',
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                PHP {prices[index]}
               </StyledText16>
             </StyledCol>
           ))
