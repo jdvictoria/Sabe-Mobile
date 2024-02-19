@@ -122,15 +122,20 @@ function AuthSignUp({navigation}) {
 
       // Add user data to Firestore
       await firestore().collection('Users').doc(auth().currentUser?.uid).set({
-        type: 'commuter',
-        name: name,
-        email: email,
+        bookingDropoff: false,
+        bookingOngoing: false,
+        bookingRequest: false,
         contact: phone,
-        score: 0,
-        rating: 0,
-        totalRides: 0,
-        schoolIDUrl: downloadURL,
+        dropoffApproved: false,
+        email: email,
         isVerified: false,
+        name: name,
+        rating: 0,
+        route: [],
+        schoolIDUrl: downloadURL,
+        score: 0,
+        totalRides: 0,
+        type: 'commuter',
       });
 
       console.log('User added!');
