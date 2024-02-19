@@ -34,7 +34,6 @@ function DetailsCardCommuter({id, data, onApprove}: any) {
       {showID && (
         <StyledTouchableCol
           style={{
-            position: 'absolute',
             justifyContent: 'flex-start',
             width: '100%',
             height: Dimensions.get('window').height,

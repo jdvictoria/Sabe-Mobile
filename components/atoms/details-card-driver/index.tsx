@@ -62,7 +62,7 @@ function DetailsCardDriver({id, data, onApprove}: any) {
               position: 'absolute',
               justifyContent: 'flex-start',
               width: '100%',
-              height: Dimensions.get('window').height * 1,
+              height: Dimensions.get('window').height,
               backgroundColor: 'gray',
               opacity: 0.5,
             }}
@@ -324,7 +324,9 @@ function DetailsCardDriver({id, data, onApprove}: any) {
               </StyledText16>
             </StyledCol>
             <StyledRow>
-              <StyledTouchableRow style={{marginLeft: 5}} onPress={handleApprove}>
+              <StyledTouchableRow
+                style={{marginLeft: 5}}
+                onPress={handleApprove}>
                 <Check width={25} height={25} />
               </StyledTouchableRow>
             </StyledRow>
