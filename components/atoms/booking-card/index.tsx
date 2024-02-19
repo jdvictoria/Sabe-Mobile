@@ -17,17 +17,14 @@ function BookingCard({riderProfile}: any) {
   return (
     <>
       <StyledCol style={{width: '100%', marginTop: 10}}>
-        <StyledText26 style={[sans.bold, {color: '#042F40'}]}>
-          PHP {riderProfile.fare}
-        </StyledText26>
-        <StyledText14 style={[sans.regular, {color: '#1FBF83'}]}>
-          {riderProfile.passengerCount} / {riderProfile.passengerLimit}{' '}
-          Passengers • {riderProfile.route.length} Stops
-        </StyledText14>
         <StyledText18 style={[sans.regular, {color: '#042F40', marginTop: 10}]}>
           {riderProfile.route[0]} to{' '}
           {riderProfile.route[riderProfile.route.length - 1]}
         </StyledText18>
+        <StyledText14 style={[sans.regular, {color: '#1FBF83'}]}>
+          {riderProfile.passengerCount} / {riderProfile.passengerLimit}{' '}
+          Passengers • {riderProfile.route.length} Stops
+        </StyledText14>
       </StyledCol>
       <StyledCol
         style={{

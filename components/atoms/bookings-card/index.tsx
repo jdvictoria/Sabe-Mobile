@@ -143,11 +143,6 @@ function BookingsCard({
             </StyledText12>
           </StyledCol>
         </StyledRow>
-        <StyledRow>
-          <StyledText24 style={[sans.bold, {color: '#042F40'}]}>
-            PHP {riderData.fare}
-          </StyledText24>
-        </StyledRow>
       </StyledRow>
 
       <StyledRow
